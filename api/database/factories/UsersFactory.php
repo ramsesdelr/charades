@@ -10,6 +10,5 @@ $factory->define(App\Users::class, function (Faker $faker) {
         'email' => $faker->unique()->safeEmail,
         'password' => $password ?: $password = bcrypt('secret'),
         'phone' => $faker->phoneNumber,
-        'is_deleted' => 0,
     ];
 });

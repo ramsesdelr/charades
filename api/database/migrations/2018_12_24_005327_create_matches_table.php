@@ -20,7 +20,7 @@ class CreateMatchesTable extends Migration
             $table->integer('winner_id')->nullable();
             $table->string('password')->nullable();
             $table->timestamps();
-            $table->boolean('is_deleted')->nullable();
+            $table->softDeletes();
 
         });
     }

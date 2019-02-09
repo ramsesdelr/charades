@@ -19,7 +19,7 @@ class CreateScoringsTable extends Migration
             $table->integer('users_id');
             $table->integer('words_id');
             $table->timestamps();
-            $table->boolean('is_deleted')->nullable();
+            $table->softDeletes();
         });
     }
 

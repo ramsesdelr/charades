@@ -14,7 +14,7 @@ class Matches extends Model
      * @var array
      */
     protected $fillable = [
-        'users_id', 'name', 'password','is_deleted',
+        'users_id', 'name', 'password',
     ];
 
     /**

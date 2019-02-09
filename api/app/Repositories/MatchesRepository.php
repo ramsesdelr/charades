@@ -16,16 +16,19 @@ class MatchesRepository
     {   
 
 	    if (Users::find($request['users_id'])) {
-	        return Matches::create([
+
+	        Matches::create([
 	            'users_id' => $request['users_id'],
 	            'name' => $request['name'],
 	            'password' => $request['password'],
-	            'is_deleted' => 0,
 	        ]);
+
+            return response()->json('Match was created successfully', 201);
+
 	    } else {
 	    	return response()->json(['response' => [
 	            'status' => 400,
-	            'message' => 'The user does not exist',
+	            'message' => 'The user does not exist: '. $request['users_id'],
         	]]);
 	    }
     }

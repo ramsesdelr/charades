@@ -14,7 +14,7 @@ class Users extends Model
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'phone', 'created_at', 'updated_at', 'is_deleted'
+        'name', 'email', 'password', 'phone', 'created_at', 'updated_at',
     ];
 
      /**

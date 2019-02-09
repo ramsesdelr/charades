@@ -35,10 +35,10 @@ Route::prefix('users')->group(function () {
 Route::prefix('matches')->group(function () {
 	Route::get('/', function() {
 		return Matches::all();
-	});
-	Route::get('/{id}', 'MatchesController@show');
-	Route::put('/{id}', 'MatchesController@update');
-	Route::post('store', 'MatchesController@store');
+	})->name('matches.all');;
+	Route::get('/{id}', 'MatchesController@show')->name('matches.show');;
+	Route::put('/{id}', 'MatchesController@update')->name('matches.update');;
+	Route::post('store', 'MatchesController@store')->name('matches.store');
 });
 
 Route::get('words', function() {
