@@ -53,4 +53,19 @@ class MatchesRepository
         	]]);
         }
     }
+
+	 /**
+	 * Delete Match 
+	 * @param integer $id
+	 * @return array
+	 */
+    public function delete($id) {
+
+        if(Matches::find($id)->delete()) {
+            return response()->json(['response' => [
+                'status' => 200,
+                'message' => 'Match was deleted.',
+            ]]);
+        }
+    }
 }

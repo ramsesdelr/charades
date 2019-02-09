@@ -5,28 +5,19 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Matches extends Model
+class Scorings extends Model
 {
-    use SoftDeletes; 
+	use SoftDeletes;
      /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'users_id', 'name', 'password','is_deleted',
+        'matches_id', 'users_id', 'words_id', 'phone', 'created_at', 'updated_at'
     ];
 
-    /**
-     * The attributes that should be hidden for arrays.
-     *
-     * @var array
-     */
-    protected $hidden = [
-        'password',
-    ];
-
-    /**
+     /**
      * The attributes that should be mutated to dates.
      *
      * @var array

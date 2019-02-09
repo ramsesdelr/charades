@@ -50,10 +50,16 @@ class CategoriesRepository
      */
     public function delete($id) {
 
-        if(Categories::find($id)->delete()) {
+        if($currentCategory = Categories::find($id)) {
+            $currentCategory->delete();
             return response()->json(['response' => [
                 'status' => 200,
                 'message' => 'Category was deleted.',
+            ]]);
+        } else {
+              return response()->json(['response' => [
+                'status' => 400,
+                'message' => 'Category does not exist.',
             ]]);
         }
     }

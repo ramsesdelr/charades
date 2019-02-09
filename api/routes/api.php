@@ -5,6 +5,7 @@ use App\Users;
 use App\Categories;
 use App\Words;
 use App\Matches;
+use App\Scorings;
 
 /*
 |--------------------------------------------------------------------------
@@ -52,6 +53,16 @@ Route::prefix('categories')->group(function () {
 	Route::put('/{id}', 'CategoriesController@update');
 	Route::post('store', 'CategoriesController@store');
 	Route::delete('/{id}', 'CategoriesController@destroy');
+});
+
+Route::prefix('scorings')->group(function () {
+	Route::get('/', function() {
+		return Scorings::all();
+	});
+	Route::get('/{id}', 'ScoringsController@show');
+	Route::put('/{id}', 'ScoringsController@update');
+	Route::post('store', 'ScoringsController@store');
+	Route::delete('/{id}', 'ScoringsController@destroy');
 });
 
 

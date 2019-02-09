@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Matches;
-use App\Users;
-use App\Repositories\MatchesRepository;
+use App\Scorings;
+use App\Repositories\ScoringsRepository;
 use Illuminate\Http\Request;
 
-class MatchesController extends Controller
+class ScoringsController extends Controller
 {
 
     /**
@@ -16,10 +15,10 @@ class MatchesController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, MatchesRepository $matchesRepo)
+    public function store(Request $request, ScoringsRepository $scoringsRepo)
     {
         try {
-          return $matchesRepo->create($request->all());
+          return $scoringsRepo->create($request);
         } catch (\Exception $e) {
             return [
                 'status'=> 400, 
@@ -31,13 +30,14 @@ class MatchesController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Matches  $matches
+     * @param  \App\ScoringsRepository  $scoringsRepo
+     * @param  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id, MatchesRepository $matchesRepo)
+    public function show($id, ScoringsRepository $scoringsRepo)
     {
         try {
-          return $matchesRepo->show($id);
+          return $scoringsRepo->show($id);
         } catch (\Exception $e) {
             return [
                 'status'=> 400, 
@@ -46,18 +46,19 @@ class MatchesController extends Controller
         }
     }
 
+
     /**
-     * Update the specified resource in storage.
+     * Update the specified resource.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  $id
-     * @param  \App\MatchesRepository  $matchesRepo
+     * @param  \App\ScoringsRepository  $scoringsRepo
+     * @param   $id
      * @return \Illuminate\Http\Response
      */
-    public function update($id, Request $request, MatchesRepository $matchesRepo)
+    public function update($id, Request $request, ScoringsRepository $scoringsRepo)
     {
         try {
-          return $matchesRepo->update($id, $request);
+          return $scoringsRepo->update($id, $request);
         } catch (\Exception $e) {
             return [
                 'status'=> 400, 
@@ -69,14 +70,13 @@ class MatchesController extends Controller
     /**
      * Remove the specified resource
      *
-     * @param  $id
-     * @param  \App\MatchesRepository $matchesRepo
+     * @param  \App\Scorings  $ScoringsRepo
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id, MatchesRepository $matchesRepo)
+    public function destroy($id, ScoringsRepository $scoringsRepo)
     {
         try {
-          return $matchesRepo->delete($id);
+          return $scoringsRepo->delete($id);
         } catch (\Exception $e) {
             return [
                 'status'=> 400, 
