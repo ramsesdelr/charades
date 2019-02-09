@@ -19,7 +19,7 @@ class CreateWordsTable extends Migration
             $table->string('title');
             $table->integer('categories_id')->nullable();
             $table->timestamps();
-            $table->boolean('is_deleted')->nullable();
+            $table->softDeletes();
         });
     }
 
