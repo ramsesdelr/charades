@@ -17,13 +17,13 @@ class MatchesRepository
 
 	    if (Users::find($request['users_id'])) {
 
-	        Matches::create([
+	        $newMatch = Matches::create([
 	            'users_id' => $request['users_id'],
 	            'name' => $request['name'],
 	            'password' => $request['password'],
 	        ]);
 
-            return response()->json('Match was created successfully', 201);
+            return response()->json($newMatch, 201);
 
 	    } else {
 	    	return response()->json(['response' => [
@@ -50,10 +50,7 @@ class MatchesRepository
     public function update($matchId, $request) {
     	
         if(Matches::find($matchId)->update($request->all())){
-        	return response()->json(['response' => [
-	            'status' => 200,
-	            'message' => 'Match was successfully updated',
-        	]]);
+        	return response()->json('Match was successfully updated!');
         }
     }
 
@@ -65,10 +62,7 @@ class MatchesRepository
     public function delete($id) {
 
         if(Matches::find($id)->delete()) {
-            return response()->json(['response' => [
-                'status' => 200,
-                'message' => 'Match was deleted.',
-            ]]);
+            return response()->json('Match was deleted', 204);
         }
     }
 }

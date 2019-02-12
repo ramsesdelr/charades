@@ -13,7 +13,6 @@ abstract class TestCase extends BaseTestCase
     protected $faker;
     public function setUp() {
         parent::setUp();
-        $this->seed();
         $this->faker = Factory::create();
     }
 }
