@@ -39,6 +39,7 @@ Route::prefix('matches')->group(function () {
 	Route::get('/{id}', 'MatchesController@show')->name('matches.show');;
 	Route::put('/{id}', 'MatchesController@update')->name('matches.update');;
 	Route::post('store', 'MatchesController@store')->name('matches.store');
+	Route::delete('/{id}', 'MatchesController@destroy')->name('matches.delete');
 });
 
 Route::get('words', function() {
