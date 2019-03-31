@@ -50,10 +50,10 @@ Route::prefix('categories')->group(function () {
 	Route::get('/', function() {
 		return Categories::all();
 	});
-	Route::get('/{id}', 'CategoriesController@show');
-	Route::put('/{id}', 'CategoriesController@update');
-	Route::post('store', 'CategoriesController@store');
-	Route::delete('/{id}', 'CategoriesController@destroy');
+	Route::get('/{id}', 'CategoriesController@show')->name('categories.show');
+	Route::put('/{id}', 'CategoriesController@update')->name('categories.update');
+	Route::post('store', 'CategoriesController@store')->name('categories.store');
+	Route::delete('/{id}', 'CategoriesController@destroy')->name('categories.delete');
 });
 
 Route::prefix('scorings')->group(function () {
