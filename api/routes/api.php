@@ -18,17 +18,20 @@ use App\Scorings;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+Route::middleware('jwt.auth')->get('user', function(Request $request) {
+    return auth()->user();
 });
 
 Route::prefix('users')->group(function () {
-	Route::get('/', function() {
+	
+	Route::middleware('jwt.auth')->get('/', function() {
 		return Users::select('id','name','email','phone')->get();
 	});
 	Route::post('store', 'UsersController@store');
 	Route::put('/{id}', 'UsersController@update');
 	Route::get('/{id}', 'UsersController@show');
+	Route::post('/register', 'APIRegisterController@register');
+	Route::post('/login', 'APILoginController@login');
 });
 
 
