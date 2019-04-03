@@ -18,17 +18,20 @@ use App\Scorings;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+Route::middleware('jwt.auth')->get('user', function(Request $request) {
+    return auth()->user();
 });
 
 Route::prefix('users')->group(function () {
-	Route::get('/', function() {
+	
+	Route::middleware('jwt.auth')->get('/', function() {
 		return Users::select('id','name','email','phone')->get();
 	});
 	Route::post('store', 'UsersController@store');
 	Route::put('/{id}', 'UsersController@update');
 	Route::get('/{id}', 'UsersController@show');
+	Route::post('/register', 'APIRegisterController@register');
+	Route::post('/login', 'APILoginController@login');
 });
 
 
@@ -50,10 +53,10 @@ Route::prefix('categories')->group(function () {
 	Route::get('/', function() {
 		return Categories::all();
 	});
-	Route::get('/{id}', 'CategoriesController@show');
-	Route::put('/{id}', 'CategoriesController@update');
-	Route::post('store', 'CategoriesController@store');
-	Route::delete('/{id}', 'CategoriesController@destroy');
+	Route::get('/{id}', 'CategoriesController@show')->name('categories.show');
+	Route::put('/{id}', 'CategoriesController@update')->name('categories.update');
+	Route::post('store', 'CategoriesController@store')->name('categories.store');
+	Route::delete('/{id}', 'CategoriesController@destroy')->name('categories.delete');
 });
 
 Route::prefix('scorings')->group(function () {
