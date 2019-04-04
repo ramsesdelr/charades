@@ -27,15 +27,15 @@ Route::prefix('users')->group(function () {
 	Route::middleware('jwt.auth')->get('/', function() {
 		return Users::select('id','name','email','phone')->get();
 	});
-	Route::post('store', 'UsersController@store');
-	Route::put('/{id}', 'UsersController@update');
-	Route::get('/{id}', 'UsersController@show');
+	Route::middleware('jwt.auth')->post('store', 'UsersController@store');
+	Route::middleware('jwt.auth')->put('/{id}', 'UsersController@update');
+	Route::middleware('jwt.auth')->get('/{id}', 'UsersController@show');
 	Route::post('/register', 'APIRegisterController@register');
 	Route::post('/login', 'APILoginController@login');
 });
 
 
-Route::prefix('matches')->group(function () {
+Route::group(['prefix'=> 'matches', 'middleware'=>'jwt.auth'],function () {
 	Route::get('/', function() {
 		return Matches::all();
 	})->name('matches.all');;
@@ -49,7 +49,7 @@ Route::get('words', function() {
 	return Words::all();
 });
 
-Route::prefix('categories')->group(function () {
+Route::group(['prefix'=> 'categories', 'middleware'=>'jwt.auth'], function () {
 	Route::get('/', function() {
 		return Categories::all();
 	});
@@ -59,7 +59,7 @@ Route::prefix('categories')->group(function () {
 	Route::delete('/{id}', 'CategoriesController@destroy')->name('categories.delete');
 });
 
-Route::prefix('scorings')->group(function () {
+Route::group(['prefix'=>'scorings', 'middleware'=>'jwt.auth'], function () {
 	Route::get('/', function() {
 		return Scorings::all();
 	});
