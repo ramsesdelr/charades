@@ -30845,6 +30845,9 @@ function (_React$Component) {
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Route"], {
         path: "/login",
         component: _components_LoginForm__WEBPACK_IMPORTED_MODULE_4__["LoginForm"]
+      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Route"], {
+        path: "/logout",
+        component: _components_LoginForm__WEBPACK_IMPORTED_MODULE_4__["LoginForm"]
       })))));
     }
   }]);
@@ -30868,6 +30871,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Home", function() { return Home; });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
+/* harmony import */ var _services_users_service_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../services/users.service.js */ "./resources/js/services/users.service.js");
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -30885,6 +30890,8 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+
 
 
 
@@ -30911,11 +30918,16 @@ function (_React$Component) {
       this.setState({
         token: localStorage.getItem('token')
       });
+      _services_users_service_js__WEBPACK_IMPORTED_MODULE_2__["usersService"].getAll().then(function (users) {
+        return console.log(users.data);
+      });
     }
   }, {
     key: "render",
     value: function render() {
-      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, "Congrats, you managed to log in!"));
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, "Congrats, you managed to log in!"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
+        to: "/login"
+      }, "Logout"));
     }
   }]);
 
@@ -30973,6 +30985,7 @@ function (_React$Component) {
     _classCallCheck(this, LoginForm);
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(LoginForm).call(this, props));
+    _services_users_service_js__WEBPACK_IMPORTED_MODULE_1__["usersService"].logout();
     _this.state = {
       email: '',
       password: '',
@@ -31179,14 +31192,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "usersService", function() { return usersService; });
 /* harmony import */ var _helpers_auth_header_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../helpers/auth-header.js */ "./resources/js/helpers/auth-header.js");
 
+
+var axios = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+
 var usersService = {
   login: login,
-  logout: logout
+  logout: logout,
+  getAll: getAll
 };
 
 function login(email, password) {
-  var axios = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-
   return axios.post('api/users/login', {
     email: email,
     password: password
@@ -31199,6 +31214,22 @@ function login(email, password) {
 function logout() {
   // remove token from local storage to log user out
   localStorage.removeItem('token');
+}
+
+function getAll() {
+  var token = localStorage.getItem('token');
+  var config = {
+    headers: {
+      'Authorization': "bearer " + token
+    }
+  };
+  return axios.get('api/users', {
+    email: email,
+    password: password
+  }, config).then(function (response) {
+    localStorage.setItem('token', response.data.token);
+    return response;
+  });
 }
 
 /***/ }),

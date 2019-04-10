@@ -4,6 +4,7 @@ import { usersService } from '../services/users.service.js';
 class LoginForm extends React.Component {
     constructor(props) {
         super(props);
+        usersService.logout();
         this.state = {
             email: '',
             password: '',

@@ -7,16 +7,17 @@ import { LoginForm } from './components/LoginForm';
 class App extends React.Component {
 	render() {
 		return (
-				<div className="container">
-					<div className="col-sm-8 col-sm-offset-2">
-						<Router>
-							<div>
-								<PrivateRoute exact path="/" component={Home} />
-								<Route path="/login" component={LoginForm} />
-							</div>
-						</Router>
-					</div>
+			<div className="container">
+				<div className="col-sm-8 col-sm-offset-2">
+					<Router>
+						<div>
+							<PrivateRoute exact path="/" component={Home} />
+							<Route path="/login" component={LoginForm} />
+							<Route path="/logout" component={LoginForm} />
+						</div>
+					</Router>
 				</div>
+			</div>
 		);
 	}
 }
