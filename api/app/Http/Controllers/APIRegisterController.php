@@ -17,16 +17,16 @@ class APIRegisterController extends Controller
             'email' => 'required|string|email|max:255|unique:users',
             'name' => 'required',
             'password'=> 'required',
-            'password'=> 'required'
+            'phone'=> 'required|unique:users',
         ]);
         if ($validator->fails()) {
-            return response()->json($validator->errors());
+            return response()->json(['errors' => $validator->errors()]);
         }
         Users::create([
             'name' => $request->get('name'),
             'email' => $request->get('email'),
             'password' => bcrypt($request->get('password')),
-            'phone' => '809-555-5555',
+            'phone' => $request->get('phone'),
         ]);
 
         $user = Users::first();
