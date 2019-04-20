@@ -27,7 +27,6 @@ Route::prefix('users')->group(function () {
 	Route::middleware('jwt.auth')->get('/', function() {
 		return Users::select('id','name','email','phone')->get();
 	});
-	Route::middleware('jwt.auth')->post('store', 'UsersController@store');
 	Route::middleware('jwt.auth')->put('/{id}', 'UsersController@update');
 	Route::middleware('jwt.auth')->get('/{id}', 'UsersController@show');
 	Route::post('/register', 'APIRegisterController@register');
@@ -41,7 +40,7 @@ Route::group(['prefix'=> 'matches', 'middleware'=>'jwt.auth'],function () {
 	})->name('matches.all');;
 	Route::get('/{id}', 'MatchesController@show')->name('matches.show');;
 	Route::put('/{id}', 'MatchesController@update')->name('matches.update');;
-	Route::post('store', 'MatchesController@store')->name('matches.store');
+	Route::post('/', 'MatchesController@store')->name('matches.store');
 	Route::delete('/{id}', 'MatchesController@destroy')->name('matches.delete');
 });
 
@@ -55,7 +54,7 @@ Route::group(['prefix'=> 'categories', 'middleware'=>'jwt.auth'], function () {
 	});
 	Route::get('/{id}', 'CategoriesController@show')->name('categories.show');
 	Route::put('/{id}', 'CategoriesController@update')->name('categories.update');
-	Route::post('store', 'CategoriesController@store')->name('categories.store');
+	Route::post('/', 'CategoriesController@store')->name('categories.store');
 	Route::delete('/{id}', 'CategoriesController@destroy')->name('categories.delete');
 });
 
@@ -65,7 +64,7 @@ Route::group(['prefix'=>'scorings', 'middleware'=>'jwt.auth'], function () {
 	});
 	Route::get('/{id}', 'ScoringsController@show');
 	Route::put('/{id}', 'ScoringsController@update');
-	Route::post('store', 'ScoringsController@store');
+	Route::post('/', 'ScoringsController@store');
 	Route::delete('/{id}', 'ScoringsController@destroy');
 });
 
