@@ -9,16 +9,12 @@ class App extends React.Component {
 	render() {
 		return (
 			<div className="container">
-				<div className="col-sm-12">
 					<Router>
-						<div>
-							<PrivateRoute exact path="/" component={Home} />
-							<Route path="/login" component={LoginForm} />
+							<PrivateRoute  path="/home" component={Home} />
+							<Route exact path="/" component={LoginForm} />
 							<Route path="/logout" component={LoginForm} />
 							<Route path="/register" component={RegisterForm} />
-						</div>
 					</Router>
-				</div>
 			</div>
 		);
 	}

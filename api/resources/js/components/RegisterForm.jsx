@@ -1,5 +1,7 @@
 import React from 'react';
 import { usersService } from '../services/users.service.js';
+import { Link } from 'react-router-dom';
+
 
 class RegisterForm extends React.Component {
     constructor(props) {
@@ -12,6 +14,7 @@ class RegisterForm extends React.Component {
             phone: '',
             error: [],
             loading: false,
+            password_v:'',
         };
         this.handleChange = this.handleChange.bind(this);
         this.registerUser = this.registerUser.bind(this);
@@ -24,8 +27,13 @@ class RegisterForm extends React.Component {
 
     registerUser(e) {
         e.preventDefault();
-        const { email, password, phone, name } = this.state;
+        const { email, password, phone, name, password_v} = this.state;
         if (!(email && password && phone && name)) {
+            return;
+        }
+
+        if (password != password_v) {
+            this.setState({error: <div className="alert alert-danger">Passwords does not match</div>});
             return;
         }
 
@@ -54,61 +62,80 @@ class RegisterForm extends React.Component {
         );
     }
     render() {
-        const { email, password, loading, error, phone, name } = this.state;
+        const { email, password, loading, error, phone, name, password_v } = this.state;
         return (
-            <div>
-                <div className="container">
-                    {error &&
-                        <div>{error}</div>
-                    }
-                    <form onSubmit={this.registerUser}>
-                        E-mail:
-			          <input
-                            className="form-control"
-                            type="text"
-                            name="email"
-                            value={email}
-                            onChange={this.handleChange}
-                        />
-                        Full Name:
-			          <input
-                            className="form-control" 
-                            type="text"
-                            name="name"
-                            value={name}
-                            onChange={this.handleChange}
-                        />
-                        Phone Number:
-			          <input
-                            className="form-control"
-                            type="phone"
-                            name="phone"
-                            value={phone}
-                            onChange={this.handleChange}
-                        />
-                        Password:
-			          <input
-                            className="form-control"
-                            type="password"
-                            name="password"
-                            value={password}
-                            onChange={this.handleChange}
-                        />
-                        Re-Type Password
-                        <input
-                            className="form-control"
-                            type="password"
-                            name="password_v"
-                            value={password}
-                            onChange={this.handleChange}
-                        />
-
-                        <button disabled={loading} className="btn btn-primary"> Register</button>
-                        {loading &&
-                            <img src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+                <div className="card-container">
+                    <div className="card">
+                        <h1 className="text-center" id="login-title">Create an account</h1>
+                            <div className="card-body">
+                        {error &&
+                            <div>{error}</div>
                         }
+                        <form onSubmit={this.registerUser}>
+                            <div className="input-group form-group">
+                                <input
+                                    className="form-control"
+                                    type="text"
+                                    name="email"
+                                    placeholder="email"
+                                    value={email}
+                                    onChange={this.handleChange}
+                                />
+                            </div>
+                        
+                            <div className="input-group form-group">
+                                <input
+                                    placeholder="full name"
+                                    className="form-control"
+                                    type="text"
+                                    name="name"
+                                    value={name}
+                                    onChange={this.handleChange}
+                                />
+                            </div>
+                            <div className="input-group form-group">
+                                <input
+                                    className="form-control"
+                                    type="phone"
+                                    name="phone"
+                                    placeholder="phone"
+                                    value={phone}
+                                    onChange={this.handleChange}
+                                />
+                            </div>
+                            <div className="input-group form-group">
+                                <input
+                                    className="form-control"
+                                    type="password"
+                                    name="password"
+                                    placeholder="password"
+                                    value={password}
+                                    onChange={this.handleChange}
+                                />
+                            </div>
+                            <div className="input-group form-group">
+                                <input
+                                    className="form-control"
+                                    type="password"
+                                    name="password_v"
+                                    placeholder="password"
+                                    value={password_v}
+                                    onChange={this.handleChange}
+                                />
+                            </div>
+                            <button disabled={loading} className="btn btn-red full-width"> Register</button>
+                            <hr></hr>
+                            <p className="text-center">
+                                Already have an account?
+                            </p>
+                            <Link to="/">
+                                <button disabled={loading} className="btn btn-light full-width">Log in</button></Link>
 
-                    </form>
+                            {loading &&
+                                <img src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+                            }
+                        </form>
+                    </div>
                 </div>
             </div>
         );
