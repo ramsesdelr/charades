@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 class LoginForm extends React.Component {
     constructor(props) {
         super(props);
-        usersService.logout();
+
         this.state = {
             email: '',
             password: '',
@@ -35,7 +35,7 @@ class LoginForm extends React.Component {
         usersService.login(email, password).then(
             response => {
                 if(response.status == 200) {
-                	const { from } = this.props.location.state || { from: { pathname: "/" } };
+                	const { from } = this.props.location.state || { from: { pathname: "/home" } };
                 	this.props.history.push(from);
                 } else {
                 	this.setState({error: 'Invalid email/password, please check your info and try again.'});

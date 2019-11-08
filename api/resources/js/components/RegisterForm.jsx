@@ -29,6 +29,7 @@ class RegisterForm extends React.Component {
         e.preventDefault();
         const { email, password, phone, name, password_v} = this.state;
         if (!(email && password && phone && name)) {
+            this.setState({ error: <div className="alert alert-danger">Please fill the required fields</div> });
             return;
         }
 
