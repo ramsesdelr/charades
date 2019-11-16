@@ -3,7 +3,7 @@ const axios = require('axios');
 
 export const usersService = {
     login,
-    logout,
+    logOut,
     getAll,
     register
 };
@@ -13,26 +13,30 @@ function login(email, password) {
             email: email,
             password: password,
         }).then( (response) => {
-            localStorage.setItem('token', response.data.token);
-            return response;
+            localStorage.setItem('user', JSON.stringify(response.data));
+            return response; 
         }).catch( (error)=> {
             return error;
         });
 }
 
-function logout() {
+function logOut() {
     // remove token from local storage to log user out
-    localStorage.removeItem('token');
+    localStorage.removeItem('user');
 }
 
 function getAll() {
-    let token = localStorage.getItem('token');
-    let config = {
-        headers: {'Authorization': "bearer " + token}
-    };
-    return axios.get('api/users', config).then( (response) => {
-            return response;
+    let user = JSON.parse(localStorage.getItem('user'));
+
+    if(user && user.token) {
+        let config = {
+            headers: {'Authorization': "bearer " + user.token}
+        };
+        return axios.get('api/users', config).then( (response) => {
+                return response;
         });
+    }
+
 }
 
 function register(data) {
@@ -46,5 +50,5 @@ function register(data) {
                 localStorage.setItem('token', response.data.token);
             }
             return response;
-        });
+    });
 }

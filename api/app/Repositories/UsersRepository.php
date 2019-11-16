@@ -62,4 +62,16 @@ class UsersRepository
         	]]);
         }
     }
+
+     /**
+     * Get User by Email Address
+     * @param string $email
+     * @return array
+     */
+    public function getByEmail($email){
+    	return Users::where('email', '=', $email)->first();
+    }
+
+
+
 }

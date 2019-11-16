@@ -11,9 +11,10 @@ class App extends React.Component {
 			<div className="container">
 					<Router>
 							<PrivateRoute  path="/home" component={Home} />
-							<Route exact path="/" component={LoginForm} />
+							<PrivateRoute exact path="/" component={Home} />
 							<Route path="/logout" component={LoginForm} />
 							<Route path="/register" component={RegisterForm} />
+							<Route path="/login" component={LoginForm} />
 					</Router>
 			</div>
 		);

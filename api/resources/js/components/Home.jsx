@@ -6,20 +6,30 @@ class Home extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			token: '',
+			user: {},
 		}
 	}
 
 	componentDidMount() {
-		this.setState({token: localStorage.getItem('token')});
+		this.setState({user: JSON.parse(localStorage.getItem('user'))});
+	
 		usersService.getAll().then(users => console.log(users.data));
 	}
 
+	userLogOut () {
+		usersService.logOut();
+	}
+
 	render() {
+		const { user } = this.state;
 		return (
 			<div>
-				<h1>Congrats, you managed to log in!</h1>
-				<Link to="/login">Logout</Link>
+				 {user.user_data && 
+				 	<div>
+						<h1>Congrats {user.user_data.name}, you managed to log in!</h1>
+						<a href="#" onClick={this.userLogOut} >Logout</a>
+					</div>
+				 }
 			</div>
 		);
 	}

@@ -30765,16 +30765,19 @@ function (_React$Component) {
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["BrowserRouter"], null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_PrivateRoute__WEBPACK_IMPORTED_MODULE_2__["PrivateRoute"], {
         path: "/home",
         component: _components_Home__WEBPACK_IMPORTED_MODULE_3__["Home"]
-      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Route"], {
+      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_PrivateRoute__WEBPACK_IMPORTED_MODULE_2__["PrivateRoute"], {
         exact: true,
         path: "/",
-        component: _components_LoginForm__WEBPACK_IMPORTED_MODULE_4__["LoginForm"]
+        component: _components_Home__WEBPACK_IMPORTED_MODULE_3__["Home"]
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Route"], {
         path: "/logout",
         component: _components_LoginForm__WEBPACK_IMPORTED_MODULE_4__["LoginForm"]
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Route"], {
         path: "/register",
         component: _components_RegisterForm__WEBPACK_IMPORTED_MODULE_5__["RegisterForm"]
+      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Route"], {
+        path: "/login",
+        component: _components_LoginForm__WEBPACK_IMPORTED_MODULE_4__["LoginForm"]
       })));
     }
   }]);
@@ -30834,7 +30837,7 @@ function (_React$Component) {
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(Home).call(this, props));
     _this.state = {
-      token: ''
+      user: {}
     };
     return _this;
   }
@@ -30843,18 +30846,25 @@ function (_React$Component) {
     key: "componentDidMount",
     value: function componentDidMount() {
       this.setState({
-        token: localStorage.getItem('token')
+        user: JSON.parse(localStorage.getItem('user'))
       });
       _services_users_service_js__WEBPACK_IMPORTED_MODULE_2__["usersService"].getAll().then(function (users) {
         return console.log(users.data);
       });
     }
   }, {
+    key: "userLogOut",
+    value: function userLogOut() {
+      _services_users_service_js__WEBPACK_IMPORTED_MODULE_2__["usersService"].logOut();
+    }
+  }, {
     key: "render",
     value: function render() {
-      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, "Congrats, you managed to log in!"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
-        to: "/login"
-      }, "Logout"));
+      var user = this.state.user;
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, user.user_data && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, "Congrats ", user.user_data.name, ", you managed to log in!"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+        href: "#",
+        onClick: this.userLogOut
+      }, "Logout")));
     }
   }]);
 
@@ -31075,9 +31085,9 @@ var PrivateRoute = function PrivateRoute(_ref) {
 
   return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Route"], _extends({}, rest, {
     render: function render(props) {
-      var token = localStorage.getItem('token');
+      var user = localStorage.getItem('user');
 
-      if (!token) {
+      if (!user) {
         // not logged in so redirect to login page with the return url
         return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Redirect"], {
           to: {
@@ -31392,7 +31402,7 @@ var axios = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 
 var usersService = {
   login: login,
-  logout: logout,
+  logOut: logOut,
   getAll: getAll,
   register: register
 };
@@ -31402,28 +31412,31 @@ function login(email, password) {
     email: email,
     password: password
   }).then(function (response) {
-    localStorage.setItem('token', response.data.token);
+    localStorage.setItem('user', JSON.stringify(response.data));
     return response;
   })["catch"](function (error) {
     return error;
   });
 }
 
-function logout() {
+function logOut() {
   // remove token from local storage to log user out
-  localStorage.removeItem('token');
+  localStorage.removeItem('user');
 }
 
 function getAll() {
-  var token = localStorage.getItem('token');
-  var config = {
-    headers: {
-      'Authorization': "bearer " + token
-    }
-  };
-  return axios.get('api/users', config).then(function (response) {
-    return response;
-  });
+  var user = JSON.parse(localStorage.getItem('user'));
+
+  if (user && user.token) {
+    var config = {
+      headers: {
+        'Authorization': "bearer " + user.token
+      }
+    };
+    return axios.get('api/users', config).then(function (response) {
+      return response;
+    });
+  }
 }
 
 function register(data) {
