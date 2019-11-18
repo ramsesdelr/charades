@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 class RegisterForm extends React.Component {
     constructor(props) {
         super(props);
-        usersService.logout();
+        usersService.logOut();
         this.state = {
             email: '',
             name: '',

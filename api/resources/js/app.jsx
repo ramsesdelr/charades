@@ -4,6 +4,7 @@ import { PrivateRoute } from './components/PrivateRoute';
 import { Home } from './components/Home';
 import { LoginForm } from './components/LoginForm';
 import { RegisterForm } from './components/RegisterForm';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 class App extends React.Component {
 	render() {
