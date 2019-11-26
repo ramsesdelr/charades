@@ -1,4 +1,3 @@
-import { authHeader } from '../helpers/auth-header.js';
 const axios = require('axios');
 
 export const usersService = {
@@ -9,7 +8,7 @@ export const usersService = {
 };
 
 function login(email, password) {
-    return axios.post('api/users/login', {
+    return axios.post('/api/users/login', {
             email: email,
             password: password,
         }).then( (response) => {
@@ -32,7 +31,7 @@ function getAll() {
         let config = {
             headers: {'Authorization': "bearer " + user.token}
         };
-        return axios.get('api/users', config).then( (response) => {
+        return axios.get('/api/users', config).then( (response) => {
                 return response;
         });
     }
@@ -40,7 +39,7 @@ function getAll() {
 }
 
 function register(data) {
-    return axios.post('api/users/register', {
+    return axios.post('/api/users/register', {
             email: data.email,
             password: data.password,
             phone: data.phone,

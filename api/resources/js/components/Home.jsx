@@ -13,7 +13,7 @@ class Home extends React.Component {
 
 	componentDidMount() {
 		this.setState({user: JSON.parse(localStorage.getItem('user'))});
-	
+		
 		usersService.getAll().then(users => console.log(users.data));
 	}
 
@@ -25,14 +25,8 @@ class Home extends React.Component {
 		const { user } = this.state;
 		return (
 			<div>
-				 {user.user_data && 
-				 	<div className="user-login">
-						<h5>Hi there, {user.user_data.name}!</h5>
-						<a href="#" onClick={this.userLogOut} >Logout</a>
-					</div>
-				 }
 				 <div className="text-center">
-				 	<button className="btn btn-new-match">Start a New Match</button>
+		<Link to="/match/new" className="btn btn-new-match">Start a New Match {this.state.user.name}</Link>
 				 </div>
 				
 				<Tabs defaultActiveKey="matches" id="uncontrolled-tab-example">

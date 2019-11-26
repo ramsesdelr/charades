@@ -4,6 +4,7 @@ import { PrivateRoute } from './components/PrivateRoute';
 import { Home } from './components/Home';
 import { LoginForm } from './components/LoginForm';
 import { RegisterForm } from './components/RegisterForm';
+import { NewMatch } from './components/matches/NewMatch';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 class App extends React.Component {
@@ -13,6 +14,7 @@ class App extends React.Component {
 					<Router>
 							<PrivateRoute  path="/home" component={Home} />
 							<PrivateRoute exact path="/" component={Home} />
+							<PrivateRoute path="/match/new" component={NewMatch} />
 							<Route path="/logout" component={LoginForm} />
 							<Route path="/register" component={RegisterForm} />
 							<Route path="/login" component={LoginForm} />

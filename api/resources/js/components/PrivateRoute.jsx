@@ -1,5 +1,6 @@
 import React from 'react';
 import { Route, Redirect } from 'react-router-dom';
+import { UserLayout } from './layouts/UserLayout';
 
 export const PrivateRoute = ({ component: Component, ...rest }) => (
     <Route {...rest} render={props => {
@@ -9,6 +10,11 @@ export const PrivateRoute = ({ component: Component, ...rest }) => (
             return <Redirect to={{ pathname: '/login', state: { from: props.location } }} />
         }
         // authorised so return component
-        return <Component {...props} />
+        return (
+                <div>
+                    <UserLayout/>
+                    <Component {...props} />
+                </div>
+            );
     }} />
 )
