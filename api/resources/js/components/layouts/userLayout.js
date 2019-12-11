@@ -1,31 +1,21 @@
 import React from 'react';
 import { usersService } from '../../services/users.service';
+import { connect } from 'react-redux';
+import * as UserActions from './../../actions/users';
 
 class UserLayout extends React.Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			user: {},
-		}
-	}
-
-	componentDidMount() {
-		this.setState({user: JSON.parse(localStorage.getItem('user'))});
-	
-		usersService.getAll().then(users => console.log(users.data));
-	}
 
 	userLogOut () {
 		usersService.logOut();
 	}
-
 	render() {
-		const { user } = this.state;
+		const { user } = this.props;
+		
 		return (
 			<div>
-				 {user.user_data && 
+				 {user && 
 				 	<div className="user-login">
-						<h5>Hi there, {user.user_data.name}!</h5>
+						<h5>Hi there, {user.name}!</h5>
 						<a href="#" onClick={this.userLogOut} >Logout</a>
 					</div>
 				 }
@@ -35,4 +25,11 @@ class UserLayout extends React.Component {
 	}
 }
 
-export { UserLayout };
+const mapStateToProps = state => (
+	{
+	  user: state.user,
+	}
+);
+
+  
+export default connect(mapStateToProps, UserActions)(UserLayout);

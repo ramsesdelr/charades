@@ -6,3 +6,9 @@ export const loginUser = (data) => {
         data: data
     };
 };
+
+export const getUserData = () => {
+    return {
+        type: UserActionTypes.GET_USER_DATA,
+    };
+};

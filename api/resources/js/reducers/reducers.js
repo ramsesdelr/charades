@@ -1,18 +1,19 @@
 import * as UserActionTypes from '../actiontypes/users.js';
 
 const initialState = {
-    user: []
+    user: null
 };
 
 export default function usersReducer(state = initialState, action) {
     switch(action.type) {
         case UserActionTypes.LOGIN_USER: {
-            state.user.push({ 
-                id: action.data.id,
-                email: action.data.email,
-                name: action.data.name
-            });
-            return state;
+        
+            return { ...state,
+                user: action.data,
+            };
+        }
+        case UserActionTypes.GET_USER_DATA: {
+            return user;
         }
         default:
             return state;

@@ -1,7 +1,8 @@
 import React from 'react';
 import { usersService } from '../services/users.service.js';
 import { Link } from 'react-router-dom';
-
+import { connect } from 'react-redux';
+import * as UserActions from '../actions/users';
 
 class LoginForm extends React.Component {
     constructor(props) {
@@ -13,6 +14,7 @@ class LoginForm extends React.Component {
             error: '',
             loading: false,
         };
+
         this.handleChange = this.handleChange.bind(this);
         this.loginUser = this.loginUser.bind(this);
     }
@@ -37,15 +39,17 @@ class LoginForm extends React.Component {
                 this.setState({ loading: false });
                
                 if(response.status == 200) {
-                	const { from } = this.props.location.state || { from: { pathname: "/home" } };
+                    const { from } = this.props.location.state || { from: { pathname: "/home" } };
+                    this.props.loginUser(response.data.user_data);
                 	this.props.history.push(from);
                 } else {
-                	this.setState({error: 'Invalid email/password, please check your info and try again.'});
-                } 
+                	thisd.setState({error: 'Invalid email/password, please check your info and try again.'});
+                }
                 
             }
         );
     }
+
     render() {
         const { email, password, loading, error } = this.state;
         return (
@@ -91,4 +95,4 @@ class LoginForm extends React.Component {
     }
 }
 
-export { LoginForm };
+export default connect(undefined, UserActions)(LoginForm);

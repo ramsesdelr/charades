@@ -13,7 +13,7 @@ class Home extends React.Component {
 
 	componentDidMount() {
 		this.setState({user: JSON.parse(localStorage.getItem('user'))});
-		
+		console.log('Im home!');
 		usersService.getAll().then(users => console.log(users.data));
 	}
 

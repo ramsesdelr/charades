@@ -1,17 +1,13 @@
 import React from 'react';
 import { render } from 'react-dom';
-import store from '../../store/store';
-import { loginUser } from './../../actions/users';
+import store from './store/store';
+import { loginUser } from './actions/users';
 import { App } from './app';
-let user = {
-	name: 'Ram',
-	email: 'ram@test.com',
-	id: 12,
-}
-console.log('Before:', store.getState());
-store.dispatch(loginUser(user));
-console.log('After:', store.getState());  
+import { Provider } from 'react-redux';
+
 render(
-	<App />,
+	<Provider store={store}>
+   		<App />
+ 	</Provider>,
 	document.getElementById('app')
 );
