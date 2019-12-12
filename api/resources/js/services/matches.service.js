@@ -4,18 +4,20 @@ export const matchesService = {
     createMatch,
 };
 
-function createMatch(match_name, match_password = null) {
-    
-    let user = this.state.user;
-    
+function createMatch(match_data) {
+
+    let user = JSON.parse(localStorage.getItem('user')) || {};
+
     let config = {
         headers: { 'Authorization': "bearer " + user.token }
     };
 
-    return axios.post('api/matches', {
-        name: match_name,
-        password: match_password,
-    }, config).then((response) => {
+    return axios.post('/api/matches', {
+        name: match_data.name,
+        password: match_data.password,
+        users_id: match_data.users_id,
+    }, config)
+    .then((response) => {
         console.log(response);
         return response;
     }).catch((error) => {

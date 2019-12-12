@@ -1,6 +1,6 @@
 import React from 'react';
 import { matchesService } from '../../services/matches.service'
-// import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
 
 
 class NewMatch extends React.Component {
@@ -27,9 +27,14 @@ class NewMatch extends React.Component {
 
     createMatch(e){
         e.preventDefault();
-        const { match_name, match_password } = this.state;
+        const { match_name, match_password = null } = this.state;
+        let match_data = {
+            name: match_name,
+            password: match_password,
+            users_id: this.props.user.id,
+        };
         console.log(this.state);
-        matchesService.createMatch(match_name, match_password).then(
+        matchesService.createMatch(match_data).then(
             response => {
 
                 console.log(response);
@@ -43,12 +48,14 @@ class NewMatch extends React.Component {
     }
 
     render() {
-		const { user } = this.state;
-        console.log(user);
+        const {loading } = this.state;
         return (
             <div className="match-box col-12 mt-4">
                 <div className="card">
                     <h1 className="text-center" id="login-title">New Match</h1>
+                    {loading && 
+                        <div>Creating...</div>
+                    }
                     <form onSubmit={this.createMatch}>
                         <div className="card-body">
                             <div className="input-group form-group">
@@ -57,11 +64,8 @@ class NewMatch extends React.Component {
                             <div className="input-group form-group">
                                 <input type="password" name="match_password" onChange={this.handleChange} className="form-control text-center" placeholder="Match Password" />
                             </div>
-                            {user.user_data && 
-                                <input type="hidden" value={user.user_data.name} name="user_id" />
-                            }
                             <div className="button-container">
-                                <button className="btn btn-new-match" type="submit">Submit</button>
+                                <button className="btn btn-new-match" type="submit">Host</button>
                             </div>   
                         </div>
                     </form>
@@ -73,4 +77,10 @@ class NewMatch extends React.Component {
     }
 }
 
-export { NewMatch };
+const mapStateToProps = state => (
+	{
+	  user: state.user,
+	}
+);
+
+export default connect(mapStateToProps, undefined)(NewMatch);

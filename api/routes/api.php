@@ -67,8 +67,3 @@ Route::group(['prefix'=>'scorings', 'middleware'=>'jwt.auth'], function () {
 	Route::post('/', 'ScoringsController@store');
 	Route::delete('/{id}', 'ScoringsController@destroy');
 });
-
-
-
-
-
