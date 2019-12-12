@@ -22,11 +22,10 @@ class Home extends React.Component {
 	}
 
 	render() {
-		const { user } = this.props;
 		return (
 			<div>
 				 <div className="text-center">
-					<Link to="/match/new" className="btn btn-new-match">Start a New Match {user.name}</Link>
+					<Link to="/match/new" className="btn btn-new-match">Start a New Match</Link>
 				 </div>
 				<Tabs defaultActiveKey="matches" id="uncontrolled-tab-example">
 				<Tab eventKey="matches" title="Matches">
@@ -67,11 +66,4 @@ class Home extends React.Component {
 	}
 }
 
-const mapStateToProps = state => (
-	{
-	  user: state.user,
-	}
-);
-
-
-export default connect(mapStateToProps, undefined)(Home);
+export default connect(undefined, undefined)(Home);
