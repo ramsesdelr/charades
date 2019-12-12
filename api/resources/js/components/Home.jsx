@@ -2,6 +2,8 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { usersService } from '../services/users.service.js';
 import { Tabs, Tab, Table } from 'react-bootstrap';
+import { connect } from 'react-redux';
+
 
 class Home extends React.Component {
 	constructor(props) {
@@ -12,8 +14,6 @@ class Home extends React.Component {
 	}
 
 	componentDidMount() {
-		this.setState({user: JSON.parse(localStorage.getItem('user'))});
-		console.log('Im home!');
 		usersService.getAll().then(users => console.log(users.data));
 	}
 
@@ -22,13 +22,12 @@ class Home extends React.Component {
 	}
 
 	render() {
-		const { user } = this.state;
+		const { user } = this.props;
 		return (
 			<div>
 				 <div className="text-center">
-		<Link to="/match/new" className="btn btn-new-match">Start a New Match {this.state.user.name}</Link>
+					<Link to="/match/new" className="btn btn-new-match">Start a New Match {user.name}</Link>
 				 </div>
-				
 				<Tabs defaultActiveKey="matches" id="uncontrolled-tab-example">
 				<Tab eventKey="matches" title="Matches">
 					<Table striped bordered hover>
@@ -68,4 +67,11 @@ class Home extends React.Component {
 	}
 }
 
-export { Home };
+const mapStateToProps = state => (
+	{
+	  user: state.user,
+	}
+);
+
+
+export default connect(mapStateToProps, undefined)(Home);

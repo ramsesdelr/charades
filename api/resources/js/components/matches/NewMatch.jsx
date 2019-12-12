@@ -44,7 +44,6 @@ class NewMatch extends React.Component {
 
     render() {
 		const { user } = this.state;
-        console.log(user);
         return (
             <div className="match-box col-12 mt-4">
                 <div className="card">
@@ -73,4 +72,4 @@ class NewMatch extends React.Component {
     }
 }
 
-export { NewMatch };
+export default  NewMatch ;
