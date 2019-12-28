@@ -66,7 +66,7 @@ class AuthenticateToken extends React.Component {
 
         return (
             <div>
-                <UserLayout/>
+                <UserLayout {...props}/>
                 <Component {...props} />
             </div>
         )

@@ -14,7 +14,7 @@ class RegisterForm extends React.Component {
             phone: '',
             error: [],
             loading: false,
-            password_v:'',
+            password_v: '',
         };
         this.handleChange = this.handleChange.bind(this);
         this.registerUser = this.registerUser.bind(this);
