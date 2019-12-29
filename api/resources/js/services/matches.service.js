@@ -18,7 +18,6 @@ function createMatch(match_data) {
         users_id: match_data.users_id,
     }, config)
     .then((response) => {
-        console.log(response);
         return response;
     }).catch((error) => {
         return error;
