@@ -4,6 +4,7 @@ use App\Matches;
 use App\UsersMatch;
 use App\Users;
 use Illuminate\Support\Facades\Auth;
+use JWTAuth;
 
 class MatchesRepository 
 {
@@ -45,11 +46,27 @@ class MatchesRepository
      * @return array
      */
     public function show($match_id) {
-        $match_users =  Matches::find($match_id)->users;
-        if(isset($match_users) > 0) {
-            return response()->json($match_users, 200);
-        }
-        /* TODO: Validate that the current user exists in this $match_users array and then return the full list to Frontend, if not then return and unavailable match message */
+
+        $token = JWTAuth::getToken();
+        $user_data = Auth::user($token);
+
+        $match_users =  Matches::find($match_id);
+
+        if(isset($match_users) > 0) {      
+            foreach($match_users->users as $match) {
+                if($match->users_id == $user_data->id) {
+                    
+                    return response()->json($match_users->users, 200);
+                    break;
+                }
+            }
+        } 
+
+        return response()->json(['response' => [
+            'status' => 400,
+            'message' => 'The current user does not belong to this match',
+        ]]);
+
     }
 
      /**
