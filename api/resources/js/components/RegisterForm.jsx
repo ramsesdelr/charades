@@ -14,7 +14,7 @@ class RegisterForm extends React.Component {
             phone: '',
             error: [],
             loading: false,
-            password_v:'',
+            password_v: '',
         };
         this.handleChange = this.handleChange.bind(this);
         this.registerUser = this.registerUser.bind(this);
@@ -43,13 +43,18 @@ class RegisterForm extends React.Component {
             email: email,
             password: password,
             name: name,
-            phone: phone
+            phone: phone,
+            match_id: this.props.match.params.match_id || '', 
         };
         usersService.register(user_data).then(
             response => {
                 if (response.status == 200 && response.data.token) {
                     const { from } = this.props.location.state || { from: { pathname: "/" } };
-                    this.props.history.push(from);
+                    if(user_data.match_id != '') {
+                        this.props.history.push(`/match/${user_data.match_id}`);
+                    } else {
+                        this.props.history.push(from);
+                    }
                 } else {
                     let all_errors = [];
                     for (const key in response.data.errors) {

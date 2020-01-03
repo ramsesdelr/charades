@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Validator;
@@ -31,7 +32,7 @@ class APILoginController extends Controller
             return response()->json(['error' => 'The user was not authenticated, please contact your website\'s administrator'], 500);
         }
         
-        $user_data = $usersRepo->getByEmail($request->email);
+        $user_data = Auth::user($token);
 
         return response()->json(compact('token', 'user_data'));
     }

@@ -1,6 +1,7 @@
 <?php
 namespace App\Repositories;
 use App\Matches;
+use App\UsersMatch;
 use App\Users;
 use Illuminate\Support\Facades\Auth;
 
@@ -21,7 +22,12 @@ class MatchesRepository
 	            'users_id' => $request['users_id'],
 	            'name' => $request['name'],
 	            'password' => $request['password'],
-	        ]);
+            ]);
+            
+            UsersMatch::create([
+                'matches_id' => $newMatch->id,
+                'users_id' => $request['users_id']
+            ]);
 
             return response()->json($newMatch, 201);
 
@@ -35,11 +41,15 @@ class MatchesRepository
 
     /**
      * Get Matches by ID
-     * @param integer $matchId
+     * @param Object $match_id
      * @return array
      */
-    public function show($matchId){
-    	return Matches::find($matchId);
+    public function show($match_id) {
+        $match_users =  Matches::find($match_id)->users;
+        if(isset($match_users) > 0) {
+            return response()->json($match_users, 200);
+        }
+        /* TODO: Validate that the current user exists in this $match_users array and then return the full list to Frontend, if not then return and unavailable match message */
     }
 
      /**
@@ -65,4 +75,5 @@ class MatchesRepository
             return response()->json('Match was deleted', 204);
         }
     }
+    
 }

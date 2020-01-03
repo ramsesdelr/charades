@@ -5,6 +5,7 @@ import  Home  from './components/Home';
 import 	LoginForm  from './components/LoginForm';
 import  {RegisterForm} from './components/RegisterForm';
 import  NewMatch from './components/matches/NewMatch';
+import  Match from './components/matches/Match';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 class App extends React.Component {
@@ -14,9 +15,10 @@ class App extends React.Component {
 					<Router>
 						<PrivateRoute exact path="/" component={Home} />
 						<PrivateRoute  path="/home" component={Home} />
-						<PrivateRoute path="/match/new" component={NewMatch} />
+						<PrivateRoute exact path="/match/new" component={NewMatch} />
+						<PrivateRoute exact path="/current_match/:match_id" component={Match} />
 						<Route path="/logout" component={LoginForm} />
-						<Route path="/register" component={RegisterForm} />
+						<Route path="/register/:match_id?" component={RegisterForm} />
 						<Route path="/login" component={LoginForm} />
 					</Router>
 			</div>
