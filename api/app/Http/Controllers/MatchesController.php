@@ -6,6 +6,7 @@ use App\Matches;
 use App\Users;
 use App\Repositories\MatchesRepository;
 use Illuminate\Http\Request;
+use JWTAuth;
 
 class MatchesController extends Controller
 {
@@ -30,12 +31,13 @@ class MatchesController extends Controller
 
     /**
      * Display the specified resource.
-     * @param Integer $match_id
+     * @param  integer $match_id
      * @param  \App\Matches  $matchesRepo
      * @return \Illuminate\Http\Response
      */
     public function show($match_id, MatchesRepository $matchesRepo)
     {
+        
         try {
           return $matchesRepo->show($match_id);
         } catch (\Exception $e) {
