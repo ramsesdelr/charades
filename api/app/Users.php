@@ -23,7 +23,7 @@ class Users extends Model
      * @var array
      */
     protected $hidden = [
-        'password', 'id'
+        'password', 
     ];
 
      /**
@@ -32,4 +32,5 @@ class Users extends Model
      * @var array
      */
     protected $dates = ['deleted_at'];
+    
 }

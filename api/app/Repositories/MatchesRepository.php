@@ -41,7 +41,7 @@ class MatchesRepository
     }
 
     /**
-     * Get Matches by ID
+     * Return all players from the match if the current player belongs to it
      * @param Object $match_id
      * @return array
      */
@@ -49,14 +49,23 @@ class MatchesRepository
 
         $token = JWTAuth::getToken();
         $user_data = Auth::user($token);
+        $curent_match = [];
 
-        $match_users =  Matches::find($match_id);
+        $match_users =  UsersMatch::where('matches_id',$match_id)->get();
 
         if(isset($match_users) > 0) {      
-            foreach($match_users->users as $match) {
+            
+            foreach($match_users as $match) {
                 if($match->users_id == $user_data->id) {
                     
-                    return response()->json($match_users->users, 200);
+                    $players = $this->fetchPlayers($match_id); 
+                    
+                    $curent_match = [
+                        'match_info' => Matches::find($match_id),
+                        'players' => $players
+                    ];
+                    
+                    return response()->json($curent_match, 200);
                     break;
                 }
             }
@@ -91,6 +100,22 @@ class MatchesRepository
         if(Matches::find($id)->delete()) {
             return response()->json('Match was deleted', 204);
         }
+    }
+
+    /**
+     * Get all players from a match
+     * @param integer $match_id
+     * @return array $match_players
+     */
+    public function fetchPlayers($match_id) {
+
+        $players = UsersMatch::distinct('users_id')->where('matches_id',$match_id)->get();
+        $match_players = [];
+        foreach($players as $key => $player) {
+            $match_players[$key]['data'] = $player->user;
+            $match_players[$key]['score'] = $player->score;
+        }
+        return $match_players;
     }
     
 }
