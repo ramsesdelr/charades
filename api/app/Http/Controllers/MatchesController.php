@@ -30,14 +30,14 @@ class MatchesController extends Controller
 
     /**
      * Display the specified resource.
-     *
-     * @param  \App\Matches  $matches
+     * @param Integer $match_id
+     * @param  \App\Matches  $matchesRepo
      * @return \Illuminate\Http\Response
      */
-    public function show($id, MatchesRepository $matchesRepo)
+    public function show($match_id, MatchesRepository $matchesRepo)
     {
         try {
-          return $matchesRepo->show($id);
+          return $matchesRepo->show($match_id);
         } catch (\Exception $e) {
             return [
                 'status'=> 400, 

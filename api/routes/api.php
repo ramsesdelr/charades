@@ -38,7 +38,7 @@ Route::group(['prefix'=> 'matches', 'middleware'=>'jwt.auth'],function () {
 	Route::get('/', function() {
 		return Matches::all();
 	})->name('matches.all');;
-	Route::get('/{id}', 'MatchesController@show')->name('matches.show');;
+	Route::middleware('jwt.auth')->get('/{id}', 'MatchesController@show')->name('matches.show');;
 	Route::put('/{id}', 'MatchesController@update')->name('matches.update');;
 	Route::post('/', 'MatchesController@store')->name('matches.store');
 	Route::delete('/{id}', 'MatchesController@destroy')->name('matches.delete');

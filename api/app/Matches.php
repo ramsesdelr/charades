@@ -23,4 +23,12 @@ class Matches extends Model
      * @var array
      */
     protected $dates = ['deleted_at'];
+
+    /**
+     * Get the Users from the match.
+     */
+    public function users()
+    {
+        return $this->hasMany('App\UsersMatch');
+    }
 }
