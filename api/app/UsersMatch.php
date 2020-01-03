@@ -15,9 +15,10 @@ class UsersMatch extends Model
         'users_id', 'matches_id', 'score',
     ];
 
-    public function users()
+    public function user()
     {
-        return $this->belongsToMany('App\Users');
+        // return $this->belongsToMany('App\Users');
+        return $this->hasMany('App\Users', 'id', 'users_id');
     }
 
     protected $table = 'users_match';
