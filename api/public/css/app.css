@@ -10779,3 +10779,37 @@ input:focus {
   justify-content: center;
 }
 
+.word {
+  font-size: 21vw;
+  text-transform: uppercase;
+  color: #F44336;
+  font-family: Roboto;
+}
+
+.word-container {
+  border: 3px solid #E91E63;
+  padding: 20px;
+}
+
+.current-score {
+  width: auto;
+  text-align: center;
+  min-height: 100px;
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 44px;
+  border-radius: 8px;
+  border: 1px solid #CCC;
+  color: #f44336;
+  background-color: #fdfdfd;
+}
+
+.player-title {
+  font-weight: bold;
+  font-size: 24px;
+  font-family: Roboto;
+  text-align: center;
+}
+
