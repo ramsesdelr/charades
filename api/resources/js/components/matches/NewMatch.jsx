@@ -37,11 +37,11 @@ class NewMatch extends React.Component {
         matchesService.createMatch(match_data).then(
             response => {
 
-                console.log(response);
-                if(response.status == 200) {
-
+                if (response.status == 201) {
+                    this.props.history.push(`/current_match/${response.data.id}`);
                 } else {
-                } 
+
+                }
                 this.setState({ loading: false });
             }
         );

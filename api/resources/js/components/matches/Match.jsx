@@ -15,7 +15,6 @@ class Match extends React.Component {
             user:{},
         };
 
-        // this.getMatch = this.getMatch.bind(this);
     }
 
     componentDidMount() {
@@ -24,13 +23,38 @@ class Match extends React.Component {
 
 
     render() {
-        const {loading } = this.state;
+        const { loading } = this.state;
         return (
-            <div className="match-box col-12 mt-4">
-                test
-
+            <div>
+                <div className="text-center mt-4"><h1 className="text-uppercase">Your Next Word Is</h1></div>
+                <div className="match-box col-12 mt-4">
+                    <div className="word-container">
+                        <h1 className="word">Pickles</h1>
+                    </div>
+                </div>
+                <div className="row">
+                    <div className="col-md-6 col-sm-12">
+                        <div className="score-container">
+                            <div className="current-score">
+                                0
+                            </div>
+                            <div className="player-title">
+                                James Bond
+                            </div>
+                        </div>
+                    </div>
+                    <div className="col-md-6 col-sm-12">
+                        <div className="score-container">
+                            <div className="current-score">
+                                0
+                        </div>
+                            <div className="player-title">
+                                Cristian Casablanca
+                        </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-
         );
     }
 }
