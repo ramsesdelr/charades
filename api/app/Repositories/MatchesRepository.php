@@ -112,7 +112,7 @@ class MatchesRepository
         $players = UsersMatch::distinct('users_id')->where('matches_id',$match_id)->get();
         $match_players = [];
         foreach($players as $key => $player) {
-            $match_players[$key]['data'] = $player->user;
+            $match_players[$key] = $player->user[0];
             $match_players[$key]['score'] = $player->score;
         }
         return $match_players;

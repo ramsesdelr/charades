@@ -41,7 +41,6 @@ function getMatch(match_id) {
     //TODO: check API getMatch and validate the user token with the match_id
     return axios.get(`/api/matches/${match_id}`, config).then( (response) => {
         return response;
-        console.log(response)
     }).catch((error) => {
         return error;
     });
