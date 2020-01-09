@@ -9,21 +9,37 @@ class Match extends React.Component {
         super(props);
 
         this.state = {
-            match_name: '',
-            error: '',
             loading: false,
-            user:{},
+            match_info:{},
+            players: [],
         };
 
     }
 
+    async getMatch(match_id) {
+
+        try {
+            let response = await matchesService.getMatch(match_id);
+            this.setState( { match_info: response.data.match_info, players:response.data.players });
+
+        }
+        catch {
+            this.setState({ loading: false });
+        }
+    
+        
+    }
+
     componentDidMount() {
-        let match_info = matchesService.getMatch(this.props.match.params.match_id);
+        this.getMatch(this.props.match.params.match_id);
     }
 
 
     render() {
-        const { loading } = this.state;
+        const { loading, match_info, players } = this.state;
+        const match_players = [];
+        
+
         return (
             <div>
                 <div className="text-center mt-4"><h1 className="text-uppercase">Your Next Word Is</h1></div>
@@ -33,26 +49,18 @@ class Match extends React.Component {
                     </div>
                 </div>
                 <div className="row">
-                    <div className="col-md-6 col-sm-12">
-                        <div className="score-container">
-                            <div className="current-score">
-                                0
-                            </div>
-                            <div className="player-title">
-                                James Bond
-                            </div>
+                {players.map((value, index) => {
+                    return <div key={index} className="col-md-6 col-sm-12">
+                    <div className="score-container">
+                        <div className="current-score">
+                            {value.score}
+                        </div>
+                        <div className="player-title">
+                            {value.name}
                         </div>
                     </div>
-                    <div className="col-md-6 col-sm-12">
-                        <div className="score-container">
-                            <div className="current-score">
-                                0
-                        </div>
-                            <div className="player-title">
-                                Cristian Casablanca
-                        </div>
-                        </div>
-                    </div>
+                </div>
+                })}
                 </div>
             </div>
         );
