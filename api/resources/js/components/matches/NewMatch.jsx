@@ -37,7 +37,7 @@ class NewMatch extends React.Component {
         matchesService.createMatch(match_data).then(
             response => {
 
-                if (response.status == 201) {
+                if (response.status == 201) {   
                     this.props.history.push(`/current_match/${response.data.id}`);
                 } else {
 
