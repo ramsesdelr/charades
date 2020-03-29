@@ -8,17 +8,19 @@
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
 
+$red-text : #f44336;
+
 .navbar-laravel {
   background-color: #fff;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
 }
 
-.container{
+.container {
   height: 100%;
   align-content: center;
 }
 
-.card-container{
+.card-container {
   display: flex;
   justify-content: center;
   margin-top: 40px;
@@ -34,11 +36,10 @@
   font-size: 60px;
   margin-left: 10px;
   color: #FFC312;
-}
-
-.social_icon span:hover {
-  color: white;
-  cursor: pointer;
+  &:hover {
+    color: white;
+    cursor: pointer;
+  }
 }
 
 .card-header h3 {
@@ -49,6 +50,7 @@
   position: absolute;
   right: 20px;
   top: -45px;
+  
 }
 
 .input-group-prepend span {
@@ -76,18 +78,18 @@ input:focus {
   margin-right: 5px;
 }
 
-
-.login_btn:hover {
-  color: black;
-  background-color: white;
+.login_btn {
+   &:hover {
+    color: black;
+    background-color: white;
+   }
 }
 
 .links {
   color: white;
-}
-
-.links a {
-  margin-left: 4px;
+  a {
+    margin-left: 4px;
+  }
 }
 
 
@@ -135,14 +137,13 @@ input:focus {
 }
 
 .word {
-  font-size: 21vw;
+  font-size: 6rem;
   text-transform: uppercase;
-  color:#F44336;
+  color:$red-text;
   font-family: Roboto;
 }
 
 .word-container {
-  border: 3px solid #E91E63;
   padding: 20px;
 }
 
@@ -157,7 +158,7 @@ input:focus {
   font-size: 44px;
   border-radius: 8px;
   border: 1px solid #CCC;
-  color:#f44336;
+  color: $red-text;
   background-color: #fdfdfd;
 }
 
@@ -167,3 +168,5 @@ input:focus {
   font-family: Roboto;
   text-align: center;
 }
+
+ 

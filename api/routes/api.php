@@ -44,8 +44,8 @@ Route::group(['prefix'=> 'matches', 'middleware'=>'jwt.auth'],function () {
 	Route::delete('/{id}', 'MatchesController@destroy')->name('matches.delete');
 });
 
-Route::get('words', function() {
-	return Words::all();
+Route::get('word', function() {
+	return Words::all('title')->random(1)->first();
 });
 
 Route::group(['prefix'=> 'categories', 'middleware'=>'jwt.auth'], function () {
@@ -58,12 +58,14 @@ Route::group(['prefix'=> 'categories', 'middleware'=>'jwt.auth'], function () {
 	Route::delete('/{id}', 'CategoriesController@destroy')->name('categories.delete');
 });
 
-Route::group(['prefix'=>'scorings', 'middleware'=>'jwt.auth'], function () {
+Route::group(['prefix'=>'scorings', 
+	//'middleware'=>'jwt.auth'
+], function () {
 	Route::get('/', function() {
 		return Scorings::all();
 	});
 	Route::get('/{id}', 'ScoringsController@show');
 	Route::put('/{id}', 'ScoringsController@update');
-	Route::post('/', 'ScoringsController@store');
+	Route::post('/add_point', 'UsersMatchController@addPointToScore');
 	Route::delete('/{id}', 'ScoringsController@destroy');
 });

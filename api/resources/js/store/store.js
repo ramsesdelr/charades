@@ -1,7 +1,9 @@
 import { createStore, combineReducers } from 'redux';
 import usersReducer from '../reducers/usersReducer';
+import matchesReducer from '../reducers/matchesReducer';
 
 const reducer = combineReducers({
+    match: matchesReducer,
     user: usersReducer,
 });
 

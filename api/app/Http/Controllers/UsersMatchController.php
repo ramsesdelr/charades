@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Matches;
 use App\UsersMatch;
+use App\Events\AddScore;
 use App\Repositories\UsersMatchRepository;
 use Illuminate\Http\Request;
 
@@ -17,14 +18,17 @@ class UsersMatchController extends Controller
      */
     public function addPointToScore(Request $request, UsersMatchRepository $usersMatchRepo)
     {
-        // try {
-        //   return $usersMatchRepo->create($request->all());
-        // } catch (\Exception $e) {
-        //     return [
-        //         'status'=> 400, 
-        //         'message'=> $e->getMessage()
-        //     ];
-        // }
+        try {
+          $newScore =  $usersMatchRepo->addPointToUser($request->all());
+        
+          event(new AddScore($newScore));
+          return $newScore;
+        } catch (\Exception $e) {
+            return [
+                'status'=> 400, 
+                'message'=> $e->getMessage()
+            ];
+        }
     }
 
 }

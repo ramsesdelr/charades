@@ -2,7 +2,9 @@ const axios = require('axios');
 
 export const matchesService = {
     createMatch,
-    getMatch
+    getMatch,
+    getRandomWord,
+    addScorePoint
 };
 
 function createMatch(match_data) {
@@ -40,6 +42,40 @@ function getMatch(match_id) {
     };
     //TODO: check API getMatch and validate the user token with the match_id
     return axios.get(`/api/matches/${match_id}`, config).then( (response) => {
+        return response;
+    }).catch((error) => {
+        return error;
+    });
+}
+
+/**
+ * Get a random word for the match
+ * @return {object}
+ */
+function getRandomWord() {
+    return axios.get('/api/word/').then( (response) => {
+        return response.data.title;
+    }).catch((error) => {
+        return error;
+    });
+}
+
+var user = JSON.parse(localStorage.getItem('user')) || {};
+if(user.length > 0) {
+    var config = {
+        headers: {
+            'Authorization': "bearer " + user.token,
+            'user_email': user.user_data.email
+        }
+    };
+    
+}
+
+function addScorePoint(user_id, match_id) {
+    return axios.post('/api/scorings/add_point', {
+        users_id: user_id,
+        matches_id: match_id,
+    }, config).then((response) => {
         return response;
     }).catch((error) => {
         return error;
