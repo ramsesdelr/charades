@@ -43,7 +43,7 @@ class LoginForm extends React.Component {
                     this.props.loginUser(response.data.user_data);
                 	this.props.history.push(from);
                 } else {
-                	thisd.setState({error: 'Invalid email/password, please check your info and try again.'});
+                	this.setState({error: 'Invalid email/password, please check your info and try again.'});
                 }
                 
             }

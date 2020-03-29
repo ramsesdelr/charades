@@ -10780,14 +10780,13 @@ input:focus {
 }
 
 .word {
-  font-size: 21vw;
+  font-size: 6rem;
   text-transform: uppercase;
-  color: #F44336;
+  color: #f44336;
   font-family: Roboto;
 }
 
 .word-container {
-  border: 3px solid #E91E63;
   padding: 20px;
 }
 
