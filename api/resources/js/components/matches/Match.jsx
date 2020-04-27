@@ -4,6 +4,7 @@ import * as MatchActions from '../../actions/matches';
 import { connect } from 'react-redux';
 import Pusher from 'pusher-js';
 import { useSwipeable, Swipeable } from 'react-swipeable'
+import PlayerTurn from './PlayerTurn';
 class Match extends React.Component {
 
     constructor(props) {
@@ -50,17 +51,20 @@ class Match extends React.Component {
         const channel = pusher.subscribe('scoring-channel');
 
         channel.bind('add-score', data => {
-            this.props.updateScoring(data.score);
-            this.setState({ players: this.props.players });
+            if(data && data.score) {
+                this.props.updateScoring(data.score);
+                this.setState({ players: this.props.players });
+            }
         });
 
         this.getNewWord();
     }
 
+    
+
 
     render() {
         const { loading, match_info, players, current_word } = this.state;
-
         return (
             <div>
                 <div className="match-box col-12 mt-4">
@@ -70,9 +74,14 @@ class Match extends React.Component {
                     </Swipeable>
                     </div>
                 </div>
+                <div>
+                    {players &&
+                        <PlayerTurn players={players} />
+                    }
+                </div>
                 <div className="row">
                     {players.map((value, index) => {
-                        return <div key={index} className="col-md-6 col-sm-12">
+                        return <div key={value.id} className="col-md-6 col-sm-12">
                             <div className="score-container">
                                 <div className="current-score">
                                     {value.score}
@@ -95,5 +104,6 @@ const mapStateToProps = state => (
         players: state.match.players
     }
 );
+
 
 export default connect(mapStateToProps, MatchActions)(Match);
