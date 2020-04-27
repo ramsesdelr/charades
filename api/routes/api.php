@@ -38,10 +38,12 @@ Route::group(['prefix'=> 'matches', 'middleware'=>'jwt.auth'],function () {
 	Route::get('/', function() {
 		return Matches::all();
 	})->name('matches.all');;
-	Route::middleware('jwt.auth')->get('/{id}', 'MatchesController@show')->name('matches.show');;
+	Route::middleware('jwt.auth')->get('/{id}', 'MatchesController@show')->name('matches.show');
 	Route::put('/{id}', 'MatchesController@update')->name('matches.update');;
 	Route::post('/', 'MatchesController@store')->name('matches.store');
 	Route::delete('/{id}', 'MatchesController@destroy')->name('matches.delete');
+	// Route::middleware('jwt.auth')->post('/update_player_turn','MatchesController@updatePlayerTurn')->name('matches.update_player_turn');
+	Route::post('/update_player_turn','MatchesController@updatePlayerTurn')->name('matches.update_player_turn');
 });
 
 Route::get('word', function() {
