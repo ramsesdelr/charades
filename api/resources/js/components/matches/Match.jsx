@@ -50,11 +50,10 @@ class Match extends React.Component {
     }
 
 
-    //TO-DO: Add endpoint to invite player and send the invite link.
-    invitePlayer(e) {
+    async invitePlayer(e) {
         e.preventDefault();
         const { invited_player_email } = this.state;
-
+        let invite_confirmation = await matchesService.invitePlayer(invited_player_email, this.props.match.params.match_id);
     }
 
     componentDidMount() {
