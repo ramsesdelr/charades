@@ -4,8 +4,11 @@ export const matchesService = {
     createMatch,
     getMatch,
     getRandomWord,
-    addScorePoint
+    addScorePoint,
+    invitePlayer
 };
+
+
 
 function createMatch(match_data) {
 
@@ -60,17 +63,12 @@ function getRandomWord() {
     });
 }
 
-var user = JSON.parse(localStorage.getItem('user')) || {};
-if(user.length > 0) {
-    var config = {
-        headers: {
-            'Authorization': "bearer " + user.token,
-            'user_email': user.user_data.email
-        }
-    };
-    
-}
 
+/**
+ * Sum a point to the current player
+ * @param {integer} user_id 
+ * @param {integer} match_id 
+ */
 function addScorePoint(user_id, match_id) {
     return axios.post('/api/scorings/add_point', {
         users_id: user_id,
@@ -80,4 +78,29 @@ function addScorePoint(user_id, match_id) {
     }).catch((error) => {
         return error;
     });
+}
+
+/**
+ * Invite a new or existing user to join the current match
+ * @param {string} email 
+ * @param {integer} match_id 
+ * @return {string}
+ */
+function invitePlayer(email, match_id) {
+
+    let user = JSON.parse(localStorage.getItem('user')) || {};
+
+    let config = {
+        headers: { 'Authorization': "bearer " + user.token }
+    };
+
+    return axios.post('/api/matches/invite_user', {
+        match_id: match_id,
+        email: email,
+    }, config).then((response) => {
+        return response;
+    }).catch((error) => {
+        return error;
+    });
+
 }

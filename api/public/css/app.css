@@ -10812,3 +10812,9 @@ input:focus {
   text-align: center;
 }
 
+.h3-title {
+  color: #f44336;
+  font-weight: bold;
+  text-align: center;
+}
+

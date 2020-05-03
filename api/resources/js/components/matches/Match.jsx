@@ -16,7 +16,11 @@ class Match extends React.Component {
             players: [],
             current_word: '',
             current_player: null,
+            invited_player_email: ''
         };
+
+        this.handleChange = this.handleChange.bind(this);
+        this.invitePlayer = this.invitePlayer.bind(this);
 
     }
 
@@ -40,6 +44,18 @@ class Match extends React.Component {
         }
     }
 
+    handleChange(e) {
+        const { name, value } = e.target;
+        this.setState({[name]: value });
+    }
+
+
+    async invitePlayer(e) {
+        e.preventDefault();
+        const { invited_player_email } = this.state;
+        let invite_confirmation = await matchesService.invitePlayer(invited_player_email, this.props.match.params.match_id);
+    }
+
     componentDidMount() {
         this.getMatch(this.props.match.params.match_id);
 
@@ -59,6 +75,9 @@ class Match extends React.Component {
 
         this.getNewWord();
     }
+
+
+
 
     
 
@@ -92,6 +111,23 @@ class Match extends React.Component {
                             </div>
                         </div>
                     })}
+
+                    {players.length == 1 &&
+                    <div className="col-md-6 col-sm-12">
+                        <form onSubmit={this.invitePlayer}>
+                            <div className="card-body">
+                                <h3 className="h3-title">Invite a friend to start!</h3>
+                                
+                                <div className="input-group form-group">
+                                    <input type="email" name="invited_player_email" onChange={this.handleChange} className="form-control text-center" placeholder="Player Email" />
+                                </div>
+                                <div className="button-container text-center">
+                                    <button className="btn btn-new-match" type="submit">Send Invite</button>
+                                </div>   
+                            </div>
+                        </form>   
+                    </div>                  
+                    }
                 </div>
             </div>
         );
