@@ -10,13 +10,14 @@ export const usersService = {
 
 /**
  * Log in the user
- * @param {string} email 
+ * @param {array} login_data 
  * @param {string} password 
  */
-function login(email, password) {
+function login(login_data) {
     return axios.post('/api/users/login', {
-            email: email,
-            password: password,
+            email: login_data.email,
+            password: login_data.password,
+            match_id: login_data.match_id
         }).then( (response) => {
             localStorage.setItem('user', JSON.stringify(response.data));
             return response; 

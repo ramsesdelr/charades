@@ -49,13 +49,12 @@ class Match extends React.Component {
         this.setState({[name]: value });
     }
 
-
     async invitePlayer(e) {
         e.preventDefault();
         const { invited_player_email } = this.state;
         let invite_confirmation = await matchesService.invitePlayer(invited_player_email, this.props.match.params.match_id);
     }
-
+    
     componentDidMount() {
         this.getMatch(this.props.match.params.match_id);
 
@@ -73,14 +72,12 @@ class Match extends React.Component {
             }
         });
 
+        channel.bind('add-player-to-match', data => {
+            this.getMatch(this.props.match.params.match_id);
+        });
+        
         this.getNewWord();
     }
-
-
-
-
-    
-
 
     render() {
         const { loading, match_info, players, current_word } = this.state;

@@ -42,7 +42,6 @@ Route::group(['prefix'=> 'matches', 'middleware'=>'jwt.auth'],function () {
 	Route::put('/{id}', 'MatchesController@update')->name('matches.update');;
 	Route::post('/', 'MatchesController@store')->name('matches.store');
 	Route::delete('/{id}', 'MatchesController@destroy')->name('matches.delete');
-	// Route::middleware('jwt.auth')->post('/update_player_turn','MatchesController@updatePlayerTurn')->name('matches.update_player_turn');
 	Route::post('/update_player_turn','MatchesController@updatePlayerTurn')->name('matches.update_player_turn');
 	ROute::post('/invite_user','UsersMatchController@inviteUser')->name('matches.invite');
 });

@@ -33,15 +33,24 @@ class LoginForm extends React.Component {
         }
 
         this.setState({ loading: true });
+        let login_data = {
+            email: email,
+            password: password,
+            match_id: this.props.match.params.match_id || ''
+        };
 
-        usersService.login(email, password).then(
+        usersService.login(login_data).then(
             response => {
                 this.setState({ loading: false });
                
                 if(response.status == 200) {
                     const { from } = this.props.location.state || { from: { pathname: "/home" } };
                     this.props.loginUser(response.data.user_data);
-                	this.props.history.push(from);
+                    if(login_data.match_id != '') {
+                        this.props.history.push(`/current_match/${login_data.match_id}`);
+                    } else {
+                	    this.props.history.push(from);
+                    }
                 } else {
                 	this.setState({error: 'Invalid email/password, please check your info and try again.'});
                 }
