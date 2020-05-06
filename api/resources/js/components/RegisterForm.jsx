@@ -51,7 +51,7 @@ class RegisterForm extends React.Component {
                 if (response.status == 200 && response.data.token) {
                     const { from } = this.props.location.state || { from: { pathname: "/" } };
                     if(user_data.match_id != '') {
-                        this.props.history.push(`/match/${user_data.match_id}`);
+                        this.props.history.push(`/current_match/${user_data.match_id}`);
                     } else {
                         this.props.history.push(from);
                     }

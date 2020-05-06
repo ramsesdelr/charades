@@ -70,6 +70,12 @@ function getRandomWord() {
  * @param {integer} match_id 
  */
 function addScorePoint(user_id, match_id) {
+    let user = JSON.parse(localStorage.getItem('user')) || {};
+    
+    let config = {
+        headers: { 'Authorization': "bearer " + user.token }
+    };
+
     return axios.post('/api/scorings/add_point', {
         users_id: user_id,
         matches_id: match_id,

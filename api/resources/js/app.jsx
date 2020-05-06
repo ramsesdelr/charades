@@ -21,7 +21,7 @@ class App extends React.Component {
 						<PrivateRoute exact path="/current_match/:match_id" component={Match} />
 						<Route path="/logout" component={LoginForm} />
 						<Route path="/register/:match_id?" component={RegisterForm} />
-						<Route path="/login" component={LoginForm} />
+						<Route path="/login/:match_id?" component={LoginForm} />
 					</Router>
 			</div>
 		);
