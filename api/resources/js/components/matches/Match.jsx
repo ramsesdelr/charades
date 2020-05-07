@@ -85,7 +85,7 @@ class Match extends React.Component {
             <div>
                 <div className="match-box col-12 mt-4">
                     <div className="word-container">
-                    <Swipeable onSwipedLeft={this.getNewWord.bind(this)} onSwipedRight={(eventData) => this.getNewWord(eventData,6)}>
+                    <Swipeable onSwipedLeft={this.getNewWord.bind(this)} onSwipedRight={(eventData) => this.getNewWord(eventData, match_info.current_player)}>
                         <h1 className="word">{current_word}</h1>
                     </Swipeable>
                     </div>
