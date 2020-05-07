@@ -7,12 +7,13 @@ import * as UserActions from '../actions/users';
 class LoginForm extends React.Component {
     constructor(props) {
         super(props);
-
+        let match_id = this.props.match.params.match_id || '';
         this.state = {
             email: '',
             password: '',
             error: '',
             loading: false,
+            register_link: `/register/${match_id}`,
         };
 
         this.handleChange = this.handleChange.bind(this);
@@ -60,7 +61,7 @@ class LoginForm extends React.Component {
     }
 
     render() {
-        const { email, password, loading, error } = this.state;
+        const { email, password, loading, error, register_link } = this.state;
         return (
              <div className="card-container">
                     <div className="card">
@@ -89,7 +90,7 @@ class LoginForm extends React.Component {
                             <p className="text-center">
                                 Need an account?
                             </p>
-                                <Link to="/register">
+                                <Link to={register_link}>
                                 <button disabled={loading} className="btn btn-light full-width"> Create Account</button></Link>
 
                             {loading &&

@@ -61,9 +61,10 @@ function register(data) {
             password: data.password,
             phone: data.phone,
             name: data.name,
+            match_id: data.match_id
         }).then( (response) => {
             if(response.data.token) {
-                localStorage.setItem('token', response.data.token);
+                localStorage.setItem('user', JSON.stringify(response.data));
             }
             return response;
     });
