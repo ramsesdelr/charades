@@ -110,3 +110,22 @@ function invitePlayer(email, match_id) {
     });
 
 }
+/**
+ * Notify player when the match starts
+ * @param {integer} player_id 
+ */
+function notifyPlayerMatchStarted(player_id) {
+    let user = JSON.parse(localStorage.getItem('user')) || {};
+
+    let config = {
+        headers: { 'Authorization': "bearer " + user.token }
+    };
+
+    return axios.post('/api/matches/notify_player_match_started', {
+        player_id: player_id,
+    }, config).then((response) => {
+        return response;
+    }).catch((error) => {
+        return error;
+    });
+}

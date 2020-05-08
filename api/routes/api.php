@@ -6,7 +6,7 @@ use App\Categories;
 use App\Words;
 use App\Matches;
 use App\Scorings;
-
+use App\Events\NotifyPlayerMatchStarted;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -43,7 +43,11 @@ Route::group(['prefix'=> 'matches', 'middleware'=>'jwt.auth'],function () {
 	Route::post('/', 'MatchesController@store')->name('matches.store');
 	Route::delete('/{id}', 'MatchesController@destroy')->name('matches.delete');
 	Route::post('/update_player_turn','MatchesController@updatePlayerTurn')->name('matches.update_player_turn');
-	ROute::post('/invite_user','UsersMatchController@inviteUser')->name('matches.invite');
+	Route::post('/invite_user','UsersMatchController@inviteUser')->name('matches.invite');
+	Route::get('/notify_player_match_started/{player_id}', function ($player_id) {
+		event(new NotifyPlayerMatchStarted($player_id));
+	});
+
 });
 
 Route::get('word', function() {

@@ -16,7 +16,8 @@ class Match extends React.Component {
             players: [],
             current_word: '',
             current_player: null,
-            invited_player_email: ''
+            invited_player_email: '',
+            display_word: false,
         };
 
         this.handleChange = this.handleChange.bind(this);
@@ -75,24 +76,34 @@ class Match extends React.Component {
         channel.bind('add-player-to-match', data => {
             this.getMatch(this.props.match.params.match_id);
         });
+
+        channel.bind('match-started', data => {
+            let user = JSON.parse(localStorage.getItem('user'));
+
+            if (data.player_id == user.user_data.id) {
+                this.setState({ display_word: true });
+            } //TO-DO create condition if player it's not the current one on turn, advise that the other player started playing.
+        });
         
         this.getNewWord();
     }
 
     render() {
-        const { loading, match_info, players, current_word } = this.state;
+        const { loading, match_info, players, current_word, display_word } = this.state;
         return (
             <div>
                 <div className="match-box col-12 mt-4">
                     <div className="word-container">
-                    <Swipeable onSwipedLeft={this.getNewWord.bind(this)} onSwipedRight={(eventData) => this.getNewWord(eventData, match_info.current_player)}>
-                        <h1 className="word">{current_word}</h1>
-                    </Swipeable>
+                        {display_word &&
+                            <Swipeable onSwipedLeft={this.getNewWord.bind(this)} onSwipedRight={(eventData) => this.getNewWord(eventData, match_info.current_player)}>
+                                <h1 className="word">{current_word}</h1>
+                            </Swipeable>
+                        }
                     </div>
                 </div>
                 <div>
                     {players &&
-                        <PlayerTurn players={players} />
+                        <PlayerTurn players={players} player_id={match_info.current_player} />
                     }
                 </div>
                 <div className="row">
