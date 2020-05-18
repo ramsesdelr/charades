@@ -9,14 +9,17 @@ class Match extends React.Component {
 
     constructor(props) {
         super(props);
-
+        let user = JSON.parse(localStorage.getItem('user'));
         this.state = {
             loading: false,
             match_info: {},
             players: [],
             current_word: '',
             current_player: null,
-            invited_player_email: ''
+            invited_player_email: '',
+            display_word: false,
+            oponent_playing: false,
+            player_id: user.user_data.id
         };
 
         this.handleChange = this.handleChange.bind(this);
@@ -75,24 +78,48 @@ class Match extends React.Component {
         channel.bind('add-player-to-match', data => {
             this.getMatch(this.props.match.params.match_id);
         });
+
+        channel.bind('match-status', data => {
+            let user = JSON.parse(localStorage.getItem('user'));
+            if (data.match_status.status == 'started') {
+                if(data.match_status.player_id == user.user_data.id) {
+                    this.setState({ display_word: true, oponent_playing: false });
+                } else {
+                    this.setState({ display_word: false, oponent_playing: true });
+                }
+            } else {
+                if (data.match_status.player_id == user.user_data.id) {
+                    this.setState({ display_word: false });
+                } else {
+                    this.setState({ oponent_playing: false });
+                    matchesService.updatePlayerTurn(user.user_data.id);
+                }
+            }
+        });
         
         this.getNewWord();
     }
 
     render() {
-        const { loading, match_info, players, current_word } = this.state;
+        const { loading, match_info, players, current_word, display_word, oponent_playing, player_id } = this.state;
+
         return (
             <div>
                 <div className="match-box col-12 mt-4">
                     <div className="word-container">
-                    <Swipeable onSwipedLeft={this.getNewWord.bind(this)} onSwipedRight={(eventData) => this.getNewWord(eventData, match_info.current_player)}>
-                        <h1 className="word">{current_word}</h1>
-                    </Swipeable>
+                        {display_word &&
+                            <Swipeable onSwipedLeft={this.getNewWord.bind(this)} onSwipedRight={(eventData) => this.getNewWord(eventData, player_id)}>
+                                <h1 className="word">{current_word}</h1>
+                            </Swipeable>
+                        }
+                        {oponent_playing &&
+                            <div>Your opponent it's currently playing</div>
+                        }
                     </div>
                 </div>
                 <div>
-                    {players &&
-                        <PlayerTurn players={players} />
+                    {players.length > 0 &&
+                        <PlayerTurn players={players} player_id={player_id} />
                     }
                 </div>
                 <div className="row">

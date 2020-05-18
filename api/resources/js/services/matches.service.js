@@ -5,7 +5,10 @@ export const matchesService = {
     getMatch,
     getRandomWord,
     addScorePoint,
-    invitePlayer
+    invitePlayer,
+    notifyPlayerMatchStarted,
+    updatePlayerTurn,
+    notifyPlayerMatchStopped
 };
 
 
@@ -109,4 +112,56 @@ function invitePlayer(email, match_id) {
         return error;
     });
 
+}
+/**
+ * Notify player when the match starts
+ * @param {integer} player_id 
+ */
+function notifyPlayerMatchStarted(player_id) {
+    let user = JSON.parse(localStorage.getItem('user')) || {};
+
+    let config = {
+        headers: { 'Authorization': "bearer " + user.token }
+    };
+
+
+    return axios.get(`/api/matches/notify_player_match_status/${player_id}/started`, config).then( (response) => {
+        return response;
+    }).catch((error) => {
+        return error;
+    });
+}
+/**
+ * Notify all players when the match stopped
+ * @param {int} player_id 
+ */
+function notifyPlayerMatchStopped(player_id) {
+
+    let user = JSON.parse(localStorage.getItem('user')) || {};
+
+    let config = {
+        headers: { 'Authorization': "bearer " + user.token }
+    };
+
+    return axios.get(`/api/matches/notify_player_match_status/${player_id}/stopped`, config).then( (response) => {
+        return response;
+    }).catch((error) => {
+        return error;
+    });
+}
+
+function updatePlayerTurn(player_id) {
+    let user = JSON.parse(localStorage.getItem('user')) || {};
+
+    let config = {
+        headers: { 'Authorization': "bearer " + user.token }
+    };
+
+    return axios.post('/api/matches/update_player_turn', {
+        player_id: player_id,
+    }, config).then((response) => {
+        return response;
+    }).catch((error) => {
+        return error;
+    });
 }
