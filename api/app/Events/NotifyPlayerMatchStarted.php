@@ -11,11 +11,11 @@ class NotifyPlayerMatchStarted implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public $player_id;
+    public $match_status;
 
-    public function __construct($player_id)
+    public function __construct($match_status)
     {
-        $this->player_id = $player_id;
+        $this->match_status = $match_status;
     }
 
     public function broadcastOn()
@@ -25,6 +25,6 @@ class NotifyPlayerMatchStarted implements ShouldBroadcast
 
     public function broadcastAs()
     {
-        return 'match-started';
+        return 'match-status';
     }
 }

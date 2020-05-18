@@ -9,11 +9,12 @@ class PlayerTurn extends React.Component {
 
         this.state = {
             current_player: 0,
-            players: this.props.players,
-            next_player_id: this.props.player_id,
+            players: props.players,
+            player_id: props.player_id,
             match_started: false,
             time:0,
         };
+
         
     }
 
@@ -49,23 +50,26 @@ class PlayerTurn extends React.Component {
         return current_player_index;
     }
 
-    startMatch(next_player_id) {
-        this.setState({match_started: true });
+    startMatch(player_id) {
+        console.log(player_id);
+        this.setState({ match_started: true });
+        matchesService.notifyPlayerMatchStarted(player_id);
+
         let timer = setInterval(() => {
             this.setState({
                 time: this.state.time + 1
-              });
-            if(this.state.time == 5) {
+            });
+            if (this.state.time == 5) {
                 clearInterval(timer);
-                this.setState({match_started: false, time:0 });
+                this.setState({ match_started: false, time: 0 });
+                matchesService.notifyPlayerMatchStopped(player_id);
             }
         }, 1000);
     }
  
     render() {
 
-        const { current_player, next_player_id } = this.state;
-
+        const { current_player, player_id } = this.state;
         return (
             <div>
                 {this.props.players.length > 0 &&
@@ -73,8 +77,8 @@ class PlayerTurn extends React.Component {
                         <div>It's {this.props.players[current_player].name} turn</div>
                     </div>
                 }
-                {next_player_id != current_player &&
-                    <button onClick={this.startMatch.bind(this, next_player_id)}>Start</button>
+                {player_id == this.props.players[current_player].id &&
+                    <button onClick={this.startMatch.bind(this, player_id)}>Start</button>
                 }
             </div>
         );

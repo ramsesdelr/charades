@@ -44,8 +44,13 @@ Route::group(['prefix'=> 'matches', 'middleware'=>'jwt.auth'],function () {
 	Route::delete('/{id}', 'MatchesController@destroy')->name('matches.delete');
 	Route::post('/update_player_turn','MatchesController@updatePlayerTurn')->name('matches.update_player_turn');
 	Route::post('/invite_user','UsersMatchController@inviteUser')->name('matches.invite');
-	Route::get('/notify_player_match_started/{player_id}', function ($player_id) {
-		event(new NotifyPlayerMatchStarted($player_id));
+	Route::get('/notify_player_match_status/{player_id}/{match_status}', function ($player_id, $match_status) {
+
+		$matchStatus = [
+			'player_id' => $player_id,
+			'status'=> $match_status
+		];
+		event(new NotifyPlayerMatchStarted($matchStatus));
 	});
 
 });
