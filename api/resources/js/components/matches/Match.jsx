@@ -9,7 +9,7 @@ class Match extends React.Component {
 
     constructor(props) {
         super(props);
-        let user = JSON.parse(localStorage.getItem('user'));
+        this.user = JSON.parse(localStorage.getItem('user'));
         this.state = {
             loading: false,
             match_info: {},
@@ -19,7 +19,7 @@ class Match extends React.Component {
             invited_player_email: '',
             display_word: false,
             oponent_playing: false,
-            player_id: user.user_data.id
+            player_id: this.user.user_data.id
         };
 
         this.handleChange = this.handleChange.bind(this);
@@ -80,19 +80,19 @@ class Match extends React.Component {
         });
 
         channel.bind('match-status', data => {
-            let user = JSON.parse(localStorage.getItem('user'));
+            
             if (data.match_status.status == 'started') {
-                if(data.match_status.player_id == user.user_data.id) {
+                if(data.match_status.player_id == this.user.user_data.id) {
                     this.setState({ display_word: true, oponent_playing: false });
                 } else {
                     this.setState({ display_word: false, oponent_playing: true });
                 }
             } else {
-                if (data.match_status.player_id == user.user_data.id) {
+                if (data.match_status.player_id == this.user.user_data.id) {
                     this.setState({ display_word: false });
                 } else {
                     this.setState({ oponent_playing: false });
-                    matchesService.updatePlayerTurn(user.user_data.id);
+                    matchesService.updatePlayerTurn(this.user.user_data.id);
                 }
             }
         });
