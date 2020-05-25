@@ -8,8 +8,6 @@ import  NewMatch from './components/matches/NewMatch';
 import  Match from './components/matches/Match';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-//TO-DO : Create join match route and component, process the encoded data
-
 class App extends React.Component {
 	render() {
 		return (
