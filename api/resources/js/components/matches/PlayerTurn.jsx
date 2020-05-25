@@ -51,7 +51,7 @@ class PlayerTurn extends React.Component {
     }
 
     startMatch(player_id) {
-        console.log(player_id);
+
         this.setState({ match_started: true });
         matchesService.notifyPlayerMatchStarted(player_id);
 
@@ -69,7 +69,12 @@ class PlayerTurn extends React.Component {
  
     render() {
 
-        const { current_player, player_id } = this.state;
+        const { current_player, player_id, match_started } = this.state;
+        const renderStartMatchButton = () => {
+            if(match_started === false && player_id == this.props.players[current_player].id) {
+                return <button onClick={this.startMatch.bind(this, player_id)}>Start</button>
+            }
+        };
         return (
             <div>
                 {this.props.players.length > 0 &&
@@ -77,9 +82,7 @@ class PlayerTurn extends React.Component {
                         <div>It's {this.props.players[current_player].name} turn</div>
                     </div>
                 }
-                {player_id == this.props.players[current_player].id &&
-                    <button onClick={this.startMatch.bind(this, player_id)}>Start</button>
-                }
+                {renderStartMatchButton()}
             </div>
         );
     }
