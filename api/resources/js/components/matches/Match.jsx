@@ -3,7 +3,7 @@ import { matchesService } from '../../services/matches.service'
 import * as MatchActions from '../../actions/matches';
 import { connect } from 'react-redux';
 import Pusher from 'pusher-js';
-import { useSwipeable, Swipeable } from 'react-swipeable'
+import { useSwipeable, Swipeable } from 'react-swipeable';
 import PlayerTurn from './PlayerTurn';
 class Match extends React.Component {
 
@@ -19,7 +19,8 @@ class Match extends React.Component {
             invited_player_email: '',
             display_word: false,
             oponent_playing: false,
-            player_id: this.user.user_data.id
+            player_id: this.user.user_data.id,
+            slide_class:'word',
         };
 
         this.handleChange = this.handleChange.bind(this);
@@ -39,11 +40,21 @@ class Match extends React.Component {
         }
     }
 
+    removeWord(eventKey = null, direction) {
+        console.log(eventKey);
+        console.log(direction);
+        let new_words_list = this.state.current_words;
+        new_words_list.splice(eventKey-1,1);
+        // this.setState({current_words:new_words_list});
+        this.getNewWord();
+    }
+
     async getNewWord(eventData = null, user_id = null) {
-        let new_word = await matchesService.getRandomWord();
-        this.setState({ current_word: new_word });
         if(user_id) {
             matchesService.addScorePoint(user_id, this.props.match.params.match_id);
+        } else {
+            let new_word = await matchesService.getRandomWord();
+            this.setState({ current_word: new_word });
         }
     }
 
@@ -96,26 +107,48 @@ class Match extends React.Component {
                 }
             }
         });
-        
+
         this.getNewWord();
     }
 
+    slideLeft(eventData=null, player_id=null){
+        // this.setState({slide_class:'word word-hidden'});
+        this.setState({slide_class:'word word-visible-left'});
+        setTimeout(()=> {
+            this.getNewWord();
+            this.setState({slide_class:'word'});
+        },1000);
+
+    }
+    
+    slideRight() {
+        this.setState({slide_class:'word word-visible-right'});
+        setTimeout(()=> {
+            this.getNewWord();
+            this.setState({slide_class:'word'});
+        },1000);
+    }
+
     render() {
-        const { loading, match_info, players, current_word, display_word, oponent_playing, player_id } = this.state;
+        const { loading, match_info, players, current_word, display_word, oponent_playing, player_id, slide_class } = this.state;
 
         return (
             <div>
-                <div className="match-box col-12 mt-4">
-                    <div className="word-container">
+                <div className="col-12 mt-4">
+                    
                         {display_word &&
-                            <Swipeable onSwipedLeft={this.getNewWord.bind(this)} onSwipedRight={(eventData) => this.getNewWord(eventData, player_id)}>
-                                <h1 className="word">{current_word}</h1>
-                            </Swipeable>
+                            // <Swipeable onSwipedLeft={this.getNewWord.bind(this)} onSwipedRight={(eventData) => this.getNewWord(eventData, player_id)}>
+                            <Swipeable onSwipedRight={(eventData) => this.slideLeft(eventData, player_id)} onSwipedLeft={(eventData) => this.slideRight(eventData, player_id)}>
+                                <div className="word-container">
+                                    <h1 className={slide_class}>{current_word}</h1>
+                                </div>
+
+                        </Swipeable>
                         }
                         {oponent_playing &&
                             <div>Your opponent it's currently playing</div>
                         }
-                    </div>
+                  
                 </div>
                 <div>
                     {players.length > 0 &&

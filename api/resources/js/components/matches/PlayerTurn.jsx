@@ -59,7 +59,7 @@ class PlayerTurn extends React.Component {
             this.setState({
                 time: this.state.time + 1
             });
-            if (this.state.time == 5) {
+            if (this.state.time == 60) {
                 clearInterval(timer);
                 this.setState({ match_started: false, time: 0 });
                 matchesService.notifyPlayerMatchStopped(player_id);
