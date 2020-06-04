@@ -144,7 +144,9 @@ input:focus {
 }
 
 .word-container {
-  padding: 20px;
+  height:100px;
+  position: relative;
+  overflow: hidden;
 }
 
 .current-score {
@@ -175,3 +177,57 @@ input:focus {
   text-align: center;
 }
  
+.word-hidden {
+  // visibility: hidden;
+  // opacity: 0;
+  // transition: visibility 0s linear 0.33s, opacity 0.33s linear;
+  transform:translate(9999px);
+  opacity: 0; 
+}
+
+.word {
+  transition: all 1s;
+  position: absolute;
+  animation: show-word 2s linear;
+//   animation-name: bounce;
+//   animation-duration: 4s; /* or: Xms */
+//   animation-iteration-count: 10;
+//   animation-direction: alternate; /* or: normal */
+//   animation-timing-function: ease-out; /* or: ease, ease-in, ease-in-out, linear, cubic-bezier(x1, y1, x2, y2) */
+//   animation-fill-mode: forwards; /* or: backwards, both, none */
+//   animation-delay: 2s; /* or: Xms */
+}
+
+.word-visible-left { 
+	animation: move-left 1s;
+}
+
+.word-visible-right { 
+    animation: move-right 1s;
+}
+
+@keyframes move-left {
+	from {left: 0%;}
+	to {left: 100%;}
+}
+
+
+@keyframes move-right {
+	from {right: 0%;}
+	to {right: 100%;}
+}
+
+@keyframes show-word {
+	0%   { opacity: 0; }
+	100% { opacity: 1; }
+}
+
+#match_timer {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  padding: 18px;
+  background: red;
+  color: white;
+  font-weight: bold;
+}

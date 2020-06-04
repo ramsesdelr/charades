@@ -4,13 +4,13 @@ export const matchesService = {
     createMatch,
     getMatch,
     getRandomWord,
+    getRandomWords,
     addScorePoint,
     invitePlayer,
     notifyPlayerMatchStarted,
     updatePlayerTurn,
     notifyPlayerMatchStopped
 };
-
 
 
 function createMatch(match_data) {
@@ -65,6 +65,19 @@ function getRandomWord() {
         return error;
     });
 }
+
+/**
+ * Get a random word for the match
+ * @return {object}
+ */
+function getRandomWords() {
+    return axios.get('/api/words/').then( (response) => {
+        return response.data;
+    }).catch((error) => {
+        return error;
+    });
+}
+
 
 
 /**

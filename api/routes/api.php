@@ -59,6 +59,11 @@ Route::get('word', function() {
 	return Words::all('title')->random(1)->first();
 });
 
+Route::get('words', function() {
+	return Words::all('title')->random(10);
+});
+
+
 Route::group(['prefix'=> 'categories', 'middleware'=>'jwt.auth'], function () {
 	Route::get('/', function() {
 		return Categories::all();
