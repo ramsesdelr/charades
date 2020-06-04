@@ -221,3 +221,13 @@ input:focus {
 	0%   { opacity: 0; }
 	100% { opacity: 1; }
 }
+
+#match_timer {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  padding: 18px;
+  background: red;
+  color: white;
+  font-weight: bold;
+}

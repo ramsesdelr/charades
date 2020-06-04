@@ -12,7 +12,7 @@ class PlayerTurn extends React.Component {
             players: props.players,
             player_id: props.player_id,
             match_started: false,
-            time:0,
+            time:60,
         };
 
         
@@ -57,11 +57,11 @@ class PlayerTurn extends React.Component {
 
         let timer = setInterval(() => {
             this.setState({
-                time: this.state.time + 1
+                time: this.state.time - 1
             });
-            if (this.state.time == 60) {
+            if (this.state.time == 0) {
                 clearInterval(timer);
-                this.setState({ match_started: false, time: 0 });
+                this.setState({ match_started: false, time: 60 });
                 matchesService.notifyPlayerMatchStopped(player_id);
             }
         }, 1000);
@@ -69,7 +69,7 @@ class PlayerTurn extends React.Component {
  
     render() {
 
-        const { current_player, player_id, match_started } = this.state;
+        const { current_player, player_id, match_started, time } = this.state;
         const renderStartMatchButton = () => {
             if(match_started === false && player_id == this.props.players[current_player].id) {
                 return <button onClick={this.startMatch.bind(this, player_id)}>Start</button>
@@ -83,6 +83,10 @@ class PlayerTurn extends React.Component {
                     </div>
                 }
                 {renderStartMatchButton()}
+                {match_started &&
+                    <div id="match_timer">{time}</div>
+                }
+                
             </div>
         );
     }

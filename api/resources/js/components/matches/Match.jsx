@@ -50,12 +50,9 @@ class Match extends React.Component {
     }
 
     async getNewWord(eventData = null, user_id = null) {
-        if(user_id) {
-            matchesService.addScorePoint(user_id, this.props.match.params.match_id);
-        } else {
-            let new_word = await matchesService.getRandomWord();
-            this.setState({ current_word: new_word });
-        }
+
+        let new_word = await matchesService.getRandomWord();
+        this.setState({ current_word: new_word });
     }
 
     handleChange(e) {
@@ -112,7 +109,6 @@ class Match extends React.Component {
     }
 
     slideLeft(eventData=null, player_id=null){
-        // this.setState({slide_class:'word word-hidden'});
         this.setState({slide_class:'word word-visible-left'});
         setTimeout(()=> {
             this.getNewWord();
@@ -121,8 +117,9 @@ class Match extends React.Component {
 
     }
     
-    slideRight() {
+    addPointToPlayer(eventData, player_id) {
         this.setState({slide_class:'word word-visible-right'});
+        matchesService.addScorePoint(player_id, this.props.match.params.match_id);
         setTimeout(()=> {
             this.getNewWord();
             this.setState({slide_class:'word'});
@@ -138,7 +135,7 @@ class Match extends React.Component {
                     
                         {display_word &&
                             // <Swipeable onSwipedLeft={this.getNewWord.bind(this)} onSwipedRight={(eventData) => this.getNewWord(eventData, player_id)}>
-                            <Swipeable onSwipedRight={(eventData) => this.slideLeft(eventData, player_id)} onSwipedLeft={(eventData) => this.slideRight(eventData, player_id)}>
+                            <Swipeable onSwipedLeft={(eventData) => this.addPointToPlayer(eventData, player_id)} onSwipedRight={(eventData) => this.slideLeft(eventData, player_id)}>
                                 <div className="word-container">
                                     <h1 className={slide_class}>{current_word}</h1>
                                 </div>
@@ -156,18 +153,21 @@ class Match extends React.Component {
                     }
                 </div>
                 <div className="row">
-                    {players.map((value, index) => {
-                        return <div key={value.id} className="col-md-6 col-sm-12">
-                            <div className="score-container">
-                                <div className="current-score">
-                                    {value.score}
-                                </div>
-                                <div className="player-title">
-                                    {value.name}
-                                </div>
-                            </div>
-                        </div>
-                    })}
+
+                    {display_word === false &&
+                        players.map((value, index) => {
+                            return <div key={value.id} className="col-md-6 col-sm-12">
+                                        <div className="score-container">
+                                            <div className="current-score">
+                                                {value.score}
+                                            </div>
+                                            <div className="player-title">
+                                                {value.name}
+                                            </div>
+                                        </div>
+                                    </div>
+                        })
+                    }
 
                     {players.length == 1 &&
                     <div className="col-md-6 col-sm-12">
