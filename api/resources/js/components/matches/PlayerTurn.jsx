@@ -77,6 +77,9 @@ class PlayerTurn extends React.Component {
         };
         return (
             <div>
+                {/* <audio  autoPlay={true} loop={true}>
+                    <source src="/media/warning.wav" type="audio/ogg"/>
+                </audio> */}
                 {this.props.players.length > 0 &&
                     <div>
                         <div>It's {this.props.players[current_player].name} turn</div>

@@ -11199,3 +11199,36 @@ input:focus {
   font-weight: bold;
 }
 
+.navbar-red {
+  background-color: #f44336;
+  color: #FFF;
+}
+
+.navbar-red a {
+  color: #FFF;
+}
+
+.navbar-red .navbar-toggler-icon {
+  background-image: url(/images/toggle-icon.svg?08001b1afc6ca7f48997aba75965a6f2);
+}
+
+.bg-red {
+  box-shadow: 0 7px 6px -3px #CCC;
+  border-bottom: 1px solid #CCC;
+}
+
+.bg-red .navbar-nav > li > a {
+  color: #f44336;
+  font-size: 18px;
+  font-family: Roboto;
+  font-weight: bold;
+  border-bottom: 1px solid #eceaea;
+}
+
+#menu-content {
+  position: absolute;
+  z-index: 1;
+  width: 100%;
+  background: #FFF;
+}
+

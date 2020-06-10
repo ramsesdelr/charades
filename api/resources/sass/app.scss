@@ -178,9 +178,7 @@ input:focus {
 }
  
 .word-hidden {
-  // visibility: hidden;
-  // opacity: 0;
-  // transition: visibility 0s linear 0.33s, opacity 0.33s linear;
+
   transform:translate(9999px);
   opacity: 0; 
 }
@@ -230,4 +228,35 @@ input:focus {
   background: red;
   color: white;
   font-weight: bold;
+}
+.navbar-red {
+  background-color: $red-text;
+  color: #FFF;
+  a {
+    color:#FFF;
+  }
+  .navbar-toggler-icon {
+    background-image: url('./../../public/svg/toggle-icon.svg');
+  }
+}
+
+.bg-red {
+  -webkit-box-shadow: 0 7px 6px -3px #CCC;
+	   -moz-box-shadow: 0 7px 6px -3px #CCC;
+          box-shadow: 0 7px 6px -3px #CCC;
+    border-bottom: 1px solid #CCC;
+   .navbar-nav > li > a {
+     color: $red-text;
+     font-size: 18px;
+     font-family: Roboto;
+     font-weight: bold;
+     border-bottom:1px solid #eceaea;
+   }
+}
+
+#menu-content {
+  position: absolute;
+  z-index: 1;
+  width: 100%;
+  background: #FFF;
 }
