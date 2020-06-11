@@ -12,9 +12,8 @@ class PlayerTurn extends React.Component {
             players: props.players,
             player_id: props.player_id,
             match_started: false,
-            time:60,
+            time:10,
         };
-
         
     }
 
@@ -61,7 +60,7 @@ class PlayerTurn extends React.Component {
             });
             if (this.state.time == 0) {
                 clearInterval(timer);
-                this.setState({ match_started: false, time: 60 });
+                this.setState({ match_started: false, time: 10 });
                 matchesService.notifyPlayerMatchStopped(player_id);
             }
         }, 1000);
@@ -77,9 +76,11 @@ class PlayerTurn extends React.Component {
         };
         return (
             <div>
-                {/* <audio  autoPlay={true} loop={true}>
-                    <source src="/media/warning.wav" type="audio/ogg"/>
-                </audio> */}
+                 {/* {time <= 10 &&
+                    <audio  autoPlay={true} loop={true}>
+                        <source src="/media/warning.wav" type="audio/ogg"/>
+                    </audio>
+                } */}
                 {this.props.players.length > 0 &&
                     <div>
                         <div>It's {this.props.players[current_player].name} turn</div>

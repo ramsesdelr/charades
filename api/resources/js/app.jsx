@@ -38,7 +38,7 @@ class App extends React.Component {
 					</div>
 				</div>
 				
-				<div className="container">
+				<div className="container-fluid">
 						<Router>
 							<PrivateRoute exact path="/" component={Home} />
 							<PrivateRoute  path="/home" component={Home} />

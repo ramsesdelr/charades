@@ -33,14 +33,13 @@ class NewMatch extends React.Component {
             password: match_password,
             users_id: this.props.user.id,
         };
-        console.log(this.state);
         matchesService.createMatch(match_data).then(
             response => {
 
                 if (response.status == 201) {   
                     this.props.history.push(`/current_match/${response.data.id}`);
                 } else {
-
+                    console.log(response)
                 }
                 this.setState({ loading: false });
             }

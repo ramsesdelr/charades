@@ -21,6 +21,8 @@ class Match extends React.Component {
             oponent_playing: false,
             player_id: this.user.user_data.id,
             slide_class:'word',
+            match_turns_limit:3,
+            current_turn: 0,
         };
 
         this.handleChange = this.handleChange.bind(this);
@@ -38,15 +40,6 @@ class Match extends React.Component {
         catch {
             this.setState({ loading: false });
         }
-    }
-
-    removeWord(eventKey = null, direction) {
-        console.log(eventKey);
-        console.log(direction);
-        let new_words_list = this.state.current_words;
-        new_words_list.splice(eventKey-1,1);
-        // this.setState({current_words:new_words_list});
-        this.getNewWord();
     }
 
     async getNewWord(eventData = null, user_id = null) {
@@ -90,6 +83,12 @@ class Match extends React.Component {
         channel.bind('match-status', data => {
             
             if (data.match_status.status == 'started') {
+
+                if(this.state.current_turn == this.state.match_turns_limit) {
+                    console.log('match ended');
+                    //TODO: display a message with the match ended text and go to score, also add this message to the opponent and send him to the score
+                }
+
                 if(data.match_status.player_id == this.user.user_data.id) {
                     this.setState({ display_word: true, oponent_playing: false });
                 } else {
@@ -102,6 +101,12 @@ class Match extends React.Component {
                     this.setState({ oponent_playing: false });
                     matchesService.updatePlayerTurn(this.user.user_data.id);
                 }
+               
+            }
+
+            //check if current is the match owner so we can update the turns
+            if (data.match_status.player_id == this.state.match_info.users_id && data.match_status.status == 'started') {
+                this.setState({ current_turn: this.state.current_turn + 1 });
             }
         });
 
@@ -131,15 +136,12 @@ class Match extends React.Component {
 
         return (
             <div>
-                <div className="col-12 mt-4">
-                    
+                <div className="col-12 mt-4">    
                         {display_word &&
-                            // <Swipeable onSwipedLeft={this.getNewWord.bind(this)} onSwipedRight={(eventData) => this.getNewWord(eventData, player_id)}>
                             <Swipeable onSwipedLeft={(eventData) => this.addPointToPlayer(eventData, player_id)} onSwipedRight={(eventData) => this.slideLeft(eventData, player_id)}>
                                 <div className="word-container">
                                     <h1 className={slide_class}>{current_word}</h1>
                                 </div>
-
                         </Swipeable>
                         }
                         {oponent_playing &&
