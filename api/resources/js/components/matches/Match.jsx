@@ -5,6 +5,9 @@ import { connect } from 'react-redux';
 import Pusher from 'pusher-js';
 import { useSwipeable, Swipeable } from 'react-swipeable';
 import PlayerTurn from './PlayerTurn';
+import { Modal, Button } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
+
 class Match extends React.Component {
 
     constructor(props) {
@@ -21,14 +24,17 @@ class Match extends React.Component {
             oponent_playing: false,
             player_id: this.user.user_data.id,
             slide_class:'word',
-            match_turns_limit:3,
+            match_turns_limit: 3,
             current_turn: 0,
+            modal_show: false
         };
 
         this.handleChange = this.handleChange.bind(this);
         this.invitePlayer = this.invitePlayer.bind(this);
+        this.modalHandleClose = this.modalHandleClose.bind(this);
 
     }
+
 
     async getMatch(match_id) {
         try {
@@ -84,15 +90,14 @@ class Match extends React.Component {
             
             if (data.match_status.status == 'started') {
 
-                if(this.state.current_turn == this.state.match_turns_limit) {
-                    console.log('match ended');
-                    //TODO: display a message with the match ended text and go to score, also add this message to the opponent and send him to the score
-                }
-
                 if(data.match_status.player_id == this.user.user_data.id) {
                     this.setState({ display_word: true, oponent_playing: false });
                 } else {
                     this.setState({ display_word: false, oponent_playing: true });
+                }
+                //check if current is the match owner so we can update the turns
+                if (data.match_status.player_id == this.state.match_info.users_id ) {
+                    this.setState({ current_turn: this.state.current_turn + 1 });      
                 }
             } else {
                 if (data.match_status.player_id == this.user.user_data.id) {
@@ -101,13 +106,12 @@ class Match extends React.Component {
                     this.setState({ oponent_playing: false });
                     matchesService.updatePlayerTurn(this.user.user_data.id);
                 }
-               
+                //check if turn ended and guest player was the last one to play
+                if(this.state.current_turn == this.state.match_turns_limit && data.match_status.player_id != this.state.match_info.users_id) {
+                    this.modalHandleShow();
+                 }         
             }
 
-            //check if current is the match owner so we can update the turns
-            if (data.match_status.player_id == this.state.match_info.users_id && data.match_status.status == 'started') {
-                this.setState({ current_turn: this.state.current_turn + 1 });
-            }
         });
 
         this.getNewWord();
@@ -125,15 +129,24 @@ class Match extends React.Component {
     addPointToPlayer(eventData, player_id) {
         this.setState({slide_class:'word word-visible-right'});
         matchesService.addScorePoint(player_id, this.props.match.params.match_id);
-        setTimeout(()=> {
+        setTimeout(()=> {   
             this.getNewWord();
             this.setState({slide_class:'word'});
         },1000);
     }
 
-    render() {
-        const { loading, match_info, players, current_word, display_word, oponent_playing, player_id, slide_class } = this.state;
+    modalHandleShow() {
+        this.setState({modal_show: true});
+    }
 
+    modalHandleClose() {
+        this.setState({modal_show: false});
+    }
+    
+
+    render() {
+        const { modal_show, match_info, players, current_word, display_word, oponent_playing, player_id, slide_class } = this.state;
+ 
         return (
             <div>
                 <div className="col-12 mt-4">    
@@ -142,7 +155,7 @@ class Match extends React.Component {
                                 <div className="word-container">
                                     <h1 className={slide_class}>{current_word}</h1>
                                 </div>
-                        </Swipeable>
+                            </Swipeable>
                         }
                         {oponent_playing &&
                             <div>Your opponent it's currently playing</div>
@@ -188,6 +201,16 @@ class Match extends React.Component {
                     </div>                  
                     }
                 </div>
+                <Modal show={modal_show} onHide={this.modalHandleClose}>
+                    <Modal.Header closeButton>
+                        <Modal.Title>Match</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>Your match just ended! We hope to see you again!</Modal.Body>
+                    <Modal.Footer>
+                        <Link to="/">Back</Link>
+                        <Link to="/match/new">Start a new match</Link>
+                    </Modal.Footer>
+                </Modal>
             </div>
         );
     }
