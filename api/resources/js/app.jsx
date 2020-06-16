@@ -8,7 +8,6 @@ import  NewMatch from './components/matches/NewMatch';
 import  Match from './components/matches/Match';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
-
 class App extends React.Component {
 	render() {
 		return (
@@ -38,7 +37,7 @@ class App extends React.Component {
 					</div>
 				</div>
 				
-				<div className="container">
+				<div className="container-fluid">
 						<Router>
 							<PrivateRoute exact path="/" component={Home} />
 							<PrivateRoute  path="/home" component={Home} />
