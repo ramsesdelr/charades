@@ -109,7 +109,9 @@ class Match extends React.Component {
                 //check if turn ended and guest player was the last one to play
                 if(this.state.current_turn == this.state.match_turns_limit && data.match_status.player_id != this.state.match_info.users_id) {
                     this.modalHandleShow();
-                 }         
+                 }
+                 //
+                     
             }
 
         });
@@ -137,6 +139,10 @@ class Match extends React.Component {
 
     modalHandleShow() {
         this.setState({modal_show: true});
+        //assign the winner if the match has ended for the match woner
+        if(this.state.match_info.users_id == this.state.player_id) {
+            matchesService.addMatchWinner(this.props.match.params.match_id);
+        }
     }
 
     modalHandleClose() {
@@ -150,17 +156,16 @@ class Match extends React.Component {
         return (
             <div>
                 <div className="col-12 mt-4">    
-                        {display_word &&
-                            <Swipeable onSwipedLeft={(eventData) => this.addPointToPlayer(eventData, player_id)} onSwipedRight={(eventData) => this.slideLeft(eventData, player_id)}>
-                                <div className="word-container">
-                                    <h1 className={slide_class}>{current_word}</h1>
-                                </div>
-                            </Swipeable>
-                        }
-                        {oponent_playing &&
-                            <div>Your opponent it's currently playing</div>
-                        }
-                  
+                    {display_word &&
+                        <Swipeable onSwipedLeft={(eventData) => this.addPointToPlayer(eventData, player_id)} onSwipedRight={(eventData) => this.slideLeft(eventData, player_id)}>
+                            <div className="word-container">
+                                <h1 className={slide_class}>{current_word}</h1>
+                            </div>
+                        </Swipeable>
+                    }
+                    {oponent_playing &&
+                        <div>Your opponent it's currently playing</div>
+                    }
                 </div>
                 <div>
                     {players.length > 0 &&
