@@ -9,10 +9,14 @@ export const matchesService = {
     invitePlayer,
     notifyPlayerMatchStarted,
     updatePlayerTurn,
-    notifyPlayerMatchStopped
+    notifyPlayerMatchStopped,
+    addMatchWinner
 };
 
-
+/**
+ * Create a new match
+ * @param array match_data 
+ */
 function createMatch(match_data) {
 
     let user = JSON.parse(localStorage.getItem('user')) || {};
@@ -34,8 +38,8 @@ function createMatch(match_data) {
 }
 /**
  * Get a match by ID
- * @param {integer} match_id 
- * @return {array}
+ * @param integer match_id 
+ * @return array
  */
 function getMatch(match_id) {
 
@@ -172,6 +176,26 @@ function updatePlayerTurn(player_id) {
 
     return axios.post('/api/matches/update_player_turn', {
         player_id: player_id,
+    }, config).then((response) => {
+        return response;
+    }).catch((error) => {
+        return error;
+    });
+}
+/**
+ * Add the winner of a finished match
+ * @param int match_d
+ * @param int winner_id
+ */
+function addMatchWinner(match_id) {
+    let user = JSON.parse(localStorage.getItem('user')) || {};
+
+    let config = {
+        headers: { 'Authorization': "bearer " + user.token }
+    };
+
+    return axios.post('/api/matches/add_winner', {
+        match_id: match_id,
     }, config).then((response) => {
         return response;
     }).catch((error) => {

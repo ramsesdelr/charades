@@ -82,7 +82,7 @@ class MatchesRepository
      /**
      * Update Matches 
      * @param integer $matchId
-     * @return array
+     * @return string
      */
     public function update($matchId, $request) {
     	
@@ -94,7 +94,7 @@ class MatchesRepository
 	 /**
 	 * Delete Match 
 	 * @param integer $id
-	 * @return array
+	 * @return string
 	 */
     public function delete($id) {
 
@@ -117,6 +117,23 @@ class MatchesRepository
             $match_players[$key]['score'] = $player->score;
         }
         return $match_players;
+    }
+
+    /**
+     * Update winner for a finished match
+     * @param integer $match_id
+     * @return string
+     */
+    public function addWinner($match_id) {
+        $winner_query = UsersMatch::select('users_id')->where('matches_id', $match_id)->orderBy('score','desc')->first();
+       
+        $update_winner = Matches::where('id', $match_id)->update(['winner_id' => $winner_query->users_id]);
+        if($update_winner) {
+        	return response()->json([
+                'status' => 200,
+                'message' => 'Winner succesfully asigned'
+            ]);
+        }
     }
     
 }

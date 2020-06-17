@@ -39,11 +39,12 @@ Route::group(['prefix'=> 'matches', 'middleware'=>'jwt.auth'],function () {
 		return Matches::all();
 	})->name('matches.all');;
 	Route::middleware('jwt.auth')->get('/{id}', 'MatchesController@show')->name('matches.show');
-	Route::put('/{id}', 'MatchesController@update')->name('matches.update');;
+	Route::put('/{id}', 'MatchesController@update')->name('matches.update');
 	Route::post('/', 'MatchesController@store')->name('matches.store');
 	Route::delete('/{id}', 'MatchesController@destroy')->name('matches.delete');
 	Route::post('/update_player_turn','MatchesController@updatePlayerTurn')->name('matches.update_player_turn');
 	Route::post('/invite_user','UsersMatchController@inviteUser')->name('matches.invite');
+	Route::post('/add_winner', 'MatchesController@addWinner')->name('matches.add_winner');
 	Route::get('/notify_player_match_status/{player_id}/{match_status}', function ($player_id, $match_status) {
 
 		$matchStatus = [

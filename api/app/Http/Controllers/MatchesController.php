@@ -88,6 +88,7 @@ class MatchesController extends Controller
             ];
         }
     }
+
     /**
      * Updates the current player on Turn
      * @param  \Illuminate\Http\Request  $request
@@ -95,5 +96,22 @@ class MatchesController extends Controller
     public function updatePlayerTurn(Request $request) {
         event(new PlayerTurn($request->get('player_id')));
         
+    }
+
+    /**
+     * Add winner to finished match
+     * @param \Illuminate\Http\Request  $request
+     */
+    public function addWinner(Request $request, MatchesRepository $matchesRepo) {
+
+       
+        try {
+            return $matchesRepo->addWinner($request->get('match_id'));
+          } catch (\Exception $e) {
+              return [
+                  'status'=> 400, 
+                  'message'=> $e->getMessage()
+              ];
+          }
     }
 }
