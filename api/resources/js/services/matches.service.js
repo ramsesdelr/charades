@@ -10,7 +10,8 @@ export const matchesService = {
     notifyPlayerMatchStarted,
     updatePlayerTurn,
     notifyPlayerMatchStopped,
-    addMatchWinner
+    addMatchWinner,
+    getRecentMatchesByUser
 };
 
 /**
@@ -198,6 +199,24 @@ function addMatchWinner(match_id) {
         match_id: match_id,
     }, config).then((response) => {
         return response;
+    }).catch((error) => {
+        return error;
+    });
+}
+/**
+ * Retrieve the latest matches played by a user
+ * @param int user_id
+ * @return string
+ */
+function getRecentMatchesByUser(user_id) {
+    let user = JSON.parse(localStorage.getItem('user')) || {};
+
+    let config = {
+        headers: { 'Authorization': "bearer " + user.token }
+    };
+
+    return axios.get(`/api/matches/recent/${user_id}`, config).then( (response) => {
+        return response.data;
     }).catch((error) => {
         return error;
     });

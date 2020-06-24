@@ -53,6 +53,7 @@ Route::group(['prefix'=> 'matches', 'middleware'=>'jwt.auth'],function () {
 		];
 		event(new NotifyPlayerMatchStarted($matchStatus));
 	});
+	Route::get('/recent/{user_id}', 'MatchesController@getRecentMatchesByuser')->name('matches.recent');
 
 });
 

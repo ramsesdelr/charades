@@ -126,7 +126,6 @@ class MatchesRepository
      */
     public function addWinner($match_id) {
         $winner_query = UsersMatch::select('users_id')->where('matches_id', $match_id)->orderBy('score','desc')->first();
-       
         $update_winner = Matches::where('id', $match_id)->update(['winner_id' => $winner_query->users_id]);
         if($update_winner) {
         	return response()->json([
@@ -134,6 +133,42 @@ class MatchesRepository
                 'message' => 'Winner succesfully asigned'
             ]);
         }
+    }
+    /**
+     * Return Matches results by user id
+     * @param int $user_id
+     * @return string
+     */
+    public function getMatchesByUserId($user_id) {
+        $finished_matches = Matches::whereNotNull('winner_id')->where('users_id', $user_id)->take(5)->get();
+        $matches = [];
+        foreach($finished_matches as $match) {
+            $oponent = UsersMatch::where('matches_id', $match->id)->where('users_id','!=', $user_id)->first();
+            $matches[] = [
+                'name' => $match->name,
+                'winner' => $match->user->name,
+                'score'=> $this->matchScores($match->id),
+                'vs_player' => $oponent->user[0]->name
+            ];
+        }
+        return response()->json([
+            'status' => 200,
+            'data' => $matches
+        ]);
+    }
+
+    /**
+     * Select Match scoring from a previous match
+     * @param int $match_id
+     * @return string
+     */
+    public function matchScores($match_id) {
+        $match_score = UsersMatch::select('score')->where('matches_id', $match_id)->orderBy('score','desc')->get();
+        $match_result = '';
+        if(count($match_score) > 1 ) {
+            $match_result = $match_score[0]->score . ' / ' . $match_score[1]->score;
+        }
+        return $match_result;     
     }
     
 }

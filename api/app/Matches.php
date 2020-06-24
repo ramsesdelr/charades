@@ -31,4 +31,11 @@ class Matches extends Model
     {
         return $this->hasMany('App\UsersMatch');
     }
+
+    /**
+     * Get Match woner
+     */
+    public function user() {
+        return $this->belongsTo('App\Users','users_id','id');
+    }
 }

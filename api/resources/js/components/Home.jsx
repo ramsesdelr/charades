@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { usersService } from '../services/users.service.js';
+import { matchesService } from '../services/matches.service';
 import { Tabs, Tab, Table } from 'react-bootstrap';
 import { connect } from 'react-redux';
 
@@ -10,11 +11,13 @@ class Home extends React.Component {
 		super(props);
 		this.state = {
 			user: {},
+			recent_matches: []
 		}
 	}
 
 	componentDidMount() {
-		usersService.getAll().then(users => console.log(users.data));
+        this.user = JSON.parse(localStorage.getItem('user'));
+		matchesService.getRecentMatchesByUser(this.user.user_data.id).then(response => this.setState({recent_matches : response.data}));
 	}
 
 	userLogOut () {
@@ -22,6 +25,8 @@ class Home extends React.Component {
 	}
 
 	render() {
+        const { recent_matches } = this.state;
+
 		return (
 			<div>
 				 <div className="text-center">
@@ -32,25 +37,23 @@ class Home extends React.Component {
 					<Table striped bordered hover>
 						<thead>
 							<tr>
-							<th>Last Match</th>
-							<th>W/L</th>
-							<th>Match Score</th>
-							<th>VS Player</th>
+								<th>Last Match</th>
+								<th>Winner</th>
+								<th>Match Score</th>
+								<th>VS Player</th>
 							</tr>
 						</thead>
 						<tbody>
-							<tr>
-							<td>Mark</td>
-							<td>Otto</td>
-							<td>@mdo</td>
-							<td>@mdo</td>
-							</tr>
-							<tr>
-							<td>Jacob</td>
-							<td>Thornton</td>
-							<td>@fat</td>
-							<td>@fat</td>
-							</tr>
+							{recent_matches.length > 0 &&
+								recent_matches.map((match, index) => {
+									return <tr key={index}>
+										<td>{match.name}</td>
+										<td>{match.winner}</td>
+										<td>{match.score}</td>
+										<td>{match.vs_player}</td>
+									</tr>
+								})
+							}
 						</tbody>
 					</Table>
 				</Tab>
