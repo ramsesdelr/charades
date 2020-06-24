@@ -103,10 +103,23 @@ class MatchesController extends Controller
      * @param \Illuminate\Http\Request  $request
      */
     public function addWinner(Request $request, MatchesRepository $matchesRepo) {
-
-       
         try {
             return $matchesRepo->addWinner($request->get('match_id'));
+          } catch (\Exception $e) {
+              return [
+                  'status'=> 400, 
+                  'message'=> $e->getMessage()
+              ];
+          }
+    }
+    /**
+     * Return last 5 previous matches from an user
+     * @param int $user_id
+     * @return string
+     */
+    public function getRecentMatchesByuser($user_id, MatchesRepository $matchesRepo) {
+        try {
+            return $matchesRepo->getMatchesByUserId($user_id);
           } catch (\Exception $e) {
               return [
                   'status'=> 400, 
