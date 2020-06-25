@@ -8,6 +8,7 @@ import  NewMatch from './components/matches/NewMatch';
 import  Match from './components/matches/Match';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
+import './bootstrap';
 class App extends React.Component {
 	render() {
 		return (

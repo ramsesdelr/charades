@@ -20,6 +20,13 @@ class LoginForm extends React.Component {
         this.loginUser = this.loginUser.bind(this);
     }
 
+    componentDidMount() {
+        let user = JSON.parse(localStorage.getItem('user'));
+        if(user && user.token) {
+            this.props.history.push('/home/');
+        }
+    }
+
     handleChange(e) {
         const { name, value } = e.target;
         this.setState({[name]: value });
@@ -50,7 +57,8 @@ class LoginForm extends React.Component {
                     if(login_data.match_id != '') {
                         this.props.history.push(`/current_match/${login_data.match_id}`);
                     } else {
-                	    this.props.history.push(from);
+                        // this.props.history.push(from);
+                        window.location.reload()
                     }
                 } else {
                 	this.setState({error: 'Invalid email/password, please check your info and try again.'});

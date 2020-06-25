@@ -26,7 +26,7 @@ function createMatch(match_data) {
         headers: { 'Authorization': "bearer " + user.token }
     };
 
-    return axios.post('/api/matches', {
+    return axios.post('/matches', {
         name: match_data.name,
         password: match_data.password,
         users_id: match_data.users_id,
@@ -52,7 +52,7 @@ function getMatch(match_id) {
     }
     };
     //TODO: check API getMatch and validate the user token with the match_id
-    return axios.get(`/api/matches/${match_id}`, config).then( (response) => {
+    return axios.get(`/matches/${match_id}`, config).then( (response) => {
         return response;
     }).catch((error) => {
         return error;
@@ -61,10 +61,10 @@ function getMatch(match_id) {
 
 /**
  * Get a random word for the match
- * @return {object}
+ * @return string
  */
 function getRandomWord() {
-    return axios.get('/api/word/').then( (response) => {
+    return axios.get('/word/').then( (response) => {
         return response.data.title;
     }).catch((error) => {
         return error;
@@ -76,7 +76,7 @@ function getRandomWord() {
  * @return {object}
  */
 function getRandomWords() {
-    return axios.get('/api/words/').then( (response) => {
+    return axios.get('/words/').then( (response) => {
         return response.data;
     }).catch((error) => {
         return error;
@@ -97,7 +97,7 @@ function addScorePoint(user_id, match_id) {
         headers: { 'Authorization': "bearer " + user.token }
     };
 
-    return axios.post('/api/scorings/add_point', {
+    return axios.post('/scorings/add_point', {
         users_id: user_id,
         matches_id: match_id,
     }, config).then((response) => {
@@ -121,7 +121,7 @@ function invitePlayer(email, match_id) {
         headers: { 'Authorization': "bearer " + user.token }
     };
 
-    return axios.post('/api/matches/invite_user', {
+    return axios.post('/matches/invite_user', {
         match_id: match_id,
         email: email,
     }, config).then((response) => {
@@ -143,7 +143,7 @@ function notifyPlayerMatchStarted(player_id) {
     };
 
 
-    return axios.get(`/api/matches/notify_player_match_status/${player_id}/started`, config).then( (response) => {
+    return axios.get(`/matches/notify_player_match_status/${player_id}/started`, config).then( (response) => {
         return response;
     }).catch((error) => {
         return error;
@@ -161,7 +161,7 @@ function notifyPlayerMatchStopped(player_id) {
         headers: { 'Authorization': "bearer " + user.token }
     };
 
-    return axios.get(`/api/matches/notify_player_match_status/${player_id}/stopped`, config).then( (response) => {
+    return axios.get(`/matches/notify_player_match_status/${player_id}/stopped`, config).then( (response) => {
         return response;
     }).catch((error) => {
         return error;
@@ -175,7 +175,7 @@ function updatePlayerTurn(player_id) {
         headers: { 'Authorization': "bearer " + user.token }
     };
 
-    return axios.post('/api/matches/update_player_turn', {
+    return axios.post('/matches/update_player_turn', {
         player_id: player_id,
     }, config).then((response) => {
         return response;
@@ -195,7 +195,7 @@ function addMatchWinner(match_id) {
         headers: { 'Authorization': "bearer " + user.token }
     };
 
-    return axios.post('/api/matches/add_winner', {
+    return axios.post('/matches/add_winner', {
         match_id: match_id,
     }, config).then((response) => {
         return response;
@@ -209,13 +209,8 @@ function addMatchWinner(match_id) {
  * @return string
  */
 function getRecentMatchesByUser(user_id) {
-    let user = JSON.parse(localStorage.getItem('user')) || {};
-
-    let config = {
-        headers: { 'Authorization': "bearer " + user.token }
-    };
-
-    return axios.get(`/api/matches/recent/${user_id}`, config).then( (response) => {
+   
+    return axios.get(`/matches/recent/${user_id}`).then( (response) => {
         return response.data;
     }).catch((error) => {
         return error;
