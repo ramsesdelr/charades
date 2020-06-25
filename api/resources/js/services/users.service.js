@@ -14,7 +14,7 @@ export const usersService = {
  * @param {string} password 
  */
 function login(login_data) {
-    return axios.post('/api/users/login', {
+    return axios.post('/users/login', {
             email: login_data.email,
             password: login_data.password,
             match_id: login_data.match_id
@@ -38,17 +38,9 @@ function logOut() {
  * Get all users
  */
 function getAll() {
-    let user = JSON.parse(localStorage.getItem('user'));
-
-    if(user && user.token) {
-        let config = {
-            headers: {'Authorization': "bearer " + user.token}
-        };
-        return axios.get('/api/users', config).then( (response) => {
-            return response;
-        });
-    }
-
+    return axios.get('/users').then( (response) => {
+        return response;
+    });
 }
 
 /**
@@ -56,7 +48,7 @@ function getAll() {
  * @param {object} data 
  */
 function register(data) {
-    return axios.post('/api/users/register', {
+    return axios.post('/users/register', {
             email: data.email,
             password: data.password,
             phone: data.phone,
@@ -75,12 +67,7 @@ function register(data) {
  * @param {string} token 
  */
 function getUser(token) {
-   
-    let config = {
-        headers: {'Authorization': "bearer " + token}
-    };
-
-    return axios.get('/api/user', config).then( (response) => {
+    return axios.get('/user').then( (response) => {
         return response;
     });
 }
