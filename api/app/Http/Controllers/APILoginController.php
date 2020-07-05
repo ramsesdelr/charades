@@ -13,9 +13,14 @@ use App\Repositories\UsersMatchRepository;
 use Illuminate\Support\Facades\Auth;
 
 class APILoginController extends Controller
-{
-    public function login(Request $request,  UsersMatchRepository $usersMatchRepo)
-    {
+{   
+    /**
+     * Log in the current user
+     * @param \Illuminate\Http\Request  $request
+     * @param App\Repositories\UsersMatchRepository  $usersMatchRepo
+     * @return string
+     */
+    public function login(Request $request,  UsersMatchRepository $usersMatchRepo) {
         $validator = Validator::make($request->all(), [
             'email' => 'required|string|email|max:255',
             'password'=> 'required'
@@ -41,4 +46,28 @@ class APILoginController extends Controller
         
         return response()->json(compact('token', 'user_data'));
     }
+
+    /**
+     * Check if the token has expired and assign a new one
+     * @return boolean 
+     */
+    function refreshToken() {
+  
+        $token = JWTAuth::getToken();
+        if(!$token){
+            return response()->json(['error' => 'Token not provided to renew'], 500);
+        }
+        try{
+            $token = JWTAuth::refresh($token);
+        } catch(\Tymon\JWTAuth\Exceptions\JWTException $e){
+            return response()->json(['error' => 'The token is invalid'], 500);
+
+        }catch (\Tymon\JWTAuth\Exceptions\TokenBlacklistedException $e) {
+            return response()->json(['error' => 'The user was not authenticated, please contact your website\'s administrator'], 500);
+
+        }
+        return response()->json(compact('token'));
+    }
+
+
 }

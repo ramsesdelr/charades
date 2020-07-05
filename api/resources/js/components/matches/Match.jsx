@@ -110,8 +110,6 @@ class Match extends React.Component {
                 if(this.state.current_turn == this.state.match_turns_limit && data.match_status.player_id != this.state.match_info.users_id) {
                     this.modalHandleShow();
                  }
-                 //
-                     
             }
 
         });

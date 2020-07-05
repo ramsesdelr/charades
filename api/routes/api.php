@@ -19,7 +19,7 @@ use App\Events\NotifyPlayerMatchStarted;
 */
 
 Route::middleware('jwt.auth')->get('user', function(Request $request) {
-    return auth()->user();
+	return auth()->user();
 });
 
 Route::prefix('users')->group(function () {
@@ -31,6 +31,7 @@ Route::prefix('users')->group(function () {
 	Route::middleware('jwt.auth')->get('/{id}', 'UsersController@show');
 	Route::post('/register', 'APIRegisterController@register');
 	Route::post('/login', 'APILoginController@login');
+	Route::post('/refresh_token', 'APILoginController@refreshToken');
 });
 
 
