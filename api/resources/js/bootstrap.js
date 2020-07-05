@@ -25,9 +25,37 @@ window.axios = require('axios');
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 window.axios.defaults.baseURL = 'http://charades.test/api/';
 let user = JSON.parse(localStorage.getItem('user'));
+
 if(user && user.token) {
     axios.defaults.headers.common['Authorization'] = "bearer " + user.token;
 }
+
+axios.interceptors.response.use((response) => {
+    return response;
+}, (error) => {
+    
+    if(error.response.status === 401) {
+        console.log('no autorizado');
+        return axios.post('/users/refresh_token')
+        .then(response => {
+            console.log(response);
+            if (response.status === 200) {
+                let new_token = {
+                    user_data: user.user_data,
+                    token: response.data.token
+                };
+                localStorage.setItem('user', JSON.stringify(new_token));
+                axios.defaults.headers.common['Authorization'] = 'Bearer ' + response.data.token;
+                return response;
+            }
+        })
+    }
+    localStorage.removeItem('user');
+    if (error.response && error.response.data) {
+        return Promise.reject(error.response.data);
+    }
+    return Promise.reject(error.message);
+});
 
 /**
  * Next we will register the CSRF Token as a common header with Axios so that

@@ -5,13 +5,14 @@ export const usersService = {
     logOut,
     getAll,
     register,
-    getUser
+    getUser,
+    refreshToken
 };
 
 /**
  * Log in the user
- * @param {array} login_data 
- * @param {string} password 
+ * @param array login_data 
+ * @param string password 
  */
 function login(login_data) {
     return axios.post('/users/login', {
@@ -64,10 +65,24 @@ function register(data) {
 
 /**
  * Get user from token
- * @param {string} token 
+ * @return string 
  */
-function getUser(token) {
+function getUser() {
     return axios.get('/user').then( (response) => {
+        return response;
+    });
+}
+
+/**
+ * Try to refresh the token 
+ * @param int token
+ * @return boolean
+ */
+function refreshToken() {
+    return axios.post('/users/refresh_token').then( (response) => {
+        if(response.error) {
+            return;
+        }
         return response;
     });
 }
