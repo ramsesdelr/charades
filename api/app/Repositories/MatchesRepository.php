@@ -140,7 +140,7 @@ class MatchesRepository
      * @return string
      */
     public function getMatchesByUserId($user_id) {
-        $finished_matches = Matches::whereNotNull('winner_id')->where('users_id', $user_id)->take(10)->get();
+        $finished_matches = Matches::whereNotNull('winner_id')->where('users_id', $user_id)->orderBy('id', 'DESC')->take(10)->get();
         $matches = [];
         foreach($finished_matches as $match) {
             $oponent = UsersMatch::where('matches_id', $match->id)->where('users_id','!=', $user_id)->first();

@@ -56,7 +56,10 @@ function register(data) {
             name: data.name,
             match_id: data.match_id
         }).then( (response) => {
+            console.log(response);
             if(response.data.token) {
+                console.log('hay token');
+                console.log(response.data);
                 localStorage.setItem('user', JSON.stringify(response.data));
             }
             return response;
@@ -69,6 +72,7 @@ function register(data) {
  */
 function getUser() {
     return axios.get('/user').then( (response) => {
+        console.log('getUser');
         return response;
     });
 }

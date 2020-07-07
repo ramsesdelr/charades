@@ -37,7 +37,6 @@ axios.interceptors.response.use((response) => {
     if(error.response.status === 401) {
         return axios.post('/users/refresh_token')
         .then(response => {
-            console.log(response);
             if (response.status === 200) {
                 let new_token = {
                     user_data: user.user_data,
@@ -45,11 +44,13 @@ axios.interceptors.response.use((response) => {
                 };
                 localStorage.setItem('user', JSON.stringify(new_token));
                 axios.defaults.headers.common['Authorization'] = 'Bearer ' + response.data.token;
+
                 return response;
+            } else {
+                localStorage.removeItem('user');
             }
         })
     }
-    localStorage.removeItem('user');
     if (error.response && error.response.data) {
         return Promise.reject(error.response.data);
     }
