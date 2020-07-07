@@ -35,7 +35,6 @@ axios.interceptors.response.use((response) => {
 }, (error) => {
     
     if(error.response.status === 401) {
-        console.log('no autorizado');
         return axios.post('/users/refresh_token')
         .then(response => {
             console.log(response);

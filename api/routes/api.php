@@ -18,28 +18,28 @@ use App\Events\NotifyPlayerMatchStarted;
 |
 */
 
-Route::middleware('jwt.auth')->get('user', function(Request $request) {
+Route::middleware('auth:api')->get('user', function(Request $request) {
 	return auth()->user();
 });
 
 Route::prefix('users')->group(function () {
 	
-	Route::middleware('jwt.auth')->get('/', function() {
+	Route::middleware('auth:api')->get('/', function() {
 		return Users::select('id','name','email','phone')->get();
 	});
-	Route::middleware('jwt.auth')->put('/{id}', 'UsersController@update');
-	Route::middleware('jwt.auth')->get('/{id}', 'UsersController@show');
+	Route::middleware('auth:api')->put('/{id}', 'UsersController@update');
+	Route::middleware('auth:api')->get('/{id}', 'UsersController@show');
 	Route::post('/register', 'APIRegisterController@register');
 	Route::post('/login', 'APILoginController@login');
 	Route::post('/refresh_token', 'APILoginController@refreshToken');
 });
 
 
-Route::group(['prefix'=> 'matches', 'middleware'=>'jwt.auth'],function () {
+Route::group(['prefix'=> 'matches', 'middleware'=>'auth:api'],function () {
 	Route::get('/', function() {
 		return Matches::all();
 	})->name('matches.all');;
-	Route::middleware('jwt.auth')->get('/{id}', 'MatchesController@show')->name('matches.show');
+	Route::middleware('auth:api')->get('/{id}', 'MatchesController@show')->name('matches.show');
 	Route::put('/{id}', 'MatchesController@update')->name('matches.update');
 	Route::post('/', 'MatchesController@store')->name('matches.store');
 	Route::delete('/{id}', 'MatchesController@destroy')->name('matches.delete');
@@ -67,7 +67,7 @@ Route::get('words', function() {
 });
 
 
-Route::group(['prefix'=> 'categories', 'middleware'=>'jwt.auth'], function () {
+Route::group(['prefix'=> 'categories', 'middleware'=>'auth:api'], function () {
 	Route::get('/', function() {
 		return Categories::all();
 	});
@@ -78,7 +78,7 @@ Route::group(['prefix'=> 'categories', 'middleware'=>'jwt.auth'], function () {
 });
 
 Route::group(['prefix'=>'scorings', 
-	//'middleware'=>'jwt.auth'
+	//'middleware'=>'auth:api'
 ], function () {
 	Route::get('/', function() {
 		return Scorings::all();

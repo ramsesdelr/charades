@@ -55,9 +55,9 @@ class LoginForm extends React.Component {
                     const { from } = this.props.location.state || { from: { pathname: "/home" } };
                     this.props.loginUser(response.data.user_data);
                     if(login_data.match_id != '') {
-                        this.props.history.push(`/current_match/${login_data.match_id}`);
+                        let match_id = atob(login_data.match_id);
+                        window.location.replace(`/current_match/${match_id}`)
                     } else {
-                        // this.props.history.push(from);
                         window.location.reload()
                     }
                 } else {
