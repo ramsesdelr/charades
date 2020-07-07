@@ -35,7 +35,7 @@ class APIRegisterController extends Controller
         // $user = Users::first();
         
         if($request->get('match_id') != '') {
-            $newPlayer = $usersMatchRepo->addUserToMatch($request->get('match_id'), $user_data->id);
+            $newPlayer = $usersMatchRepo->addUserToMatch(base64_decode($request->get('match_id')), $user_data->id);
             event(new AddPlayerToMatch($newPlayer));
         }
         $token = JWTAuth::fromUser($user_data);
