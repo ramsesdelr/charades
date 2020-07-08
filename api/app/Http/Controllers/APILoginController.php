@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Validator;
 use JWTFactory;
 use JWTAuth;
-use App\User;
+use App\Users;
 use App\Events\AddPlayerToMatch;
 use App\Repositories\UsersMatchRepository;
 use Illuminate\Support\Facades\Auth;
@@ -27,13 +27,14 @@ class APILoginController extends Controller
             'email' => 'required|string|email|max:255',
             'password'=> 'required'
         ]);
-
         if ($validator->fails()) {
             return response()->json($validator->errors());
         }
         $credentials =  $request->only('email', 'password');
+
         try {
             if (! $token = auth()->attempt($credentials)) {
+                dd($token);
                 return response()->json(['error' => 'Unauthorized'], 401);
             }
         } catch (JWTException $e) {
@@ -60,7 +61,6 @@ class APILoginController extends Controller
             return response()->json(['error' => 'Token not provided to renew'], 500);
         }
         try {
-            // $token = JWTAuth::refresh($token);
            $token =  auth()->refresh();
         } catch(\Tymon\JWTAuth\Exceptions\JWTException $e){
             return response()->json(['error' => 'The token is invalid'], 500);

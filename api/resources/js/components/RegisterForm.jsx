@@ -20,6 +20,13 @@ class RegisterForm extends React.Component {
         this.registerUser = this.registerUser.bind(this);
     }
 
+    componentDidMount() {
+        let user = JSON.parse(localStorage.getItem('user'));
+        if(user && user.token) {
+            this.props.history.push('/home/');
+        }
+    }
+
     handleChange(e) {
         const { name, value } = e.target;
         this.setState({ [name]: value });
@@ -54,8 +61,7 @@ class RegisterForm extends React.Component {
                         let match_id = atob(user_data.match_id);
                         window.location.replace(`/current_match/${match_id}`)
                     } else {
-                        this.props.history.push(from);
-                        window.location.replace('/home')
+                        window.location.replace('/home');
                     }
                 } else {
                     let all_errors = [];
@@ -150,4 +156,4 @@ class RegisterForm extends React.Component {
     }
 }
 
-export { RegisterForm };
+export default RegisterForm;

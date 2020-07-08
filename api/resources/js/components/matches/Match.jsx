@@ -5,9 +5,8 @@ import { connect } from 'react-redux';
 import Pusher from 'pusher-js';
 import { useSwipeable, Swipeable } from 'react-swipeable';
 import PlayerTurn from './PlayerTurn';
-import { Modal, Button } from 'react-bootstrap';
+import { Modal, Button , Alert} from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-
 class Match extends React.Component {
 
     constructor(props) {
@@ -26,7 +25,8 @@ class Match extends React.Component {
             slide_class:'word',
             match_turns_limit: 3,
             current_turn: 0,
-            modal_show: false
+            modal_show: false,
+            show_invite_notification: false,
         };
 
         this.handleChange = this.handleChange.bind(this);
@@ -63,6 +63,9 @@ class Match extends React.Component {
         e.preventDefault();
         const { invited_player_email } = this.state;
         let invite_confirmation = await matchesService.invitePlayer(invited_player_email, this.props.match.params.match_id);
+        if(invite_confirmation.status == 200) {
+            this.setState({invited_player_email:'', show_invite_notification:true});
+        }
     }
     
     componentDidMount() {
@@ -146,11 +149,15 @@ class Match extends React.Component {
     modalHandleClose() {
         this.setState({modal_show: false});
     }
+
+    disableInviteAlert() {
+        this.setState({show_invite_notification:false});
+    }
     
 
     render() {
-        const { modal_show, match_info, players, current_word, display_word, oponent_playing, player_id, slide_class } = this.state;
- 
+        const { modal_show, match_info, players, current_word, display_word, oponent_playing, player_id, slide_class, show_invite_notification } = this.state;
+        
         return (
             <div>
                 <div className="col-12 mt-4">    
@@ -192,7 +199,14 @@ class Match extends React.Component {
                         <form onSubmit={this.invitePlayer}>
                             <div className="card-body">
                                 <h3 className="h3-title">Invite a friend to start!</h3>
-                                
+                               {show_invite_notification === true &&
+                                    
+                                    <Alert variant="success" onClose={() => this.disableInviteAlert()}  dismissible>
+                                        <Alert.Heading>User invited!</Alert.Heading>
+                                       
+                                    </Alert>
+                               
+                                }
                                 <div className="input-group form-group">
                                     <input type="email" name="invited_player_email" onChange={this.handleChange} className="form-control text-center" placeholder="Player Email" />
                                 </div>

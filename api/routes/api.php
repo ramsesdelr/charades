@@ -18,11 +18,11 @@ use App\Events\NotifyPlayerMatchStarted;
 |
 */
 
-Route::middleware('auth:api')->get('user', function(Request $request) {
+Route::middleware('auth:api')->get('/user', function(Request $request) {
 	return auth()->user();
 });
 
-Route::prefix('users')->group(function () {
+Route::prefix('users')->group(function () { 
 	
 	Route::middleware('auth:api')->get('/', function() {
 		return Users::select('id','name','email','phone')->get();

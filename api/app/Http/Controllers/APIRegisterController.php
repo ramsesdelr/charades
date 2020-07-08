@@ -28,17 +28,16 @@ class APIRegisterController extends Controller
         $user_data = Users::create([
             'name' => $request->get('name'),
             'email' => $request->get('email'),
-            'password' => bcrypt($request->get('password')),
+            'password' => $request->get('password'),
             'phone' => $request->get('phone'),
         ]);
         
-        // $user = Users::first();
         
         if($request->get('match_id') != '') {
             $newPlayer = $usersMatchRepo->addUserToMatch(base64_decode($request->get('match_id')), $user_data->id);
             event(new AddPlayerToMatch($newPlayer));
         }
-        $token = JWTAuth::fromUser($user_data);
+        $token = auth()->login($user_data);
         return response()->json(compact('token', 'user_data'));
 
     }
