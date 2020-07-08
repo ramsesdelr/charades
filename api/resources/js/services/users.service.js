@@ -72,7 +72,6 @@ function register(data) {
  */
 function getUser() {
     return axios.get('/user').then( (response) => {
-        console.log('getUser');
         return response;
     });
 }
