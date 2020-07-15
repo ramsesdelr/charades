@@ -66,6 +66,9 @@ Route::get('words', function() {
 	return Words::all('title')->random(10);
 });
 
+Route::middleware('auth:api')->post('words/add', 'WordsController@store');
+
+
 
 Route::group(['prefix'=> 'categories', 'middleware'=>'auth:api'], function () {
 	Route::get('/', function() {

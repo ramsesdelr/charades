@@ -6,7 +6,8 @@ export const usersService = {
     getAll,
     register,
     getUser,
-    refreshToken
+    refreshToken,
+    createWord
 };
 
 /**
@@ -88,4 +89,19 @@ function refreshToken() {
         }
         return response;
     });
+}
+/**
+ * Create a new word
+ * @param array data
+ * @return string
+ */
+function createWord(data) {
+    return axios.post('/words/add', {
+        title: data.title,
+        users_id: data.users_id,
+        categories_id: data.categories_id,
+    }).then( (response) => {
+        console.log(response);
+        return response;
+});
 }
