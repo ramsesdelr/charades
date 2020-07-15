@@ -4,7 +4,7 @@ import { usersService } from '../services/users.service.js';
 import { matchesService } from '../services/matches.service';
 import { Tabs, Tab, Table } from 'react-bootstrap';
 import { connect } from 'react-redux';
-
+import NewWord from './layouts/dashboard/NewWord';
 
 class Home extends React.Component {
 	constructor(props) {
@@ -61,7 +61,7 @@ class Home extends React.Component {
 					Tab 2
 				</Tab>
 				<Tab eventKey="words" title="Words">
-					Tab 3
+					<NewWord/>
 				</Tab>
 				</Tabs>
 			</div>

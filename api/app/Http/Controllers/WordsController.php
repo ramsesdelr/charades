@@ -18,7 +18,7 @@ class WordsController extends Controller
     public function store(Request $request, WordsRepository $WordsRepo)
     {
         try {
-          return $wordsRepo->create($request);
+          return $WordsRepo->create($request);
         } catch (\Exception $e) {
             return [
                 'status'=> 400, 
@@ -37,7 +37,7 @@ class WordsController extends Controller
     public function show($id, WordsRepository $WordsRepo)
     {
         try {
-          return $wordsRepo->show($id);
+          return $WordsRepo->show($id);
         } catch (\Exception $e) {
             return [
                 'status'=> 400, 
