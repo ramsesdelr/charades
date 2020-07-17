@@ -16,7 +16,8 @@ class NewWord extends React.Component {
             error: '',
             loading: false,
             user:{},
-            word_added: false
+            word_added: false,
+            word_error: false
         };
 
         this.handleChange = this.handleChange.bind(this);
@@ -30,6 +31,7 @@ class NewWord extends React.Component {
 
     createWord(e){
         e.preventDefault();
+        this.disableNewWordAlert();
         const { title, categories_id = null } = this.state;
         let word_data = {
             title: title,
@@ -42,18 +44,18 @@ class NewWord extends React.Component {
                 if (response.status == 201) {   
                     this.setState({title:'', word_added: true});
                 } else {
-                    console.log(response)
+                    this.setState({word_error:true});
                 }
             }
         );
     }
 
     disableNewWordAlert() {
-        this.setState({word_added:false});
+        this.setState({word_added:false, word_error:false});
     }
 
     render() {
-        const {loading, word_added, title } = this.state;
+        const {loading, word_added, title, word_error } = this.state;
         return (
             <div className="match-box col-12 mt-4">
                 <div className="card">
@@ -68,11 +70,16 @@ class NewWord extends React.Component {
                             </div>
                            
                             <div className="button-container">
-                                <button className="btn btn-new-match" type="submit">Host</button>
+                                <button className="btn btn-new-match" type="submit">Add</button>
                             </div> 
                             {word_added === true &&
-                            <Alert variant="success" onClose={() => this.disableNewWordAlert()}  dismissible>
-                                <Alert.Heading>Word word_added succesfully!</Alert.Heading>
+                            <Alert variant="success"  onClose={() => this.disableNewWordAlert()}  dismissible>
+                                Word added succesfully!
+                            </Alert> 
+                            }
+                            {word_error === true &&
+                            <Alert variant="warning" onClose={() => this.disableNewWordAlert()}  dismissible>
+                                This word already exist
                             </Alert> 
                             }
                         </div>

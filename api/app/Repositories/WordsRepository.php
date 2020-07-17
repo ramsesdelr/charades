@@ -2,6 +2,7 @@
 namespace App\Repositories;
 use App\Words;
 use App\Users;
+use Doctrine\Inflector\Rules\Word;
 use Illuminate\Support\Facades\Auth;
 
 class WordsRepository 
@@ -14,16 +15,22 @@ class WordsRepository
 	 *  */
     public function create($request)
     {   
-        $validatedData = $request->validate([
-            'title' => 'required|max:255',
-        ]);
+   
 
         if (Users::find($request['users_id'])) {
+            $wordExists = Words::where('title', $request['title'])->get();
+            if(count($wordExists) > 0) {
+                return response()->json(['response' => [
+                    'status' => 400,
+                    'message' => 'This word already exist',
+                ]]);
+            }
             return Words::create([
                 'users_id' => $request['users_id'],
                 'title' => $request['title'],
                 'categories_id' => $request['categories_id'],
             ]);
+
         } else {
             return response()->json(['response' => [
                 'status' => 400,
