@@ -7,7 +7,8 @@ export const usersService = {
     register,
     getUser,
     refreshToken,
-    createWord
+    createWord,
+    updateUser
 };
 
 /**
@@ -100,8 +101,20 @@ function createWord(data) {
         title: data.title,
         users_id: data.users_id,
         categories_id: data.categories_id,
-    }).then( (response) => {
-        console.log(response);
+    }).then((response) => {
         return response;
-});
+    });
+}
+
+function updateUser(user_data) {
+    return axios.put(`/users/${user_data.users_id}`, {
+        name: user_data.name,
+        email: user_data.email,
+        phone: user_data.phone,
+        password: user_data.password,
+        password_validate: user_data.password_validate,
+        users_id: user_data.users_id
+    }).then((response) => {
+        return response.data.response;
+    });
 }
