@@ -5,6 +5,7 @@ import { matchesService } from '../services/matches.service';
 import { Tabs, Tab, Table } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import NewWord from './layouts/dashboard/NewWord';
+import UpdateSettings from './layouts/dashboard/UpdateSettings';
 
 class Home extends React.Component {
 	constructor(props) {
@@ -16,7 +17,8 @@ class Home extends React.Component {
 	}
 
 	componentDidMount() {
-        this.user = JSON.parse(localStorage.getItem('user'));
+		this.user = JSON.parse(localStorage.getItem('user'));
+		this.setState({user:this.user});
 		matchesService.getRecentMatchesByUser(this.user.user_data.id).then(response => this.setState({recent_matches : response.data}));
 	}
 
@@ -25,7 +27,7 @@ class Home extends React.Component {
 	}
 
 	render() {
-        const { recent_matches } = this.state;
+        const { recent_matches, user } = this.state;
 
 		return (
 			<div>
@@ -58,7 +60,7 @@ class Home extends React.Component {
 					</Table>
 				</Tab>
 				<Tab eventKey="settings" title="Settings">
-					Tab 2
+					<UpdateSettings user_data={user} />
 				</Tab>
 				<Tab eventKey="words" title="Words">
 					<NewWord/>
