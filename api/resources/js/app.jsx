@@ -6,11 +6,26 @@ import 	LoginForm  from './components/LoginForm';
 import  RegisterForm from './components/RegisterForm';
 import  NewMatch from './components/matches/NewMatch';
 import  Match from './components/matches/Match';
+import { usersService } from './services/users.service';
+
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import './bootstrap';
 class App extends React.Component {
+	constructor(props) {
+		super(props); 
+		let user = JSON.parse(localStorage.getItem('user'));
+		this.state = {
+			user: user,
+		}
+	}
+
+	userLogOut () {
+		usersService.logOut();
+	}
+
 	render() {
+		const {user} = this.state
 		return (
 			<div>
 				<nav className="navbar sticky-top navbar-red">
@@ -22,9 +37,16 @@ class App extends React.Component {
 				<div className="collapse" id="menu-content">
 					<div className="bg-red p-4">
 						<ul className="navbar-nav">
-							<li className="nav-item active">
-								<a className="nav-link" href="/login">Login</a>
-							</li>
+							{user != null  ? (
+								<li className="nav-item active">
+									<a className="nav-link" href="/login" onClick={this.userLogOut}>Logout</a>
+								</li>
+								 ) : (
+									<li className="nav-item active">
+									<a className="nav-link" href="/login">Login</a>
+								</li>
+								)}
+							
 							<li className="nav-item">
 							<a className="nav-link" href="/register">Register</a>
 							</li>

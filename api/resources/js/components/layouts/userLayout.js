@@ -22,8 +22,7 @@ class UserLayout extends React.Component {
 			<div>
 				 {user && 
 				 	<div className="user-login">
-						<h5>Hi there, {user.name}!</h5>
-						<a href="#" onClick={this.userLogOut} >Logout</a>
+						<h5>Hi, {user.name}!</h5>
 					</div>
 				 }
 				
