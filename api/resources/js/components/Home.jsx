@@ -32,7 +32,7 @@ class Home extends React.Component {
 		return (
 			<div>
 				 <div className="text-center">
-					<Link to="/match/new" className="btn btn-new-match">Start a New Match</Link>
+					<Link to="/match/new" className="btn btn-new-match">Match Start</Link>
 				 </div>
 				<Tabs defaultActiveKey="matches" id="uncontrolled-tab-example">
 				<Tab eventKey="matches" title="Matches">

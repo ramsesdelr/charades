@@ -172,7 +172,7 @@ class Match extends React.Component {
                         <div>Your opponent it's currently playing</div>
                     }
                 </div>
-                <div>
+                <div className="d-flex flex-column align-items-center">
                     {players.length > 0 &&
                         <PlayerTurn players={players} player_id={player_id} />
                     }
@@ -181,7 +181,7 @@ class Match extends React.Component {
 
                     {display_word === false &&
                         players.map((value, index) => {
-                            return <div key={value.id} className="col-md-6 col-sm-12">
+                            return <div key={value.id} className="col-6 container-column">
                                         <div className="score-container">
                                             <div className="current-score">
                                                 {value.score}

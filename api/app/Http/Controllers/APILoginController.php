@@ -34,7 +34,6 @@ class APILoginController extends Controller
 
         try {
             if (! $token = auth()->attempt($credentials)) {
-                dd($token);
                 return response()->json(['error' => 'Unauthorized'], 401);
             }
         } catch (JWTException $e) {
