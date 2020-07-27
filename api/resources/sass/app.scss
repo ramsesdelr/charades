@@ -106,7 +106,6 @@ input:focus {
 }
 
 #login-title {
-    text-transform: uppercase;
     color: $red;
     padding-top: 20px;
     font-weight: 600;
@@ -154,6 +153,8 @@ input:focus {
   height:100px;
   position: relative;
   overflow: hidden;
+  display: flex;
+  justify-content: center;
 }
 
 .score-container {
@@ -201,7 +202,7 @@ input:focus {
 .word {
   transition: all 1s;
   position: absolute;
-  animation: show-word 2s linear;
+  animation: show-word 3s linear;
 //   animation-name: bounce;
 //   animation-duration: 4s; /* or: Xms */
 //   animation-iteration-count: 10;

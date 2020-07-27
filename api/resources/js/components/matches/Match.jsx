@@ -7,6 +7,7 @@ import { useSwipeable, Swipeable } from 'react-swipeable';
 import PlayerTurn from './PlayerTurn';
 import { Modal, Button , Alert} from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import { ArrowLeftCircle, ArrowRightCircle  } from 'react-bootstrap-icons';
 class Match extends React.Component {
 
     constructor(props) {
@@ -29,6 +30,8 @@ class Match extends React.Component {
             show_invite_notification: false,
         };
 
+        this.success_audio = new Audio("/media/success.wav");
+        this.fail_audio = new Audio("/media/fail.wav");
         this.handleChange = this.handleChange.bind(this);
         this.invitePlayer = this.invitePlayer.bind(this);
         this.modalHandleClose = this.modalHandleClose.bind(this);
@@ -64,7 +67,7 @@ class Match extends React.Component {
         const { invited_player_email } = this.state;
         let invite_confirmation = await matchesService.invitePlayer(invited_player_email, this.props.match.params.match_id);
         if(invite_confirmation.status == 200) {
-            this.setState({invited_player_email:'', show_invite_notification:true});
+            this.setState({invited_player_email:'', show_invite_notification:true, invited_player_email:''});
         }
     }
     
@@ -120,7 +123,8 @@ class Match extends React.Component {
         this.getNewWord();
     }
 
-    slideLeft(eventData=null, player_id=null){
+    slideLeft(eventData=null, player_id=null) {
+        this.fail_audio.play();
         this.setState({slide_class:'word word-visible-left'});
         setTimeout(()=> {
             this.getNewWord();
@@ -130,6 +134,7 @@ class Match extends React.Component {
     }
     
     addPointToPlayer(eventData, player_id) {
+        this.success_audio.play();
         this.setState({slide_class:'word word-visible-right'});
         matchesService.addScorePoint(player_id, this.props.match.params.match_id);
         setTimeout(()=> {   
@@ -153,6 +158,8 @@ class Match extends React.Component {
     disableInviteAlert() {
         this.setState({show_invite_notification:false});
     }
+
+
     
 
     render() {
@@ -161,13 +168,7 @@ class Match extends React.Component {
         return (
             <div>
                 <div className="col-12 mt-4">    
-                    {display_word &&
-                        <Swipeable onSwipedLeft={(eventData) => this.addPointToPlayer(eventData, player_id)} onSwipedRight={(eventData) => this.slideLeft(eventData, player_id)}>
-                            <div className="word-container">
-                                <h1 className={slide_class}>{current_word}</h1>
-                            </div>
-                        </Swipeable>
-                    }
+                   
                     {oponent_playing &&
                         <div>Your opponent it's currently playing</div>
                     }
@@ -177,6 +178,24 @@ class Match extends React.Component {
                         <PlayerTurn players={players} player_id={player_id} />
                     }
                 </div>
+                {display_word &&
+                        <div className="row">
+                            <div className="col-1 d-flex align-items-center">
+                                <ArrowLeftCircle size={48} color="#4caf50" />
+                            </div>
+                            <div className="col-10">
+                                <Swipeable onSwipedLeft={(eventData) => this.addPointToPlayer(eventData, player_id)} onSwipedRight={(eventData) => this.slideLeft(eventData, player_id)}>
+                                    <div className="word-container">
+                                        <h1 className={slide_class}>{current_word}</h1>
+                                    </div>
+                                </Swipeable>
+                            </div>
+                            <div className="col-1 d-flex align-items-center">
+                                <ArrowRightCircle color="#d05249" size={48}/>
+                            </div>
+                        </div>
+                        
+                    }
                 <div className="row">
 
                     {display_word === false &&
@@ -210,7 +229,7 @@ class Match extends React.Component {
                                 <div className="input-group form-group">
                                     <input type="email" name="invited_player_email" onChange={this.handleChange} className="form-control text-center" placeholder="Player Email" />
                                 </div>
-                                <div className="button-container text-center">
+                                <div className="text-center">
                                     <button className="btn btn-new-match" type="submit">Send Invite</button>
                                 </div>   
                             </div>
