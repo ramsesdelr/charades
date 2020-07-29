@@ -28,6 +28,7 @@ class Match extends React.Component {
             current_turn: 0,
             modal_show: false,
             show_invite_notification: false,
+            used_words : [],
         };
 
         this.success_audio = new Audio("/media/success.wav");
@@ -53,8 +54,12 @@ class Match extends React.Component {
 
     async getNewWord(eventData = null, user_id = null) {
 
-        let new_word = await matchesService.getRandomWord();
-        this.setState({ current_word: new_word });
+        let new_word = await matchesService.getRandomWord(this.state.used_words);
+        let new_used_words = [
+            ...this.state.used_words,
+            new_word
+        ];
+        this.setState({ current_word: new_word, used_words: new_used_words});
     }
 
     handleChange(e) {
@@ -96,7 +101,7 @@ class Match extends React.Component {
             
             if (data.match_status.status == 'started') {
 
-                if(data.match_status.player_id == this.user.user_data.id) {
+                if (data.match_status.player_id == this.user.user_data.id) {
                     this.setState({ display_word: true, oponent_playing: false });
                 } else {
                     this.setState({ display_word: false, oponent_playing: true });
@@ -105,7 +110,7 @@ class Match extends React.Component {
                 if (data.match_status.player_id == this.state.match_info.users_id ) {
                     this.setState({ current_turn: this.state.current_turn + 1 });      
                 }
-            } else {
+            } else {                
                 if (data.match_status.player_id == this.user.user_data.id) {
                     this.setState({ display_word: false });
                 } else {
@@ -115,9 +120,8 @@ class Match extends React.Component {
                 //check if turn ended and guest player was the last one to play
                 if(this.state.current_turn == this.state.match_turns_limit && data.match_status.player_id != this.state.match_info.users_id) {
                     this.modalHandleShow();
-                 }
+                }
             }
-
         });
 
         this.getNewWord();

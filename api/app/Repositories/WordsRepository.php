@@ -41,11 +41,12 @@ class WordsRepository
 
     /**
      * Get Words by ID
-     * @param integer $id
+     * @param integer $used_words
      * @return array
      */
-    public function show($id){
-    	return Words::find($id);
+    public function show($used_words){
+	    return Words::whereNotIn('title', $used_words)->inRandomOrder()->value('title');
+        
     }
 
      /**

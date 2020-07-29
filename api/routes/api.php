@@ -58,10 +58,7 @@ Route::group(['prefix'=> 'matches', 'middleware'=>'auth:api'],function () {
 
 });
 
-Route::get('word', function() {
-	return Words::all('title')->random(1)->first();
-});
-
+Route::post('word', 'WordsController@show'); 
 Route::get('words', function() {
 	return Words::all('title')->random(10);
 });
