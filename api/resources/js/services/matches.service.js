@@ -32,7 +32,7 @@ function createMatch(match_data) {
         users_id: match_data.users_id,
     }, config)
         .then((response) => {
-            return response;
+            return response.data;
         }).catch((error) => {
             return error;
         });
@@ -61,14 +61,19 @@ function getMatch(match_id) {
 
 /**
  * Get a random word for the match
+ * @param array userd_words
  * @return string
  */
-function getRandomWord() {
-    return axios.get('/word/').then( (response) => {
-        return response.data.title;
+function getRandomWord(used_words  = []) {
+    return axios.post('/word', {
+        used_words: used_words
+    }).then( (response) => {
+        return response.data;
     }).catch((error) => {
         return error;
     });
+
+    
 }
 
 /**

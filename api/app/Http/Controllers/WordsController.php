@@ -31,13 +31,13 @@ class WordsController extends Controller
      * Display the specified resource.
      *
      * @param  \App\WordsRepository  $WordsRepo
-     * @param  $id
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function show($id, WordsRepository $WordsRepo)
+    public function show(Request $request, WordsRepository $WordsRepo)
     {
         try {
-          return $WordsRepo->show($id);
+          return $WordsRepo->show($request->get('used_words'));
         } catch (\Exception $e) {
             return [
                 'status'=> 400, 
