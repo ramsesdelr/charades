@@ -17,7 +17,10 @@ class NewWord extends React.Component {
             loading: false,
             user:{},
             word_added: false,
-            word_error: false
+            word_error: false,
+            categories: [],
+            categories_id: null,
+
         };
 
         this.handleChange = this.handleChange.bind(this);
@@ -40,14 +43,19 @@ class NewWord extends React.Component {
         };
         usersService.createWord(word_data).then(
             response => {
-
                 if (response.status == 201) {   
                     this.setState({title:'', word_added: true});
                 } else {
                     this.setState({word_error:true});
                 }
             }
-        );
+    );
+    }
+
+    componentDidMount() {
+        usersService.getCategories().then( response => {
+            this.setState({categories:response});
+        });
     }
 
     disableNewWordAlert() {
@@ -55,7 +63,7 @@ class NewWord extends React.Component {
     }
 
     render() {
-        const {loading, word_added, title, word_error } = this.state;
+        const {loading, word_added, title, word_error, categories } = this.state;
         return (
             <div className="match-box col-12 mt-4">
                 <div className="card">
@@ -65,23 +73,33 @@ class NewWord extends React.Component {
                     }
                     <form onSubmit={this.createWord}>
                         <div className="card-body">
+                            {word_error === true &&
+                                <Alert variant="warning" onClose={() => this.disableNewWordAlert()}  dismissible>
+                                    This word already exist
+                                </Alert> 
+                            }
+                             {word_added === true &&
+                                <Alert variant="success"  onClose={() => this.disableNewWordAlert()}  dismissible>
+                                    Word added succesfully!
+                                </Alert> 
+                            }
                             <div className="input-group form-group">
                                 <input type="text" name="title" value={title} onChange={this.handleChange} className="form-control text-center" placeholder="Word Title" />
                             </div>
-                           
+
+                            <select className="form-control mb-4" name="categories_id" onChange={this.handleChange}>
+                            {categories.length > 0 &&
+                                	categories.map((category, index) => {
+                                        return <option key={index} value={category.id}>{category.title}</option>
+                                    })
+
+                            }
+                            </select>
                             <div className="button-container">
                                 <button className="btn btn-new-match" type="submit">Add</button>
                             </div> 
-                            {word_added === true &&
-                            <Alert variant="success"  onClose={() => this.disableNewWordAlert()}  dismissible>
-                                Word added succesfully!
-                            </Alert> 
-                            }
-                            {word_error === true &&
-                            <Alert variant="warning" onClose={() => this.disableNewWordAlert()}  dismissible>
-                                This word already exist
-                            </Alert> 
-                            }
+                           
+                           
                         </div>
                     </form>
                 </div>

@@ -11232,3 +11232,14 @@ input:focus {
   background: #FFF;
 }
 
+.category-name {
+  height: 188px;
+  background-color: cadetblue;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 48px;
+  color: white;
+  border: 1px solid #dadada;
+}
+

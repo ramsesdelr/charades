@@ -28,11 +28,11 @@ function createMatch(match_data) {
 
     return axios.post('/matches', {
         name: match_data.name,
-        password: match_data.password,
+        categories_id: match_data.categories_id,
         users_id: match_data.users_id,
     }, config)
         .then((response) => {
-            return response.data;
+            return response;
         }).catch((error) => {
             return error;
         });
