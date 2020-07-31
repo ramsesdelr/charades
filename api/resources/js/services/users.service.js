@@ -8,7 +8,8 @@ export const usersService = {
     getUser,
     refreshToken,
     createWord,
-    updateUser
+    updateUser,
+    getCategories
 };
 
 /**
@@ -106,6 +107,11 @@ function createWord(data) {
     });
 }
 
+/**
+ * Update User Information
+ * @param array user_data 
+ * @return string
+ */
 function updateUser(user_data) {
     return axios.put(`/users/${user_data.users_id}`, {
         name: user_data.name,
@@ -116,5 +122,15 @@ function updateUser(user_data) {
         users_id: user_data.users_id
     }).then((response) => {
         return response.data.response;
+    });
+}
+
+/**
+ * Retrieve all categories for selected words
+ * @return array
+ */
+function getCategories() {
+    return axios.get('/categories').then( (response) => {
+        return response.data;
     });
 }

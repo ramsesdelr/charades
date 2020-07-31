@@ -22,7 +22,7 @@ class MatchesRepository
 	        $newMatch = Matches::create([
 	            'users_id' => $request['users_id'],
 	            'name' => $request['name'],
-                'password' => $request['password'],
+                'categories_id' => $request['categories_id'],
                 'current_player'=> $request['users_id']
             ]);
             
