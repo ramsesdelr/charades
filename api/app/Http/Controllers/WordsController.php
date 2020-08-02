@@ -37,7 +37,7 @@ class WordsController extends Controller
     public function show(Request $request, WordsRepository $WordsRepo)
     {
         try {
-          return $WordsRepo->show($request->get('used_words'));
+          return $WordsRepo->show($request->get('used_words'), $request->get('category_id'));
         } catch (\Exception $e) {
             return [
                 'status'=> 400, 

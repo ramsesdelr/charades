@@ -61,12 +61,15 @@ function getMatch(match_id) {
 
 /**
  * Get a random word for the match
- * @param array userd_words
+ * @param array used_words
+ * @param integer category_id
  * @return string
  */
-function getRandomWord(used_words  = []) {
+function getRandomWord(used_words  = [], category_id) {
+    console.log(category_id);
     return axios.post('/word', {
-        used_words: used_words
+        used_words: used_words,
+        category_id: category_id
     }).then( (response) => {
         return response.data;
     }).catch((error) => {

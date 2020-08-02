@@ -44,6 +44,8 @@ class Match extends React.Component {
         try {
             let response = await matchesService.getMatch(match_id);
             this.props.getMatch(response.data);
+            console.log(response.data.match_info);
+            this.getNewWord(response.data.match_info.categories_id);
             this.setState({ match_info: response.data.match_info, players: response.data.players });
 
         }
@@ -52,9 +54,12 @@ class Match extends React.Component {
         }
     }
 
-    async getNewWord(eventData = null, user_id = null) {
-
-        let new_word = await matchesService.getRandomWord(this.state.used_words);
+    async getNewWord(category_id = null) {
+        let match_category = this.state.match_info.categories_id;
+        if(category_id) {
+            match_category = category_id;
+        }
+        let new_word = await matchesService.getRandomWord(this.state.used_words, match_category);
         let new_used_words = [
             ...this.state.used_words,
             new_word
@@ -124,7 +129,6 @@ class Match extends React.Component {
             }
         });
 
-        this.getNewWord();
     }
 
     slideLeft(eventData=null, player_id=null) {

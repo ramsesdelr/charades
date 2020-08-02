@@ -143,7 +143,7 @@ input:focus {
 }
 
 .word {
-  font-size: 6rem;
+  font-size: 5rem;
   text-transform: uppercase;
   color:$red-text;
   font-family: Roboto;
@@ -286,4 +286,43 @@ input:focus {
     font-size: 48px;
     color: white;
     border: 1px solid #dadada;
+    a {
+      cursor: pointer;
+    }
+}
+
+.btn-red {
+    background: $red-text;
+    color: #FFF !important;
+    border-color: white;
+    padding: 10px 30px;
+    &:hover{
+      background: #c5251a;
+      color: #FFF !important;
+      border-color: white;
+      padding: 10px 30px;
+    }
+}
+
+.modal-body {
+  text-align: center;
+  font-size: 24px;
+}
+
+.modal-title {
+  font-weight: bold;
+  font-size: 28px;
+  color: #f44336;
+  text-align: center;
+  width: 100%;
+}
+
+.modal-footer {
+  justify-content: center;
+}
+
+.fade.modal.show {
+    display: flex !important;
+    justify-content: center;
+    align-items: center;
 }

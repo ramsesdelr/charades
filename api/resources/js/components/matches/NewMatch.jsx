@@ -88,7 +88,7 @@ class NewMatch extends React.Component {
                     {categories.length > 0 &&
                         categories.map((category, index)  =>  {
                             return <div key={index} className="col-lg-6 col-md-6 col-sm-6 col-xs-12 category-name" style={{backgroundColor: bg_color[Math.floor(Math.random() * bg_color.length)]}}>
-                            <a onClick={() => { this.selectCategory(category.id) }}>{category.title}</a>
+                            <a className="category-link" onClick={() => { this.selectCategory(category.id) }}>{category.title}</a>
                         </div>
                         })
                     }
@@ -99,8 +99,8 @@ class NewMatch extends React.Component {
                     </Modal.Header>
                     <Modal.Body>Start a Match with this category?</Modal.Body>
                     <Modal.Footer>
-                        <a className="btn btn-primary" onClick={this.modalHandleClose}>Cancel</a>
-                        <a className="btn btn-primary" onClick={this.createMatch}>Start</a>
+                        <a className="btn btn-primary btn-red" onClick={this.modalHandleClose}>Cancel</a>
+                        <a className="btn btn-primary btn-red" onClick={this.createMatch}>Start</a>
                     </Modal.Footer>
                 </Modal>
         </div>
