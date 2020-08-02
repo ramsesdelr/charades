@@ -135,6 +135,11 @@ input:focus {
   border-bottom: 1px solid #CCC;
   margin-top: 10px;
   margin-bottom: 12px;
+  color:#3e3d3d;
+  text-align: right;
+  h5 {
+    font-size: 14px;
+  }
 }
 
 .match-box {
