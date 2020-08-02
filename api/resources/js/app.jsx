@@ -37,16 +37,9 @@ class App extends React.Component {
 				<div className="collapse" id="menu-content">
 					<div className="bg-red p-4">
 						<ul className="navbar-nav">
-							{user != null  ? (
-								<li className="nav-item active">
-									<a className="nav-link" href="/login" onClick={this.userLogOut}>Logout</a>
-								</li>
-								 ) : (
-									<li className="nav-item active">
-									<a className="nav-link" href="/login">Login</a>
-								</li>
-								)}
-							
+							<li className="nav-item active">
+								<a className="nav-link" href="/home">Home</a>
+							</li>
 							<li className="nav-item">
 							<a className="nav-link" href="/register">Register</a>
 							</li>
@@ -56,6 +49,17 @@ class App extends React.Component {
 							<li className="nav-item">
 								<a className="nav-link disabled" href="#">Tutorial</a>
 							</li>
+							{user != null  ? (
+								
+								<li className="nav-item active">
+									<a className="nav-link" href="/login" onClick={this.userLogOut}>Logout</a>
+								</li>
+							
+							 ) : (
+								<li className="nav-item active">
+								<a className="nav-link" href="/login">Login</a>
+							</li>
+							)}
 						</ul>
 					</div>
 				</div>

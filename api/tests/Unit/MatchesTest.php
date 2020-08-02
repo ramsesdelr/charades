@@ -20,7 +20,7 @@ class MatchesTest extends TestCase
         $user = factory(Users::class)->create();
         $data = [
         	'name' => $this->faker->sentence,
-        	'password' => 1234,
+        	'categories_id' => 1,
         	'users_id' => $user->id
         ];
 
@@ -38,7 +38,7 @@ class MatchesTest extends TestCase
 
         $data = [
             'name' => $this->faker->sentence,
-            'password' => 'new pass',
+            'categories_id' => 2,
         ];
 
         $this->put(route('matches.update', $match->id), $data)

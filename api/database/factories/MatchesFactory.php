@@ -9,6 +9,6 @@ $factory->define(App\Matches::class, function (Faker $faker) {
         'users_id' => $user->id,
         'name' => $faker->unique()->safeEmail,
         'winner_id' => now(),
-        'password' => 1234, // secret
+        'categories_id' => 1, // secret
     ];
 });

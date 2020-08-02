@@ -11,7 +11,7 @@ abstract class TestCase extends BaseTestCase
 {
     use CreatesApplication, DatabaseMigrations;
     protected $faker;
-    public function setUp() {
+    public function setUp() :void {
         parent::setUp();
         $this->faker = Factory::create();
     }
