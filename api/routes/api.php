@@ -32,6 +32,7 @@ Route::prefix('users')->group(function () {
 	Route::post('/register', 'APIRegisterController@register');
 	Route::post('/login', 'APILoginController@login');
 	Route::post('/refresh_token', 'APILoginController@refreshToken');
+	Route::post('/password_reset', 'UsersController@resetPassword');
 });
 
 

@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Users;
 use Illuminate\Http\Request;
 use App\Repositories\UsersRepository;
+use App\Mail\ResetUserPassword;
+use Illuminate\Support\Facades\Mail;
 
 
 class UsersController extends Controller
@@ -94,5 +96,32 @@ class UsersController extends Controller
     public function destroy(Request $request)
     {
         //
+    }
+
+    /**
+     * Reset and sent the user's a new password
+     * @param \Illuminate\Http\Request  $request
+     */
+    public function resetPassword(Request $request, UsersRepository $usersRepo) {
+        try {
+            $new_password = $usersRepo->resetPassword($request->all());
+            $user_data = [
+                'email' => $request['email'],
+                'password' => $new_password,
+            ];
+
+            Mail::to($request->get('email'))->send(new ResetUserPassword($user_data));
+
+            return [
+                'status'=> 200, 
+                'message'=> 'Password changed'
+            ];
+
+          } catch (\Exception $e) {
+              return [
+                  'status'=> 400, 
+                  'message'=> $e->getMessage()
+              ];
+          }
     }
 }

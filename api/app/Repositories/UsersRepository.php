@@ -83,5 +83,35 @@ class UsersRepository
         }
         return false;
     }
+    /**
+     * Reset the user's password and send it through email
+     * @param array $user_data
+     * @return void
+     */
+    public function resetPassword($user_data) {
+        $random_password = self::randomPassword();
+        $updated_users = Users::where('email', $user_data['email'])->update(['password' => bcrypt($random_password)]);
+        
+        if($updated_users > 0) {
+            return $random_password;
+        }
+        return false;
+    }
+
+    /**
+     * Generates a random password
+     * Function taken from https://stackoverflow.com/questions/6101956/generating-a-random-password-in-php
+     * @return string
+     */
+    public static function randomPassword() {
+        $alphabet = "abcdefghijklmnopqrstuwxyzABCDEFGHIJKLMNOPQRSTUWXYZ0123456789";
+        $pass = []; //remember to declare $pass as an array
+        $alphaLength = strlen($alphabet) - 1; //put the length -1 in cache
+        for ($i = 0; $i < 8; $i++) {
+            $n = rand(0, $alphaLength);
+            $pass[] = $alphabet[$n];
+        }
+        return implode($pass); //turn the array into a string
+    }
 
 }

@@ -14,7 +14,9 @@ $red-text : #f44336;
   background-color: #fff;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
 }
-
+a {
+  color:$red-text;
+}
 .container {
   height: 100%;
   align-content: center;
