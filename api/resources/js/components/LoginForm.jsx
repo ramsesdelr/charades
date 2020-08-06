@@ -93,7 +93,8 @@ class LoginForm extends React.Component {
                                     <input type="password" name="password" value={password}
                                         onChange={this.handleChange}  className="form-control" placeholder="password" />
                                 </div>
-                            <button disabled={loading} className="btn btn-red full-width"> Login</button>
+                            <button disabled={loading} className="btn btn-red full-width mb-4"> Login</button>
+                            <Link to='/forgot-password'>Forgot password?</Link>
                             <hr></hr>
                             <p className="text-center">
                                 Need an account?
