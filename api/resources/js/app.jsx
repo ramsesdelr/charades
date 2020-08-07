@@ -6,6 +6,7 @@ import 	LoginForm  from './components/LoginForm';
 import  RegisterForm from './components/RegisterForm';
 import  NewMatch from './components/matches/NewMatch';
 import  Match from './components/matches/Match';
+import ResetPassword from './components/ResetPassword';
 import { usersService } from './services/users.service';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -73,6 +74,7 @@ class App extends React.Component {
 							<Route path="/logout" component={LoginForm} />
 							<Route path="/register/:match_id?" component={RegisterForm} />
 							<Route path="/login/:match_id?" component={LoginForm} />
+							<Route path="/forgot-password" component={ResetPassword} />
 						</Router>
 				</div>
 			</div>
