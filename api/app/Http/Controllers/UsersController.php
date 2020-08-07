@@ -110,13 +110,19 @@ class UsersController extends Controller
                 'password' => $new_password,
             ];
 
-            Mail::to($request->get('email'))->send(new ResetUserPassword($user_data));
+            if($new_password != '') {
+                Mail::to($request->get('email'))->send(new ResetUserPassword($user_data));
+                return [
+                    'status'=> 200, 
+                    'message'=> 'Password reset successful, please check your e-mail.'
+                ];
+            }
 
             return [
-                'status'=> 200, 
-                'message'=> 'Password changed'
+                'status'=> 400, 
+                'message'=> 'Email does not exist, please check again.'
             ];
-
+            
           } catch (\Exception $e) {
               return [
                   'status'=> 400, 

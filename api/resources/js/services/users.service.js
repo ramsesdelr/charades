@@ -9,7 +9,8 @@ export const usersService = {
     refreshToken,
     createWord,
     updateUser,
-    getCategories
+    getCategories,
+    resetPassword
 };
 
 /**
@@ -132,5 +133,17 @@ function updateUser(user_data) {
 function getCategories() {
     return axios.get('/categories').then( (response) => {
         return response.data;
+    });
+}
+
+/**
+ * Reset password by email
+ * @param string email 
+ */
+function resetPassword(email) {
+    return axios.post('/users/password_reset', {
+        email: email,
+    }).then((response) => {
+        return response;
     });
 }
