@@ -19,7 +19,6 @@ class NewWord extends React.Component {
             word_added: false,
             word_error: false,
             categories: [],
-            categories_id: null,
 
         };
 
@@ -35,7 +34,7 @@ class NewWord extends React.Component {
     createWord(e){
         e.preventDefault();
         this.disableNewWordAlert();
-        const { title, categories_id = null } = this.state;
+        const { title, categories_id } = this.state;
         let word_data = {
             title: title,
             categories_id: categories_id,
