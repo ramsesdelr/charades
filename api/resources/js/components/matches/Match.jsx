@@ -189,7 +189,9 @@ class Match extends React.Component {
                 {display_word &&
                         <div className="row">
                             <div className="col-1 d-flex align-items-center">
-                                <ArrowLeftCircle size={48} color="#4caf50" />
+                                <a className="arrow-link"  onClick={(eventData) => this.addPointToPlayer(eventData, player_id)}>
+                                    <ArrowLeftCircle size={48} color="#4caf50" />
+                                </a>
                             </div>
                             <div className="col-10">
                                 <Swipeable onSwipedLeft={(eventData) => this.addPointToPlayer(eventData, player_id)} onSwipedRight={(eventData) => this.slideLeft(eventData, player_id)}>
@@ -199,7 +201,9 @@ class Match extends React.Component {
                                 </Swipeable>
                             </div>
                             <div className="col-1 d-flex align-items-center">
-                                <ArrowRightCircle color="#d05249" size={48}/>
+                                <a className="arrow-link right"  onClick={(eventData) => this.slideLeft(eventData, player_id)}>
+                                    <ArrowRightCircle color="#d05249" size={48}/>
+                                </a>
                             </div>
                         </div>
                         

@@ -333,3 +333,15 @@ input:focus {
     justify-content: center;
     align-items: center;
 }
+
+.arrow-link {
+    padding: 12em 12em;
+    margin: -12em -12em;
+    position: relative;    
+    z-index: 1;
+    
+}
+
+.right {
+  padding: 12em 0em 12em 12em;
+}   
