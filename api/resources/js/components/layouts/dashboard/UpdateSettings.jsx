@@ -67,7 +67,7 @@ class UpdateSettings extends React.Component {
         return (
             <div className="match-box col-12 mt-4">
                 <div className="card">
-                    <h1 className="text-center mt-4">Update Settings</h1>
+                    <h1 className="text-center mt-4" id="login-title">Update Settings</h1>
                     {loading && 
                         <div>Updating...</div>
                     }

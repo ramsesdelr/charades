@@ -33,7 +33,7 @@ class App extends React.Component {
 					<button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#menu-content" aria-controls="menu-content" aria-expanded="false" aria-label="Toggle navigation">
 					<span className="navbar-toggler-icon"></span>
 					</button>
-					<a className="navbar-brand text-center" href="#">Charades Online</a>
+					<a className="navbar-brand text-center" href="/home">Charades Online</a>
 				</nav>
 				<div className="collapse" id="menu-content">
 					<div className="bg-red p-4">
@@ -76,6 +76,9 @@ class App extends React.Component {
 							<Route path="/login/:match_id?" component={LoginForm} />
 							<Route path="/forgot-password" component={ResetPassword} />
 						</Router>
+						<div className="logo-container mt-5 mb-2">
+							<img src="/images/logo_transparent_background.svg" className="img-fluid"></img>
+						</div>
 				</div>
 			</div>
 		);

@@ -10934,7 +10934,7 @@ a.text-dark:focus {
 }
 
 a {
-  color: #f44336;
+  color: #d0021b;
 }
 
 .container {
@@ -10978,7 +10978,7 @@ a {
 
 .input-group-prepend span {
   width: 50px;
-  background-color: #e3342f;
+  background-color: #d0021b;
   color: black;
   border: 0 !important;
 }
@@ -11070,7 +11070,7 @@ input:focus {
 .word {
   font-size: 5rem;
   text-transform: uppercase;
-  color: #f44336;
+  color: #d0021b;
   font-family: Roboto;
 }
 
@@ -11108,11 +11108,11 @@ input:focus {
   font-size: 24px;
   font-family: Roboto;
   text-align: center;
-  color: #f44336;
+  color: #d0021b;
 }
 
 .h3-title {
-  color: #f44336;
+  color: #d0021b;
   font-weight: bold;
   text-align: center;
 }
@@ -11210,7 +11210,7 @@ input:focus {
 }
 
 .navbar-red {
-  background-color: #f44336;
+  background-color: #d0021b;
   color: #FFF;
 }
 
@@ -11228,11 +11228,21 @@ input:focus {
 }
 
 .bg-red .navbar-nav > li > a {
-  color: #f44336;
+  color: #d0021b;
   font-size: 18px;
   font-family: Roboto;
   font-weight: bold;
   border-bottom: 1px solid #eceaea;
+}
+
+.logo-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logo-container img {
+  width: 100px;
 }
 
 #menu-content {
@@ -11258,7 +11268,7 @@ input:focus {
 }
 
 .btn-red {
-  background: #f44336;
+  background: #d0021b;
   color: #FFF !important;
   border-color: white;
   padding: 10px 30px;

@@ -73,7 +73,10 @@ class LoginForm extends React.Component {
         return (
              <div className="card-container">
                     <div className="card">
-                        <h1 className="text-center" id="login-title">Charades Online</h1>
+                        <div className="logo-container mt-5 mb-2">
+							<img src="/images/logo_transparent_background.svg" className="img-fluid"></img>
+						</div>
+                        <h1 className="text-center" id="login-title">Login</h1>
                         <div className="card-body">
                             {error &&
                                 <div className={'alert alert-danger'}>{error}</div>
