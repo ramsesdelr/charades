@@ -8,7 +8,7 @@
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
 
-$red-text : #f44336;
+$red-text : #d0021b;
 
 .navbar-laravel {
   background-color: #fff;
@@ -57,7 +57,7 @@ a {
 
 .input-group-prepend span {
   width: 50px;
-  background-color: $red;
+  background-color: $red-text;
   color: black;
   border:0 !important;
 }
@@ -277,6 +277,14 @@ input:focus {
    }
 }
 
+.logo-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  img {
+    width: 100px;;
+  }
+}
 #menu-content {
   position: absolute;
   z-index: 1;
@@ -344,4 +352,4 @@ input:focus {
 
 .right {
   padding: 12em 0em 12em 12em;
-}   
+}  
