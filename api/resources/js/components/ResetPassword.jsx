@@ -60,7 +60,7 @@ class ResetPassword extends React.Component {
         return (
              <div className="card-container">
                     <div className="card">
-                        <div className="logo-container mt-5 mb-2">
+                        <div className="logo-container mt-3">
 							<img src="/images/logo_transparent_background.svg" className="img-fluid"></img>
 						</div>
                         <h1 className="text-center" id="login-title">Reset your password</h1>
