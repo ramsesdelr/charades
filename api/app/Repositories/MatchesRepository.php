@@ -5,6 +5,8 @@ use App\UsersMatch;
 use App\Users;
 use Illuminate\Support\Facades\Auth;
 use JWTAuth;
+use App\Events\PlayerTurn;
+
 
 class MatchesRepository 
 {
@@ -169,6 +171,21 @@ class MatchesRepository
             $match_result = $match_score[0]->score . ' / ' . $match_score[1]->score;
         }
         return $match_result;     
+    }
+
+    /**
+     * Update player turn to the Matches model
+     * @param int $player_id
+     * @param int $match_id
+     * @return boolean
+     */
+    public function updatePlayerTurn($player_id, $match_id) {
+        $update_current_player = Matches::where('id', $match_id)->update(['current_player'=> $player_id]);
+        if($update_current_player) {
+            event(new PlayerTurn($player_id));
+            return true;
+        }
+        return false;
     }
     
 }
