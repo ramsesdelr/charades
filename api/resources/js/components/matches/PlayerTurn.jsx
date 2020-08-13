@@ -5,7 +5,7 @@ class PlayerTurn extends React.Component {
     
     constructor(props) {
         super(props);
-        const TURN_TIME = 60
+        const TURN_TIME = 20
         this.state = {
             current_player: 0,
             players: props.players,
@@ -27,9 +27,11 @@ class PlayerTurn extends React.Component {
             if(data && data.current_player) {
                 let player_index = this.getplayerIndex(data.current_player);
                 this.setState({ current_player: player_index });
+                
             } 
         });
-
+        
+        this.setState({ current_player: this.getplayerIndex(this.props.match.current_player) });
     }
 
     /**

@@ -44,7 +44,6 @@ class Match extends React.Component {
         try {
             let response = await matchesService.getMatch(match_id);
             this.props.getMatch(response.data);
-            console.log(response.data.match_info);
             this.getNewWord(response.data.match_info.categories_id);
             this.setState({ match_info: response.data.match_info, players: response.data.players });
 
@@ -120,7 +119,7 @@ class Match extends React.Component {
                     this.setState({ display_word: false });
                 } else {
                     this.setState({ oponent_playing: false });
-                    matchesService.updatePlayerTurn(this.user.user_data.id);
+                    matchesService.updatePlayerTurn(this.user.user_data.id, this.state.match_info.id);
                 }
                 //check if turn ended and guest player was the last one to play
                 if(this.state.current_turn == this.state.match_turns_limit && data.match_status.player_id != this.state.match_info.users_id) {
@@ -183,7 +182,7 @@ class Match extends React.Component {
                 </div>
                 <div className="d-flex flex-column align-items-center">
                     {players.length > 0 &&
-                        <PlayerTurn players={players} player_id={player_id} />
+                        <PlayerTurn players={players} player_id={player_id} match={match_info} />
                     }
                 </div>
                 {display_word &&

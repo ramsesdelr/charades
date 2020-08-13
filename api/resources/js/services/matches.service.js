@@ -66,7 +66,6 @@ function getMatch(match_id) {
  * @return string
  */
 function getRandomWord(used_words  = [], category_id) {
-    console.log(category_id);
     return axios.post('/word', {
         used_words: used_words,
         category_id: category_id
@@ -176,16 +175,12 @@ function notifyPlayerMatchStopped(player_id) {
     });
 }
 
-function updatePlayerTurn(player_id) {
-    let user = JSON.parse(localStorage.getItem('user')) || {};
-
-    let config = {
-        headers: { 'Authorization': "bearer " + user.token }
-    };
+function updatePlayerTurn(player_id, match_id) {
 
     return axios.post('/matches/update_player_turn', {
         player_id: player_id,
-    }, config).then((response) => {
+        match_id : match_id,
+    }).then((response) => {
         return response;
     }).catch((error) => {
         return error;

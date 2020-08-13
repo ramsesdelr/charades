@@ -7,7 +7,7 @@ use App\Users;
 use App\Repositories\MatchesRepository;
 use Illuminate\Http\Request;
 use JWTAuth;
-use App\Events\PlayerTurn;
+use App\Events\NotifyPlayerMatchStarted;
 
 
 class MatchesController extends Controller
@@ -93,9 +93,15 @@ class MatchesController extends Controller
      * Updates the current player on Turn
      * @param  \Illuminate\Http\Request  $request
      */
-    public function updatePlayerTurn(Request $request) {
-        event(new PlayerTurn($request->get('player_id')));
-        
+    public function updatePlayerTurn(Request $request,  MatchesRepository $matchesRepo) {
+        try {
+        $matchesRepo->updatePlayerTurn($request->get('player_id'), $request->get('match_id'));
+        } catch (\Exception $e) {
+              return [
+                  'status'=> 400, 
+                  'message'=> $e->getMessage()
+              ];
+          }
     }
 
     /**
@@ -127,4 +133,5 @@ class MatchesController extends Controller
               ];
           }
     }
+ 
 }
