@@ -1,4 +1,4 @@
-@import url(https://fonts.googleapis.com/css?family=Roboto);@charset "UTF-8";
+@import url(https://fonts.googleapis.com/css?family=Roboto);@import url(https://fonts.googleapis.com/css?family=Shadows+Into+Light);@import url(https://fonts.googleapis.com/css?family=Chilanka);@charset "UTF-8";
 
 /*!
  * Bootstrap v4.5.0 (https://getbootstrap.com/)
@@ -10928,6 +10928,10 @@ a.text-dark:focus {
   }
 }
 
+body {
+  font-family: "Chilanka";
+}
+
 .navbar-laravel {
   background-color: #fff;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
@@ -11034,6 +11038,8 @@ input:focus {
   background-color: #e3342f;
   border-color: #e3342f;
   color: #FFF;
+  border-radius: 0px;
+  box-shadow: 5px 6px 5px 0px rgba(90, 90, 90, 0.75);
 }
 
 .button-container {
@@ -11048,6 +11054,8 @@ input:focus {
   margin: 0px auto 10px auto;
   color: #FFF;
   padding: 7px 15px;
+  border-radius: 0px;
+  box-shadow: 5px 6px 5px 0px rgba(90, 90, 90, 0.75);
 }
 
 .user-login {
@@ -11059,7 +11067,8 @@ input:focus {
 }
 
 .user-login h5 {
-  font-size: 14px;
+  font-size: 16px;
+  font-weight: bold;
 }
 
 .match-box {
@@ -11071,7 +11080,7 @@ input:focus {
   font-size: 5rem;
   text-transform: uppercase;
   color: #d0021b;
-  font-family: Roboto;
+  font-family: "Shadows Into Light";
 }
 
 .word-container {
@@ -11106,7 +11115,7 @@ input:focus {
 .player-title {
   font-weight: bold;
   font-size: 24px;
-  font-family: Roboto;
+  font-family: "Chilanka";
   text-align: center;
   color: #d0021b;
 }
@@ -11230,7 +11239,7 @@ input:focus {
 .bg-red .navbar-nav > li > a {
   color: #d0021b;
   font-size: 18px;
-  font-family: Roboto;
+  font-family: "Chilanka";
   font-weight: bold;
   border-bottom: 1px solid #eceaea;
 }
@@ -11265,6 +11274,7 @@ input:focus {
 
 .category-name a {
   cursor: pointer;
+  font-weight: bold;
 }
 
 .btn-red {
