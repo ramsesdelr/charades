@@ -120,17 +120,19 @@ function addScorePoint(user_id, match_id) {
  * @param {integer} match_id 
  * @return {string}
  */
-function invitePlayer(email, match_id) {
+function invitePlayer(invite_info, match_id) {
 
     let user = JSON.parse(localStorage.getItem('user')) || {};
 
     let config = {
         headers: { 'Authorization': "bearer " + user.token }
     };
+    console.log(invite_info);
 
     return axios.post('/matches/invite_user', {
         match_id: match_id,
-        email: email,
+        email: invite_info.email,
+        phone: invite_info.phone_number,
     }, config).then((response) => {
         return response;
     }).catch((error) => {
