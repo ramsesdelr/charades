@@ -11280,14 +11280,12 @@ input:focus {
 .btn-red {
   background: #d0021b;
   color: #FFF !important;
-  border-color: white;
   padding: 10px 30px;
 }
 
 .btn-red:hover {
   background: #c5251a;
   color: #FFF !important;
-  border-color: white;
   padding: 10px 30px;
 }
 
