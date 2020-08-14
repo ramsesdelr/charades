@@ -20,6 +20,7 @@ class Match extends React.Component {
             current_word: '',
             current_player: null,
             invited_player_email: '',
+            invited_phone_number:'',
             display_word: false,
             oponent_playing: false,
             player_id: this.user.user_data.id,
@@ -73,8 +74,13 @@ class Match extends React.Component {
 
     async invitePlayer(e) {
         e.preventDefault();
-        const { invited_player_email } = this.state;
-        let invite_confirmation = await matchesService.invitePlayer(invited_player_email, this.props.match.params.match_id);
+        const { invited_player_email, invited_phone_number } = this.state;
+
+        let invite_info = {
+            phone_number: this.state.invited_phone_number,
+            email :this.state.invited_player_email
+        };
+        let invite_confirmation = await matchesService.invitePlayer(invite_info, this.props.match.params.match_id);
         if(invite_confirmation.status == 200) {
             this.setState({invited_player_email:'', show_invite_notification:true, invited_player_email:''});
         }
@@ -170,7 +176,7 @@ class Match extends React.Component {
     
 
     render() {
-        const { modal_show, match_info, players, current_word, display_word, oponent_playing, player_id, slide_class, show_invite_notification } = this.state;
+        const { modal_show, match_info, players, current_word, display_word, oponent_playing, player_id, slide_class, show_invite_notification, invited_phone_number } = this.state;
         
         return (
             <div>
@@ -239,6 +245,10 @@ class Match extends React.Component {
                                 }
                                 <div className="input-group form-group">
                                     <input type="email" name="invited_player_email" onChange={this.handleChange} className="form-control text-center" placeholder="Player Email" />
+                                 
+                                </div>OR...
+                                <div className="input-group form-group">
+                                    <input type="phone" name="invited_phone_number" onChange={this.handleChange} className="form-control text-center" placeholder="Phone number" />
                                 </div>
                                 <div className="text-center">
                                     <button className="btn btn-new-match" type="submit">Send Invite</button>
