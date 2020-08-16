@@ -10,7 +10,7 @@ class PlayerTurn extends React.Component {
             players: props.players,
             player_id: props.player_id,
             match_started: false,
-            time:10,
+            time:60,
         };
         
     }
@@ -50,7 +50,7 @@ class PlayerTurn extends React.Component {
     }
 
     startMatch(player_id) {
-        const TURN_TIME = 10;
+        const TURN_TIME = 60;
         this.setState({ match_started: true });
         matchesService.notifyPlayerMatchStarted(player_id);
 
