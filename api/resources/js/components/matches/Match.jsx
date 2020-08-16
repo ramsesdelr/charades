@@ -30,6 +30,7 @@ class Match extends React.Component {
             modal_show: false,
             show_invite_notification: false,
             used_words : [],
+            portrait:false,
         };
 
         this.success_audio = new Audio("/media/success.wav");
@@ -37,6 +38,7 @@ class Match extends React.Component {
         this.handleChange = this.handleChange.bind(this);
         this.invitePlayer = this.invitePlayer.bind(this);
         this.modalHandleClose = this.modalHandleClose.bind(this);
+        this.validateLandScapeScreen  = this.validateLandScapeScreen .bind(this);
 
     }
 
@@ -88,7 +90,8 @@ class Match extends React.Component {
     
     componentDidMount() {
         this.getMatch(this.props.match.params.match_id);
-
+        this.validateLandScapeScreen();
+        window.addEventListener("resize", this.validateLandScapeScreen);
         const pusher = new Pusher('a9f6c879a24fcaac7c20', {
             cluster: 'us2',
             forceTLS: true
@@ -172,11 +175,16 @@ class Match extends React.Component {
         this.setState({show_invite_notification:false});
     }
 
-
-    
+    validateLandScapeScreen() {
+        if(window.innerHeight > window.innerWidth) {
+            this.setState({portrait:true});
+        } else {
+            this.setState({portrait:false});
+        }
+    }
 
     render() {
-        const { modal_show, match_info, players, current_word, display_word, oponent_playing, player_id, slide_class, show_invite_notification, invited_phone_number } = this.state;
+        const { modal_show, match_info, players, current_word, display_word, oponent_playing, player_id, slide_class, show_invite_notification, invited_phone_number, portrait } = this.state;
         
         return (
             <div>
@@ -238,7 +246,7 @@ class Match extends React.Component {
                                {show_invite_notification === true &&
                                     
                                     <Alert variant="success" onClose={() => this.disableInviteAlert()}  dismissible>
-                                        <Alert.Heading>User invited!</Alert.Heading>
+                                        <Alert.Heading>Invitation send</Alert.Heading>
                                        
                                     </Alert>
                                
@@ -258,6 +266,15 @@ class Match extends React.Component {
                     </div>                  
                     }
                 </div>
+                <Modal show={portrait}>
+                    <Modal.Header>
+                        <Modal.Title>Landscape Mode</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        Please flip your phone into landscape mode
+                        <img src="/images/rotate-phone.gif"></img> 
+                        </Modal.Body> 
+                </Modal>
                 <Modal show={modal_show} onHide={this.modalHandleClose}>
                     <Modal.Header closeButton>
                         <Modal.Title>Match</Modal.Title>
