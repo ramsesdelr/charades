@@ -34,8 +34,7 @@ class APIRegisterController extends Controller
         
         
         if($request->get('match_id') != '') {
-            $newPlayer = $usersMatchRepo->addUserToMatch(base64_decode($request->get('match_id')), $user_data->id);
-            event(new AddPlayerToMatch($newPlayer));
+            $newPlayer = $usersMatchRepo->addUserToMatch( $user_data->id, base64_decode($request->get('match_id')),);
         }
         $token = auth()->login($user_data);
         return response()->json(compact('token', 'user_data'));

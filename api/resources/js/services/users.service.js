@@ -10,7 +10,8 @@ export const usersService = {
     createWord,
     updateUser,
     getCategories,
-    resetPassword
+    resetPassword,
+    addUserToMatch
 };
 
 /**
@@ -140,6 +141,20 @@ function getCategories() {
 function resetPassword(email) {
     return axios.post('/users/password_reset', {
         email: email,
+    }).then((response) => {
+        return response;
+    });
+}
+
+/**
+ * Add user to a match if it's already logged in
+ * @param string email 
+ * @param int match_id 
+ */
+function addUserToMatch(email, match_id) {
+    return axios.post('/users/add_user_to_match', {
+        email: email,
+        match_id: match_id,
     }).then((response) => {
         return response;
     });
