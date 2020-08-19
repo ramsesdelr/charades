@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Users;
 use Illuminate\Http\Request;
 use App\Repositories\UsersRepository;
+use App\Repositories\UsersMatchRepository;
 use App\Mail\ResetUserPassword;
 use Illuminate\Support\Facades\Mail;
 
@@ -122,6 +123,25 @@ class UsersController extends Controller
                 'status'=> 400, 
                 'message'=> 'Email does not exist, please check again.'
             ];
+            
+          } catch (\Exception $e) {
+              return [
+                  'status'=> 400, 
+                  'message'=> $e->getMessage()
+              ];
+          }
+    }
+
+    /**
+     * Add logged user into current match
+     * @param \Illuminate\Http\Request  $request
+     */
+    public function addUserToMatch(Request $request, UsersMatchRepository $usersMatchRepo) {
+        try {
+            
+            $user = Users::where('email', $request->get('email'))->first();
+
+            return $usersMatchRepo->addUserToMatch($user->id, $request->get('match_id'));
             
           } catch (\Exception $e) {
               return [

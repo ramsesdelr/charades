@@ -38,7 +38,7 @@ class Match extends React.Component {
         this.handleChange = this.handleChange.bind(this);
         this.invitePlayer = this.invitePlayer.bind(this);
         this.modalHandleClose = this.modalHandleClose.bind(this);
-        this.validateLandScapeScreen  = this.validateLandScapeScreen .bind(this);
+        this.validateLandScapeScreen  = this.validateLandScapeScreen.bind(this);
 
     }
 
@@ -176,10 +176,12 @@ class Match extends React.Component {
     }
 
     validateLandScapeScreen() {
-        if(window.innerHeight > window.innerWidth) {
-            this.setState({portrait:true});
-        } else {
-            this.setState({portrait:false});
+        if(this.state.players.length > 1) {
+            if(window.innerHeight > window.innerWidth) {
+                this.setState({portrait:true});
+            } else {
+                this.setState({portrait:false});
+            }
         }
     }
 

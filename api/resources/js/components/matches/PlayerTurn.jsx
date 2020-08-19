@@ -71,7 +71,7 @@ class PlayerTurn extends React.Component {
 
         const { current_player, player_id, match_started, time } = this.state;
         const renderStartMatchButton = () => {
-            if(match_started === false && player_id == this.props.players[current_player].id) {
+            if(match_started === false && player_id == this.props.players[current_player].id && this.props.players.length > 1) {
                 return <div className="d-flex flex-column align-items-center">
                         <button className="btn btn-new-match" onClick={this.startMatch.bind(this, player_id)}>Start</button>
                     </div>

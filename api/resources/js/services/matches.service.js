@@ -127,7 +127,6 @@ function invitePlayer(invite_info, match_id) {
     let config = {
         headers: { 'Authorization': "bearer " + user.token }
     };
-    console.log(invite_info);
 
     return axios.post('/matches/invite_user', {
         match_id: match_id,

@@ -1,5 +1,4 @@
 <?php
-
 use Illuminate\Http\Request;
 use App\Users;
 use App\Categories;
@@ -33,6 +32,7 @@ Route::prefix('users')->group(function () {
 	Route::post('/login', 'APILoginController@login');
 	Route::post('/refresh_token', 'APILoginController@refreshToken');
 	Route::post('/password_reset', 'UsersController@resetPassword');
+	Route::post('/add_user_to_match', 'UsersController@addUserToMatch');
 });
 
 

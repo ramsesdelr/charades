@@ -11,13 +11,6 @@ class AddPlayerToMatch implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public $player_data;
-
-    public function __construct($player_data)
-    {
-        $this->player_data = $player_data;
-    }
-
     public function broadcastOn()
     {
         return ['scoring-channel'];

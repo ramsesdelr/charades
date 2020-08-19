@@ -22,14 +22,28 @@ class LoginForm extends React.Component {
 
     componentDidMount() {
         let user = JSON.parse(localStorage.getItem('user'));
+       
         if(user && user.token) {
-            this.props.history.push('/home/');
+           this.addUserToMatch(user);
         }
     }
 
     handleChange(e) {
         const { name, value } = e.target;
         this.setState({[name]: value });
+    }
+
+    async addUserToMatch(user) {
+        if(this.props.match.params.match_id) {
+            let match_id = atob(this.props.match.params.match_id);
+            let user_added = await usersService.addUserToMatch(user.user_data.email, match_id);
+            console.log(user_added);
+            if(user_added.data.response.status == 400) {
+                this.props.history.push('/home/');
+            }
+            window.location.replace(`/current_match/${match_id}`)
+
+        }
     }
 
     loginUser(e) {
