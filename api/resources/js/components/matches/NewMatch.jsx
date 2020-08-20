@@ -38,7 +38,7 @@ class NewMatch extends React.Component {
         const { categories_id } = this.state;
         let match_date = date.toLocaleString();
         let match_data = {
-            name: `${this.props.user.name} Match - ${match_date}` ,
+            name: `Match - ${match_date}` ,
             users_id: this.props.user.id,
             categories_id: categories_id
 

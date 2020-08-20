@@ -31,6 +31,7 @@ class Match extends React.Component {
             show_invite_notification: false,
             used_words : [],
             portrait:false,
+
         };
 
         this.success_audio = new Audio("/media/success.wav");
@@ -268,6 +269,7 @@ class Match extends React.Component {
                     </div>                  
                     }
                 </div>
+            
                 <Modal show={portrait}>
                     <Modal.Header>
                         <Modal.Title>Landscape Mode</Modal.Title>
@@ -283,8 +285,12 @@ class Match extends React.Component {
                     </Modal.Header>
                     <Modal.Body>Your match just ended! We hope to see you again!</Modal.Body>
                     <Modal.Footer>
-                        <Link to="/">Back</Link>
-                        <Link to="/match/new">Start a new match</Link>
+                    <div className="row w-100">
+                        <div className="col-6"><Link to="/">Back</Link></div>
+                        <div className="col-6 text-right"><Link to="/match/new">Start a new match</Link></div>
+                    </div>
+                       
+                        
                     </Modal.Footer>
                 </Modal>
             </div>
