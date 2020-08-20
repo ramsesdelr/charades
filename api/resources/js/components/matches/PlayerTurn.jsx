@@ -1,6 +1,7 @@
 import React from 'react';
 import { matchesService } from '../../services/matches.service'
-import { ArrowLeftCircle, ArrowRightCircle  } from 'react-bootstrap-icons';
+import { Modal, Button , Alert} from 'react-bootstrap';
+
 class PlayerTurn extends React.Component {
     
     constructor(props) {
@@ -10,7 +11,9 @@ class PlayerTurn extends React.Component {
             players: props.players,
             player_id: props.player_id,
             match_started: false,
-            time:60,
+            time:80,
+            display_match_timer: false,
+            start_match_timer:5,
         };
         
     }
@@ -49,9 +52,28 @@ class PlayerTurn extends React.Component {
         return current_player_index;
     }
 
+    prepareMatchStart(player_id) {
+        this.setState({display_match_timer:true});
+        let pre_match_timer = setInterval(() => {
+
+            this.setState({
+                start_match_timer: this.state.start_match_timer - 1
+            });
+            if (this.state.start_match_timer == 0) {
+                clearInterval(pre_match_timer);
+                this.startMatch(player_id)
+                 this.setState({
+                    start_match_timer: 5,
+                    display_match_timer: false
+                 });
+            }
+        }, 1000);
+    }
+
     startMatch(player_id) {
-        const TURN_TIME = 60;
+        const TURN_TIME = 80;
         this.setState({ match_started: true });
+
         matchesService.notifyPlayerMatchStarted(player_id);
 
         let timer = setInterval(() => {
@@ -69,11 +91,11 @@ class PlayerTurn extends React.Component {
  
     render() {
 
-        const { current_player, player_id, match_started, time } = this.state;
+        const { current_player, player_id, match_started, time, start_match_timer, display_match_timer } = this.state;
         const renderStartMatchButton = () => {
             if(match_started === false && player_id == this.props.players[current_player].id && this.props.players.length > 1) {
                 return <div className="d-flex flex-column align-items-center">
-                        <button className="btn btn-new-match" onClick={this.startMatch.bind(this, player_id)}>Start</button>
+                        <button className="btn btn-new-match" onClick={this.prepareMatchStart.bind(this, player_id)}>Start</button>
                     </div>
             }
         };
@@ -90,7 +112,12 @@ class PlayerTurn extends React.Component {
                 {match_started &&
                     <div id="match_timer">{time}</div>
                 }
-                
+                <Modal show={display_match_timer}>
+                    <Modal.Body>
+                        <h3>Get Ready...</h3>
+                        <h2>Your turn is starting in <span className="h3-title">{start_match_timer}</span></h2>
+                    </Modal.Body> 
+                </Modal>    
             </div>
         );
     }
