@@ -42,7 +42,7 @@ class APILoginController extends Controller
         $user_data = Auth::user($token);
         
         if($request->get('match_id') != '') {
-            $newPlayer = $usersMatchRepo->addUserToMatch($user_data->id, base64_decode($request->get('match_id')), );
+            $newPlayer = $usersMatchRepo->addUserToMatch($user_data->id, base64_decode($request->get('match_id')));
         }
         
         return response()->json(compact('token', 'user_data'));
