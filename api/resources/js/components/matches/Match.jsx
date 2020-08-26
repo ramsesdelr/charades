@@ -31,6 +31,7 @@ class Match extends React.Component {
             show_invite_notification: false,
             used_words : [],
             portrait:false,
+            winner_name:'',
 
         };
 
@@ -50,7 +51,7 @@ class Match extends React.Component {
             this.props.getMatch(response.data);
             this.getNewWord(response.data.match_info.categories_id);
             this.setState({ match_info: response.data.match_info, players: response.data.players });
-
+            this.validateLandScapeScreen();
         }
         catch {
             this.setState({ loading: false });
@@ -77,8 +78,7 @@ class Match extends React.Component {
 
     async invitePlayer(e) {
         e.preventDefault();
-        const { invited_player_email, invited_phone_number } = this.state;
-
+    
         let invite_info = {
             phone_number: this.state.invited_phone_number,
             email :this.state.invited_player_email
@@ -91,7 +91,6 @@ class Match extends React.Component {
     
     componentDidMount() {
         this.getMatch(this.props.match.params.match_id);
-        this.validateLandScapeScreen();
         window.addEventListener("resize", this.validateLandScapeScreen);
         const pusher = new Pusher('a9f6c879a24fcaac7c20', {
             cluster: 'us2',
@@ -160,11 +159,14 @@ class Match extends React.Component {
         },1000);
     }
 
-    modalHandleShow() {
-        this.setState({modal_show: true});
-        //assign the winner if the match has ended for the match woner
+    async modalHandleShow() {
+        //assign the winner if the match has ended for the match owner
         if(this.state.match_info.users_id == this.state.player_id) {
-            matchesService.addMatchWinner(this.props.match.params.match_id);
+             let winner = await matchesService.addMatchWinner(this.props.match.params.match_id);
+             if(winner.status == 200) {
+                let winner_index  =  await matchesService.getplayerIndex(winner.winnder_id, this.state.players);
+                this.setState({modal_show: true, winner_name: this.state.players[winner_index].name});
+             }
         }
     }
 
@@ -187,7 +189,7 @@ class Match extends React.Component {
     }
 
     render() {
-        const { modal_show, match_info, players, current_word, display_word, oponent_playing, player_id, slide_class, show_invite_notification, invited_phone_number, portrait } = this.state;
+        const { modal_show, match_info, players, current_word, display_word, oponent_playing, player_id, slide_class, show_invite_notification, portrait, winner_name } = this.state;
         
         return (
             <div>
@@ -246,13 +248,11 @@ class Match extends React.Component {
                         <form onSubmit={this.invitePlayer}>
                             <div className="card-body">
                                 <h3 className="h3-title">Invite a friend to start!</h3>
-                               {show_invite_notification === true &&
-                                    
+                               {show_invite_notification === true &&               
                                     <Alert variant="success" onClose={() => this.disableInviteAlert()}  dismissible>
                                         <Alert.Heading>Invitation send</Alert.Heading>
                                        
                                     </Alert>
-                               
                                 }
                                 <div className="input-group form-group">
                                     <input type="email" name="invited_player_email" onChange={this.handleChange} className="form-control text-center" placeholder="Player Email" />
@@ -281,16 +281,16 @@ class Match extends React.Component {
                 </Modal>
                 <Modal show={modal_show} onHide={this.modalHandleClose}>
                     <Modal.Header closeButton>
-                        <Modal.Title>Match</Modal.Title>
+                        <Modal.Title>Finished Match</Modal.Title>
                     </Modal.Header>
-                    <Modal.Body>Your match just ended! We hope to see you again!</Modal.Body>
+                    <Modal.Body>Your match just ended and the winner is: <strong>{winner_name}</strong>! <br></br> 
+                    Thank you for playing!
+                    </Modal.Body>
                     <Modal.Footer>
                     <div className="row w-100">
                         <div className="col-6"><Link to="/">Back</Link></div>
                         <div className="col-6 text-right"><Link to="/match/new">Start a new match</Link></div>
                     </div>
-                       
-                        
                     </Modal.Footer>
                 </Modal>
             </div>

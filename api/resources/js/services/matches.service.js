@@ -11,7 +11,8 @@ export const matchesService = {
     updatePlayerTurn,
     notifyPlayerMatchStopped,
     addMatchWinner,
-    getRecentMatchesByUser
+    getRecentMatchesByUser,
+    getplayerIndex
 };
 
 /**
@@ -193,16 +194,12 @@ function updatePlayerTurn(player_id, match_id) {
  * @param int winner_id
  */
 function addMatchWinner(match_id) {
-    let user = JSON.parse(localStorage.getItem('user')) || {};
-
-    let config = {
-        headers: { 'Authorization': "bearer " + user.token }
-    };
+   
 
     return axios.post('/matches/add_winner', {
         match_id: match_id,
-    }, config).then((response) => {
-        return response;
+    }).then((response) => {
+        return response.data;
     }).catch((error) => {
         return error;
     });
@@ -219,4 +216,22 @@ function getRecentMatchesByUser(user_id) {
     }).catch((error) => {
         return error;
     });
+}
+
+
+/**
+ * Retrieve the player's index in the current match
+ * @param int player_id 
+ * @param array players
+ * @return int current_player_index
+ */
+function getplayerIndex(player_id, players) {
+    let current_player_index = 0;
+    players.map((player, index) => {
+
+        if (player.id == player_id) {
+            current_player_index = index;
+        }
+    });
+    return current_player_index;
 }

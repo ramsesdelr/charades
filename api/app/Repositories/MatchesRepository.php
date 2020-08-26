@@ -132,7 +132,7 @@ class MatchesRepository
         if($update_winner) {
         	return response()->json([
                 'status' => 200,
-                'message' => 'Winner succesfully asigned'
+                'winnder_id' => $winner_query->users_id
             ]);
         }
     }
