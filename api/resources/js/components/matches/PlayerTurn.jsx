@@ -27,29 +27,13 @@ class PlayerTurn extends React.Component {
         const channel = pusher.subscribe('scoring-channel');
         channel.bind('current-player', data => {
             if(data && data.current_player) {
-                let player_index = this.getplayerIndex(data.current_player);
+                let player_index = matchesService.getplayerIndex(data.current_player, this.props.players);
                 this.setState({ current_player: player_index });
                 
             } 
         });
         
-        this.setState({ current_player: this.getplayerIndex(this.props.match.current_player) });
-    }
-
-    /**
-     * Retrieve the player's index in the current match
-     * @param {int} player_id 
-     * @return {int} 
-     */
-    getplayerIndex(player_id) {
-       let current_player_index = 0;
-       this.props.players.map((player, index) => {
-            
-            if (player.id == player_id) {
-                current_player_index = index;
-            }
-        });
-        return current_player_index;
+        this.setState({ current_player: matchesService.getplayerIndex(this.props.match.current_player, this.props.players) });
     }
 
     prepareMatchStart(player_id) {
