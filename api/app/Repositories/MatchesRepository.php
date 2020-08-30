@@ -150,7 +150,7 @@ class MatchesRepository
                 'name' => $match->name,
                 'winner' => $match->user->name,
                 'score'=> $this->matchScores($match->id),
-                'vs_player' => $oponent->user[0]->name
+                'vs_player' => $oponent->user[0]->name ?? 'Unknown'
             ];
         }
         return response()->json([
