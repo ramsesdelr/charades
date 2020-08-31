@@ -11,11 +11,11 @@ class PlayerTurn extends React.Component {
             players: props.players,
             player_id: props.player_id,
             match_started: false,
-            time:10,
+            time:80,
             display_match_timer: false,
             start_match_timer:5,
         };
-        const TURN_TIME = 10;
+        const TURN_TIME = 80;
         
     }
 
