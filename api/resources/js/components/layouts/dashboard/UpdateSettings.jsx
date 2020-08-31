@@ -65,7 +65,7 @@ class UpdateSettings extends React.Component {
     render() {
         const {loading, update_success, name, email, phone, update_error } = this.state;
         return (
-            <div className="match-box col-12 mt-4">
+            <section className="match-box col-12 mt-4">
                 <div className="card">
                     <h1 className="text-center mt-4" id="login-title">Update Settings</h1>
                     {loading && 
@@ -105,8 +105,7 @@ class UpdateSettings extends React.Component {
                         </div>
                     </form>
                 </div>
-
-            </div>
+            </section>
 
         );
     }

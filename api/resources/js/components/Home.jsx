@@ -30,7 +30,7 @@ class Home extends React.Component {
         const { recent_matches, user } = this.state;
 
 		return (
-			<div>
+			<section>
 				 <div className="text-center">
 					<Link to="/match/new" className="btn btn-new-match">Match Start</Link>
 				 </div>
@@ -66,7 +66,7 @@ class Home extends React.Component {
 					<NewWord/>
 				</Tab>
 				</Tabs>
-			</div>
+			</section>
 		);
 	}
 }
