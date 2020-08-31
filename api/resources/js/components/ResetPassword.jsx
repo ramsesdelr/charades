@@ -58,7 +58,7 @@ class ResetPassword extends React.Component {
     render() {
         const { email,  loading, error, sucess_message, register_link } = this.state;
         return (
-             <div className="card-container">
+             <section className="card-container">
                     <div className="card">
                         <div className="logo-container mt-3">
 							<img src="/images/logo_transparent_background.svg" className="img-fluid"></img>
@@ -100,7 +100,7 @@ class ResetPassword extends React.Component {
                             </form>
                         </div>
                     </div>
-                </div>
+                </section>
         );
     }
 }

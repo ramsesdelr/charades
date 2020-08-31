@@ -8,6 +8,7 @@ import PlayerTurn from './PlayerTurn';
 import { Modal, Button , Alert} from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { ArrowLeftCircle, ArrowRightCircle  } from 'react-bootstrap-icons';
+import { matches } from 'lodash';
 class Match extends React.Component {
 
     constructor(props) {
@@ -123,7 +124,8 @@ class Match extends React.Component {
                 if (data.match_status.player_id == this.state.match_info.users_id ) {
                     this.setState({ current_turn: this.state.current_turn + 1 });      
                 }
-            } else {                
+            } else if(data.match_status.status == 'stopped') {              
+                //hide the words for the player that just finished its turn  
                 if (data.match_status.player_id == this.user.user_data.id) {
                     this.setState({ display_word: false });
                 } else {
@@ -132,8 +134,11 @@ class Match extends React.Component {
                 }
                 //check if turn ended and guest player was the last one to play
                 if(this.state.current_turn == this.state.match_turns_limit && data.match_status.player_id != this.state.match_info.users_id) {
-                    this.modalHandleShow();
+                    this.setMatchWinner(this.props.match.params.match_id);
                 }
+            } else {
+                this.modalHandleShow(data.match_status.player_id);
+                console.log('show!');
             }
         });
 
@@ -159,15 +164,20 @@ class Match extends React.Component {
         },1000);
     }
 
-    async modalHandleShow() {
-        //assign the winner if the match has ended for the match owner
-        if(this.state.match_info.users_id == this.state.player_id) {
-             let winner = await matchesService.addMatchWinner(this.props.match.params.match_id);
-             if(winner.status == 200) {
-                let winner_index  =  await matchesService.getplayerIndex(winner.winnder_id, this.state.players);
-                this.setState({modal_show: true, winner_name: this.state.players[winner_index].name});
-             }
+    async modalHandleShow(winner_id) {
+        let winner_index  =  await matchesService.getplayerIndex(winner_id, this.state.players);
+        if(winner_index != null) { 
+            this.setState({modal_show: true, winner_name: this.state.players[winner_index].name});
         }
+    }
+    async setMatchWinner() {
+        //assign the winner if the match has ended for the match owner
+        // if(this.state.match_info.users_id == this.state.player_id) {
+             let winner = await matchesService.addMatchWinner(this.props.match.params.match_id);
+             if(winner.status == 200) { 
+               matchesService.notifyPlayerMatchEnded(winner.winnder_id);
+             }
+        // }
     }
 
     modalHandleClose() {
@@ -192,7 +202,7 @@ class Match extends React.Component {
         const { modal_show, match_info, players, current_word, display_word, oponent_playing, player_id, slide_class, show_invite_notification, portrait, winner_name } = this.state;
         
         return (
-            <div>
+            <section>
                 <div className="col-12 mt-4">    
                    
                     {oponent_playing &&
@@ -270,7 +280,7 @@ class Match extends React.Component {
                     }
                 </div>
             
-                <Modal show={portrait}>
+                <Modal show={portrait}  backdrop="static" keyboard={false}>
                     <Modal.Header>
                         <Modal.Title>Landscape Mode</Modal.Title>
                     </Modal.Header>
@@ -279,7 +289,8 @@ class Match extends React.Component {
                         <img src="/images/rotate-phone.gif"></img> 
                         </Modal.Body> 
                 </Modal>
-                <Modal show={modal_show} onHide={this.modalHandleClose}>
+                <Modal show={modal_show} onHide={this.modalHandleClose}  backdrop="static"
+        keyboard={false}>
                     <Modal.Header closeButton>
                         <Modal.Title>Finished Match</Modal.Title>
                     </Modal.Header>
@@ -288,12 +299,12 @@ class Match extends React.Component {
                     </Modal.Body>
                     <Modal.Footer>
                     <div className="row w-100">
-                        <div className="col-6"><Link to="/">Back</Link></div>
-                        <div className="col-6 text-right"><Link to="/match/new">Start a new match</Link></div>
+                        <div className="col-6"><Link className="btn btn-red" to="/">Back</Link></div>
+                        <div className="col-6 text-right"><Link className="btn btn-red" to="/match/new">Start a new match</Link></div>
                     </div>
                     </Modal.Footer>
                 </Modal>
-            </div>
+            </section>
         );
     }
 }

@@ -28,21 +28,21 @@ class App extends React.Component {
 	render() {
 		const {user} = this.state
 		return (
-			<div>
-				<nav className="navbar sticky-top navbar-red">
+			<header>
+				<div className="navbar sticky-top navbar-red">
 					<button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#menu-content" aria-controls="menu-content" aria-expanded="false" aria-label="Toggle navigation">
 					<span className="navbar-toggler-icon"></span>
 					</button>
 					<a className="navbar-brand text-center" href="/home">Charades Online</a>
-				</nav>
-				<div className="collapse" id="menu-content">
+				</div>
+				<nav className="collapse" id="menu-content">
 					<div className="bg-red p-4">
 						<ul className="navbar-nav">
 							<li className="nav-item active">
 								<a className="nav-link" href="/home">Home</a>
 							</li>
 							<li className="nav-item">
-							<a className="nav-link" href="/register">Register</a>
+								<a className="nav-link" href="/register">Register</a>
 							</li>
 							<li className="nav-item">
 								<a className="nav-link" href="#">About</a>
@@ -63,7 +63,7 @@ class App extends React.Component {
 							)}
 						</ul>
 					</div>
-				</div>
+				</nav>
 				
 				<div className="container-fluid">
 						<Router>
@@ -80,7 +80,7 @@ class App extends React.Component {
 							<img src="/images/logo_transparent_background.svg" className="img-fluid"></img>
 						</div>
 				</div>
-			</div>
+			</header>
 		);
 	}
 }

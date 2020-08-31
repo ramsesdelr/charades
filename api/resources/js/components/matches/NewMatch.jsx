@@ -83,7 +83,7 @@ class NewMatch extends React.Component {
         const {loading, bg_color, categories, modal_show } = this.state;
 
         return (
-            <div>
+            <section>
                 <div className="row">
                     {categories.length > 0 &&
                         categories.map((category, index)  =>  {
@@ -103,7 +103,7 @@ class NewMatch extends React.Component {
                         <a className="btn btn-primary btn-red" onClick={this.createMatch}>Start</a>
                     </Modal.Footer>
                 </Modal>
-        </div>
+        </section>
         )
     }
 }

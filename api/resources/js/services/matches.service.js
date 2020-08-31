@@ -12,7 +12,8 @@ export const matchesService = {
     notifyPlayerMatchStopped,
     addMatchWinner,
     getRecentMatchesByUser,
-    getplayerIndex
+    getplayerIndex,
+    notifyPlayerMatchEnded
 };
 
 /**
@@ -171,6 +172,19 @@ function notifyPlayerMatchStopped(player_id) {
     };
 
     return axios.get(`/matches/notify_player_match_status/${player_id}/stopped`, config).then( (response) => {
+        return response;
+    }).catch((error) => {
+        return error;
+    });
+}
+
+/**
+ * Notify all players that the match has ended
+ * @param {int} player_id 
+ */
+function notifyPlayerMatchEnded(player_id) {
+
+    return axios.get(`/matches/notify_player_match_status/${player_id}/ended`).then( (response) => {
         return response;
     }).catch((error) => {
         return error;

@@ -15,6 +15,7 @@ class PlayerTurn extends React.Component {
             display_match_timer: false,
             start_match_timer:5,
         };
+        const TURN_TIME = 80;
         
     }
 
@@ -55,7 +56,6 @@ class PlayerTurn extends React.Component {
     }
 
     startMatch(player_id) {
-        const TURN_TIME = 80;
         this.setState({ match_started: true });
 
         matchesService.notifyPlayerMatchStarted(player_id);
@@ -66,8 +66,7 @@ class PlayerTurn extends React.Component {
             });
             if (this.state.time == 0) {
                 clearInterval(timer);
-                this.setState({ match_started: false, time: TURN_TIME});
-                console.log(this.state);
+                this.setState({ match_started: false, time: this.TURN_TIME});
                 matchesService.notifyPlayerMatchStopped(player_id);
             }
         }, 1000);
@@ -86,7 +85,7 @@ class PlayerTurn extends React.Component {
 
     
         return (
-            <div className="container-fluid">
+            <aside className="container-fluid">
                 {this.props.players.length > 0  && match_started == false &&
                     <div>
                         <div>It's {this.props.players[current_player].name} turn</div>
@@ -102,7 +101,7 @@ class PlayerTurn extends React.Component {
                         <h2>Your turn is starting in <span className="h3-title">{start_match_timer}</span></h2>
                     </Modal.Body> 
                 </Modal>    
-            </div>
+            </aside>
         );
     }
 

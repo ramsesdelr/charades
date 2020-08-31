@@ -64,7 +64,7 @@ class NewWord extends React.Component {
     render() {
         const {loading, word_added, title, word_error, categories } = this.state;
         return (
-            <div className="match-box col-12 mt-4">
+            <section className="match-box col-12 mt-4">
                 <div className="card">
                     <h1 className="text-center" id="login-title">New Word</h1>
                     {loading && 
@@ -103,7 +103,7 @@ class NewWord extends React.Component {
                     </form>
                 </div>
 
-            </div>
+            </section>
 
         );
     }
