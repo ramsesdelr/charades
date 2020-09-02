@@ -28,7 +28,7 @@ Route::prefix('users')->group(function () {
 	});
 	Route::middleware('auth:api')->put('/{id}', 'UsersController@update');
 	Route::middleware('auth:api')->get('/{id}', 'UsersController@show');
-	Route::post('/register', 'APIRegisterController@register');
+	Route::post('/register', 'APIRegisterController@register')->name('users.registration');
 	Route::post('/login', 'APILoginController@login');
 	Route::post('/refresh_token', 'APILoginController@refreshToken');
 	Route::post('/password_reset', 'UsersController@resetPassword');
