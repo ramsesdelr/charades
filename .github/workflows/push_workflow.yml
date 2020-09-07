@@ -12,10 +12,9 @@ jobs:
     - users: actions/checkout@v1
     - name: Copy .env
       run: php -r  "file_exists('.env') || copy('.env.example', '.env');"
-    -name: Install Composer Dependencies
+    - name: Install Composer Dependencies
       run: composer install -q
-    -name: Generate key
+    - name: Generate key
       run: php artisan key:generate
-    -name: Run unit tests (via PHPUnit)
+    - name: Run unit tests (via PHPUnit)
       run: 'cd api/ && vendor/bin/phpunit'
-      
