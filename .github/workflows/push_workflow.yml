@@ -18,3 +18,4 @@ jobs:
         run: php artisan key:generate
       - name: Run unit tests (via PHPUnit)
         run: 'cd api/ && vendor/bin/phpunit'
+ 
