@@ -1,5 +1,4 @@
 name: Push to master
-
 on:
   push:
     branches: [ master ]
