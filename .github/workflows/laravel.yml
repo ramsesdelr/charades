@@ -1,8 +1,6 @@
-name: Laravel
+name: Backend Test
 
 on:
-  push:
-    branches: [ master ]
   pull_request:
     branches: [ master ]
 
