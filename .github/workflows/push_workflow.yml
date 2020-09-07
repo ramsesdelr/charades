@@ -1,11 +1,10 @@
-- name: Push to master
+ name: Push to master
 
-  on:
+ on:
     push:
       branches:
         - master
-
-  jobs:
+ jobs:
     test:
       runs-on: ubuntu-latest
       steps:
