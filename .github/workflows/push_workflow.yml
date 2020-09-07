@@ -1,4 +1,4 @@
-name: Test before pushing to master
+name: Push to master
 on:
   push:
     branches: [ master ]
@@ -10,6 +10,7 @@ jobs:
     name: Testing
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v1
       - name: Copy .env
         run: php -r  "file_exists('.env') || copy('.env.example', '.env');"
       - name: Install Composer Dependencies
