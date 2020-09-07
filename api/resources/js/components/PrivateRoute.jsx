@@ -29,6 +29,7 @@ class AuthenticateToken extends React.Component {
             return;
         }
         catch {
+            localStorage.removeItem('user');
             this.setState({ user_exists: false });
         }
         finally {
@@ -42,6 +43,7 @@ class AuthenticateToken extends React.Component {
         if (!this.user.token) {
             this.setState({ user_exists: false});
         } else {
+            console.log('validate');
             this.validateToken();
         }
     }

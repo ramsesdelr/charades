@@ -80,6 +80,7 @@ class MatchesController extends Controller
     public function destroy($id, MatchesRepository $matchesRepo)
     {
         try {
+            
           return $matchesRepo->delete($id);
         } catch (\Exception $e) {
             return [

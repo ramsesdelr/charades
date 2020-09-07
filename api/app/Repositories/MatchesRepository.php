@@ -94,15 +94,23 @@ class MatchesRepository
     }
 
 	 /**
-	 * Delete Match 
+	 * Delete a Match 
 	 * @param integer $id
 	 * @return string
 	 */
     public function delete($id) {
-
-        if(Matches::find($id)->delete()) {
-            return response()->json('Match was deleted', 204);
+        $match = Matches::find($id);
+        if($match) {
+            $match->delete();
+            return response()->json([
+                'status'=> 200,
+                'message' => 'Match was deleted'
+            ], 200);
         }
+        return response()->json([
+            'status' => 400,
+            'data' => 'This match does not exist'
+        ],400);
     }
 
     /**

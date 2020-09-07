@@ -27,7 +27,7 @@ window.axios.defaults.baseURL = 'http://charades.test/api/';
 let user = JSON.parse(localStorage.getItem('user'));
 
 if(user && user.token) {
-    axios.defaults.headers.common['Authorization'] = "bearer " + user.token;
+    axios.defaults.headers.common['Authorization'] = "Bearer " + user.token;
 }
 
 axios.interceptors.response.use((response) => {
