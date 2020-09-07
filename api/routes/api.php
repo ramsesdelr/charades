@@ -29,7 +29,7 @@ Route::prefix('users')->group(function () {
 	Route::middleware('auth:api')->put('/{id}', 'UsersController@update');
 	Route::middleware('auth:api')->get('/{id}', 'UsersController@show');
 	Route::post('/register', 'APIRegisterController@register')->name('users.registration');
-	Route::post('/login', 'APILoginController@login');
+	Route::post('/login', 'APILoginController@login')->name('users.login');
 	Route::post('/refresh_token', 'APILoginController@refreshToken');
 	Route::post('/password_reset', 'UsersController@resetPassword');
 	Route::post('/add_user_to_match', 'UsersController@addUserToMatch');
@@ -39,7 +39,8 @@ Route::prefix('users')->group(function () {
 Route::group(['prefix'=> 'matches', 'middleware'=>'auth:api'],function () {
 	Route::get('/', function() {
 		return Matches::all();
-	})->name('matches.all');;
+	})->name('matches.all');
+	
 	Route::middleware('auth:api')->get('/{id}', 'MatchesController@show')->name('matches.show');
 	Route::put('/{id}', 'MatchesController@update')->name('matches.update');
 	Route::post('/', 'MatchesController@store')->name('matches.store');

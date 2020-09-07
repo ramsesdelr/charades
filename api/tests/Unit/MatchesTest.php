@@ -7,9 +7,26 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\Matches;
 use App\Users;
+use JWTAuth;
+
 
 class MatchesTest extends TestCase
 {
+    protected $token;
+    public function setUp() :void {
+        parent::setUp();
+        Users::insert([
+            'email'=> 'test@email.com',
+            'name' => 'Test User',
+            'password' =>  bcrypt('testing123'),
+            'phone'=>'000000000',
+        ]);
+
+        $user = Users::where('email', 'test@email.com')->first();
+        
+        $this->token = JWTAuth::fromUser($user);
+    }
+    
     /**
      * Test if a match can be created
      *
@@ -24,9 +41,9 @@ class MatchesTest extends TestCase
         	'users_id' => $user->id
         ];
 
-        $this->post(route('matches.store'), $data)
-            ->assertJson($data)
-        	->assertStatus(201);
+        $this->post(route('matches.store'), $data, [
+            'Authorization' => 'Bearer '. $this->token
+        ])->assertJson($data)->assertStatus(201);
     }
 
     /**
@@ -41,8 +58,9 @@ class MatchesTest extends TestCase
             'categories_id' => 2,
         ];
 
-        $this->put(route('matches.update', $match->id), $data)
-            ->assertStatus(200);
+        $this->put(route('matches.update', $match->id), $data, [
+            'Authorization' => 'Bearer '. $this->token
+        ])->assertStatus(200);
     }
 
     /**
@@ -52,18 +70,23 @@ class MatchesTest extends TestCase
     public function test_can_show_match(){
         $match = factory(Matches::class)->create();
 
-        $this->get(route('matches.show', $match->id))
-            ->assertStatus(200);
+        $this->get(route('matches.show', $match->id), [
+             'Authorization' => 'Bearer '. $this->token
+        ])->assertStatus(200);
     }
 
     /**
-     * Test if a match can be shown
+     * Test if a match can be deleted
      * @return void
      */
     public function test_can_delete_match(){
         $match = factory(Matches::class)->create();
-        $this->delete(route('matches.delete', $match->id))
-            ->assertStatus(204);
+        // dd($this->delete(route('matches.delete', $match->id), [
+        //      'Authorization' => 'Bearer '. $this->token
+        // ]));
+        $this->deleteJson(route('matches.delete', $match->id), [], [
+            'Authorization' => 'Bearer '. $this->token
+       ])->assertStatus(200);
     }
 
 }
