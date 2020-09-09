@@ -81,9 +81,7 @@ class MatchesTest extends TestCase
      */
     public function test_can_delete_match(){
         $match = factory(Matches::class)->create();
-        // dd($this->delete(route('matches.delete', $match->id), [
-        //      'Authorization' => 'Bearer '. $this->token
-        // ]));
+
         $this->deleteJson(route('matches.delete', $match->id), [], [
             'Authorization' => 'Bearer '. $this->token
        ])->assertStatus(200);

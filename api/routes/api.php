@@ -17,7 +17,7 @@ use App\Events\NotifyPlayerMatchStarted;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function(Request $request) {
+Route::get('/user', function(Request $request) {
 	return auth()->user();
 });
 
