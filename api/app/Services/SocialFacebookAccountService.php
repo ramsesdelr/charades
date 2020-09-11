@@ -8,9 +8,9 @@ use Laravel\Socialite\Contracts\User as ProviderUser;
 class SocialFacebookAccountService
 {
     
-    public function createOrGetUser(ProviderUser $providerUser) {
+    public function createOrGetUser($providerUser) {
         $account = SocialFacebookAccount::whereProvider('facebook')
-            ->whereProviderUserId($providerUser->getId())
+            ->whereProviderUserId($providerUser['userID'])
             ->first();
 
         if ($account) {
@@ -18,21 +18,20 @@ class SocialFacebookAccountService
         } else {
 
             $account = new SocialFacebookAccount([
-                'provider_user_id' => $providerUser->getId(),
+                'provider_user_id' => $providerUser['userID'],
                 'provider' => 'facebook'
             ]);
 
-            $user = Users::whereEmail($providerUser->getEmail())->first();
+            $user = Users::whereEmail($providerUser['email'])->first();
 
             if (!$user) {
 
                 $user = Users::create([
-                    'email' => $providerUser->getEmail(),
-                    'name' => $providerUser->getName(),
+                    'email' => $providerUser['email'],
+                    'name' => $providerUser['name'],
                     'password' => md5(rand(1,10000)),
                 ]);
             }
-
             $account->user()->associate($user);
             $account->save();
 

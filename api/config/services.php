@@ -42,7 +42,7 @@ return [
     'facebook' => [
         'client_id' => env('FACEBOOK_APP_ID'),
         'client_secret' => env('FACEBOOK_APP_SECRET'),
-        'redirect' => 'http://charades.test/callback',
+        'redirect' => 'https://charades.test/callback',
     ],
 
 ];

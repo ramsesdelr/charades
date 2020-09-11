@@ -11,8 +11,8 @@
 |
 */
 
-Route::get('/redirect', 'SocialAuthFacebookController@redirect');
-Route::get('/callback', 'SocialAuthFacebookController@callback');
+// Route::get('/redirect', 'SocialAuthFacebookController@redirect');
+// Route::get('/callback', 'SocialAuthFacebookController@callback');
 Route::get('{any}', function() {
     return view('app');
  })->where('any', '.*');

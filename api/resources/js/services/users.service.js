@@ -11,7 +11,8 @@ export const usersService = {
     updateUser,
     getCategories,
     resetPassword,
-    addUserToMatch
+    addUserToMatch,
+    loginFacebook
 };
 
 /**
@@ -31,6 +32,24 @@ function login(login_data) {
             return error;
         });
 }
+
+/**
+ * Log in the user with Facebook information
+ * @param array login_data 
+ */
+function loginFacebook(login_data) {
+    return axios.post('/users/facebook_login', {
+            email: login_data.email,
+            name: login_data.name,
+            userID: login_data.userID
+        }).then( (response) => {
+            localStorage.setItem('user', JSON.stringify(response.data));
+            return response; 
+        }).catch( (error)=> {
+            return error;
+        });
+}
+
 
 /**
  * Log out the user
