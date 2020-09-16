@@ -17,7 +17,7 @@ use App\Events\NotifyPlayerMatchStarted;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function(Request $request) {
+Route::get('/user', function(Request $request) {
 	return auth()->user();
 });
 
@@ -33,6 +33,7 @@ Route::prefix('users')->group(function () {
 	Route::post('/refresh_token', 'APILoginController@refreshToken');
 	Route::post('/password_reset', 'UsersController@resetPassword');
 	Route::post('/add_user_to_match', 'UsersController@addUserToMatch');
+	Route::post('/facebook_login', 'SocialAuthFacebookController@callback');
 });
 
 

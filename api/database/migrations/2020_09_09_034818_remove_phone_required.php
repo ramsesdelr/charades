@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class UpdatePassToCurrentPlayerMatchesTable extends Migration
+class RemovePhoneRequired extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,8 @@ class UpdatePassToCurrentPlayerMatchesTable extends Migration
      */
     public function up()
     {
-        Schema::table('matches', function (Blueprint $table) {
-            $table->renameColumn('password','current_player');
+        Schema::table('users', function (Blueprint $table) {
+            $table->string('phone')->nullable()->change();
         });
     }
 
@@ -25,7 +25,7 @@ class UpdatePassToCurrentPlayerMatchesTable extends Migration
      */
     public function down()
     {
-        Schema::table('matches', function (Blueprint $table) {
+        Schema::table('users', function (Blueprint $table) {
             //
         });
     }

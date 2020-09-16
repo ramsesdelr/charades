@@ -3,7 +3,7 @@ import { usersService } from '../services/users.service.js';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import * as UserActions from '../actions/users';
-
+import FacebookLogin from 'react-facebook-login';
 class LoginForm extends React.Component {
     constructor(props) {
         super(props);
@@ -18,6 +18,7 @@ class LoginForm extends React.Component {
 
         this.handleChange = this.handleChange.bind(this);
         this.loginUser = this.loginUser.bind(this);
+        this.loginUserOnFacebook = this.loginUserOnFacebook.bind(this);
     }
 
     componentDidMount() {
@@ -81,8 +82,34 @@ class LoginForm extends React.Component {
         );
     }
 
+    loginUserOnFacebook(facebook_data) {
+        if(facebook_data === undefined) {
+            return;
+        }
+        usersService.loginFacebook(facebook_data).then(
+            response => {
+                this.setState({ loading: false });
+               
+                if(response.status == 200) {
+                    const { from } = this.props.location.state || { from: { pathname: "/home" } };
+                    this.props.loginUser(response.data.user_data);
+                    if(this.props.match.params.match_id) {
+                        let match_id = atob(this.props.match.params.match_id);
+                        window.location.replace(`/current_match/${match_id}`)
+                    } else {
+                        window.location.reload()
+                    }
+                } else {
+                	this.setState({error: 'Invalid email/password, please check your info and try again.'});
+                }
+                
+            }
+        );
+    }
+
     render() {
         const { email, password, loading, error, register_link } = this.state;
+
         return (
              <section className="card-container">
                     <div className="card">
@@ -121,7 +148,14 @@ class LoginForm extends React.Component {
                             {loading &&
                                     <img src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
                             }
-
+                              <div className="text-center mt-4">
+                                <FacebookLogin
+                                    appId="314974593065150"
+                                    autoLoad={false}
+                                    fields="name,email,picture"
+                                    size="medium"
+                                    callback={this.loginUserOnFacebook} />
+                              </div>
                             </form>
                         </div>
                     </div>

@@ -59,7 +59,7 @@ class UpdateSettings extends React.Component {
     }
 
     componentDidMount() {
-        this.setState({name: this.props.user.name, email: this.props.user.email, phone: this.props.user.phone});
+        this.setState({name: this.props.user.name, email: this.props.user.email, phone: this.props.user.phone || ''});
     }
 
     render() {

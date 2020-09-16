@@ -33,17 +33,17 @@ class AuthenticateToken extends React.Component {
             this.setState({ user_exists: false });
         }
         finally {
+
             this.setState({ loading: false});      
         }
         
     }
 
     componentDidMount() {
-        
+        this.validateToken();
         if (!this.user.token) {
             this.setState({ user_exists: false});
         } else {
-            console.log('validate');
             this.validateToken();
         }
     }
