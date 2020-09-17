@@ -154,6 +154,7 @@ class LoginForm extends React.Component {
                                     autoLoad={false}
                                     fields="name,email,picture"
                                     size="medium"
+                                    redirectUri="https://charades.test/login"
                                     callback={this.loginUserOnFacebook} />
                               </div>
                             </form>

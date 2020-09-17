@@ -93,8 +93,8 @@ class Match extends React.Component {
     componentDidMount() {
         this.getMatch(this.props.match.params.match_id);
         window.addEventListener("resize", this.validateLandScapeScreen);
-        const pusher = new Pusher('a9f6c879a24fcaac7c20', {
-            cluster: 'us2',
+        const pusher = new Pusher(process.env.MIX_PUSHER_APP_KEY, {
+            cluster: process.env.MIX_PUSHER_APP_CLUSTER,
             forceTLS: true
         });
 
