@@ -366,3 +366,26 @@ input:focus {
 .right {
   padding: 12em 0em 12em 12em;
 }  
+
+/**New CSS Layout **/
+
+body {
+  font-family: proxima-soft, sans-serif;
+  font-weight: 500;
+  font-style: normal;
+}
+
+/**Registration**/
+.title {
+
+}
+.title--main {
+  font-family: proxima-soft, sans-serif;
+  font-weight: 600;
+  font-style: normal;
+  
+  color:$dark-blue;
+}
+.title--sub {
+  color: $blue;
+}

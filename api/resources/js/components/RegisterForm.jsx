@@ -80,10 +80,11 @@ class RegisterForm extends React.Component {
         return (
                 <section className="card-container">
                     <div className="card">
-                        <div className="logo-container mt-3">
-							<img src="/images/logo_transparent_background.svg" className="img-fluid"></img>
+                        <div className="mt-3">
+							<img src="/svg/charades-logo.svg" className="img-fluid"></img>
 						</div>
-                        <h1 className="text-center" id="login-title">Create New Account</h1>
+                        <h1 className="text-center title--main">Create Account</h1>
+                            <h3 className="text-center title--sub"></h3>
                             <div className="card-body">
                         {error &&
                             <div>{error}</div>

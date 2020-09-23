@@ -29,42 +29,6 @@ class App extends React.Component {
 		const {user} = this.state
 		return (
 			<header>
-				<div className="navbar sticky-top navbar-red">
-					<button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#menu-content" aria-controls="menu-content" aria-expanded="false" aria-label="Toggle navigation">
-					<span className="navbar-toggler-icon"></span>
-					</button>
-					<a className="navbar-brand text-center" href="/home">Charades Online</a>
-				</div>
-				<nav className="collapse" id="menu-content">
-					<div className="bg-red p-4">
-						<ul className="navbar-nav">
-							<li className="nav-item active">
-								<a className="nav-link" href="/home">Home</a>
-							</li>
-							<li className="nav-item">
-								<a className="nav-link" href="/register">Register</a>
-							</li>
-							<li className="nav-item">
-								<a className="nav-link" href="#">About</a>
-							</li>
-							<li className="nav-item">
-								<a className="nav-link disabled" href="#">Tutorial</a>
-							</li>
-							{user != null  ? (
-								
-								<li className="nav-item active">
-									<a className="nav-link" href="/login" onClick={this.userLogOut}>Logout</a>
-								</li>
-							
-							 ) : (
-								<li className="nav-item active">
-								<a className="nav-link" href="/login">Login</a>
-							</li>
-							)}
-						</ul>
-					</div>
-				</nav>
-				
 				<div className="container-fluid">
 						<Router>
 							<PrivateRoute exact path="/" component={Home} />
@@ -76,9 +40,7 @@ class App extends React.Component {
 							<Route path="/login/:match_id?" component={LoginForm} />
 							<Route path="/forgot-password" component={ResetPassword} />
 						</Router>
-						<div className="logo-container mt-5 mb-2">
-							<img src="/images/logo_transparent_background.svg" className="img-fluid"></img>
-						</div>
+						
 				</div>
 			</header>
 		);
