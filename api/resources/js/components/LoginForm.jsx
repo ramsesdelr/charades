@@ -14,7 +14,12 @@ class LoginForm extends React.Component {
             error: '',
             loading: false,
             register_link: `/register/${match_id}`,
+            redirect_uri: `${process.env.MIX_APP_URL}/login`
         };
+
+        if(match_id != '') {
+            localStorage.setItem('match_id', match_id);
+        }
 
         this.handleChange = this.handleChange.bind(this);
         this.loginUser = this.loginUser.bind(this);
@@ -35,12 +40,11 @@ class LoginForm extends React.Component {
     }
 
     async addUserToMatch(user) {
-        if(this.props.match.params.match_id) {
-            let match_id = atob(this.props.match.params.match_id);
-            let user_added = await usersService.addUserToMatch(user.user_data.email, match_id);
-            if(user_added.data.response.status == 400) {
-            }
-            window.location.replace(`/current_match/${match_id}`)
+        let match_id = localStorage.getItem('match_id') || '';
+        if(match_id != '') {
+            let match_id_decoded = atob(this.props.match.params.match_id);
+            let user_added = await usersService.addUserToMatch(user.user_data.email, match_id_decoded);
+            window.location.replace(`/current_match/${match_id_decoded}`)
         } else {
             this.props.history.push('/home/');
         }
@@ -55,10 +59,12 @@ class LoginForm extends React.Component {
         }
 
         this.setState({ loading: true });
+
+        let match_id = localStorage.getItem('match_id') || '';
         let login_data = {
             email: email,
             password: password,
-            match_id: this.props.match.params.match_id || ''
+            match_id: match_id
         };
 
         usersService.login(login_data).then(
@@ -70,6 +76,7 @@ class LoginForm extends React.Component {
                     this.props.loginUser(response.data.user_data);
                     if(login_data.match_id != '') {
                         let match_id = atob(login_data.match_id);
+                        localStorage.removeItem('match_id');
                         window.location.replace(`/current_match/${match_id}`)
                     } else {
                         window.location.reload()
@@ -77,12 +84,11 @@ class LoginForm extends React.Component {
                 } else {
                 	this.setState({error: 'Invalid email/password, please check your info and try again.'});
                 }
-                
             }
         );
     }
 
-    loginUserOnFacebook(facebook_data) {
+     loginUserOnFacebook(facebook_data) {
         if(facebook_data === undefined) {
             return;
         }
@@ -92,10 +98,17 @@ class LoginForm extends React.Component {
                
                 if(response.status == 200) {
                     const { from } = this.props.location.state || { from: { pathname: "/home" } };
-                    this.props.loginUser(response.data.user_data);
-                    if(this.props.match.params.match_id) {
-                        let match_id = atob(this.props.match.params.match_id);
-                        window.location.replace(`/current_match/${match_id}`)
+                    let user = this.props.loginUser(response.data.user_data);
+                    let match_id = localStorage.getItem('match_id') || '';
+                    if(match_id != '') {
+                        let match_id_decoded = atob(match_id);
+                        let user_added =  usersService.addUserToMatch(user.data.email, match_id_decoded).then( response=> {
+                            if(user_added) {
+                                localStorage.removeItem('match_id');
+                                window.location.replace(`/current_match/${match_id_decoded}`);
+                            }
+                        });
+
                     } else {
                         window.location.reload()
                     }
@@ -108,7 +121,7 @@ class LoginForm extends React.Component {
     }
 
     render() {
-        const { email, password, loading, error, register_link } = this.state;
+        const { email, password, loading, error, register_link, redirect_uri } = this.state;
 
         return (
              <section className="card-container">
@@ -154,6 +167,7 @@ class LoginForm extends React.Component {
                                     autoLoad={false}
                                     fields="name,email,picture"
                                     size="medium"
+                                    redirectUri={redirect_uri}
                                     callback={this.loginUserOnFacebook} />
                               </div>
                             </form>

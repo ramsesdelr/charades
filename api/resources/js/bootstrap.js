@@ -23,7 +23,7 @@ try {
 window.axios = require('axios');
 
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
-window.axios.defaults.baseURL = 'https://charades.test/api/';
+window.axios.defaults.baseURL = `${process.env.MIX_APP_URL}/api`;
 let user = JSON.parse(localStorage.getItem('user'));
 
 if(user && user.token) {

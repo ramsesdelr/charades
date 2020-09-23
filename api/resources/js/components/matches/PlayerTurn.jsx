@@ -20,8 +20,8 @@ class PlayerTurn extends React.Component {
     }
 
     componentDidMount() {
-        const pusher = new Pusher('a9f6c879a24fcaac7c20', {
-            cluster: 'us2',
+        const pusher = new Pusher(process.env.MIX_PUSHER_APP_KEY, {
+            cluster: process.env.MIX_PUSHER_APP_CLUSTER,
             forceTLS: true
         });
 
