@@ -167,6 +167,9 @@ class LoginForm extends React.Component {
                                     autoLoad={false}
                                     fields="name,email,picture"
                                     size="medium"
+                                    textButton="Facebook Login"
+                                    disableMobileRedirect={true}
+                                    isMobile={true}
                                     redirectUri={redirect_uri}
                                     callback={this.loginUserOnFacebook} />
                               </div>

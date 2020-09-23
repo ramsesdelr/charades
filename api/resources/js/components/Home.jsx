@@ -46,7 +46,7 @@ class Home extends React.Component {
 							</tr>
 						</thead>
 						<tbody>
-							{recent_matches.length > 0 &&
+							{recent_matches &&
 								recent_matches.map((match, index) => {
 									return <tr key={index}>
 										<td>{match.name}</td>
