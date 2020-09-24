@@ -370,22 +370,51 @@ input:focus {
 /**New CSS Layout **/
 
 body {
-  font-family: proxima-soft, sans-serif;
-  font-weight: 500;
-  font-style: normal;
+	font-family: proxima-soft, sans-serif;
+	font-weight: 500;
+	font-style: normal;
 }
-
+.logo-top {
+	max-width: 80%;
+}
+.white-label {
+	color:#FFF;
+	font-family: proxima-soft, sans-serif;
+	text-align: center;
+	display: block;
+}
 /**Registration**/
-.title {
-
-}
 .title--main {
-  font-family: proxima-soft, sans-serif;
-  font-weight: 600;
-  font-style: normal;
-  
-  color:$dark-blue;
+	font-family: proxima-soft, sans-serif;
+	font-weight: 600;
+	font-style: normal;
+	color:$dark-blue;
 }
 .title--sub {
-  color: $blue;
+	color: $blue;
+	font-size: 16px;
+    margin-bottom: 26px;
+}
+
+.register {
+	max-width: 400px;
+}
+
+.register--container {
+	border-top-left-radius: 66px;
+	flex:1 1 auto;
+	border-top-right-radius: 66px;
+	padding:3.25rem;
+	min-height: 1px;
+	background-color: $blue;	
+}
+.register--label {
+	color:$dark-blue;
+	width: 100%;
+}
+.register--button {
+	background-color: $dark-blue;
+	color:#FFF;
+	text-transform: uppercase;
+	width: 100%;
 }

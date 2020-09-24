@@ -11331,6 +11331,17 @@ body {
   font-style: normal;
 }
 
+.logo-top {
+  max-width: 80%;
+}
+
+.white-label {
+  color: #FFF;
+  font-family: proxima-soft, sans-serif;
+  text-align: center;
+  display: block;
+}
+
 /**Registration**/
 
 .title--main {
@@ -11342,5 +11353,32 @@ body {
 
 .title--sub {
   color: #118ab2;
+  font-size: 16px;
+  margin-bottom: 26px;
+}
+
+.register {
+  max-width: 400px;
+}
+
+.register--container {
+  border-top-left-radius: 66px;
+  flex: 1 1 auto;
+  border-top-right-radius: 66px;
+  padding: 3.25rem;
+  min-height: 1px;
+  background-color: #118ab2;
+}
+
+.register--label {
+  color: #073b4c;
+  width: 100%;
+}
+
+.register--button {
+  background-color: #073b4c;
+  color: #FFF;
+  text-transform: uppercase;
+  width: 100%;
 }
 
