@@ -11344,16 +11344,18 @@ body {
 
 /**Registration**/
 
-.title--main {
+.title--main,
+.title--main--login {
   font-family: proxima-soft, sans-serif;
   font-weight: 600;
   font-style: normal;
   color: #073b4c;
+  font-size: 25px;
 }
 
 .title--sub {
   color: #118ab2;
-  font-size: 16px;
+  font-size: 14px;
   margin-bottom: 26px;
 }
 
@@ -11361,24 +11363,53 @@ body {
   max-width: 400px;
 }
 
-.register--container {
+.register--container,
+.register--container--login {
   border-top-left-radius: 66px;
   flex: 1 1 auto;
   border-top-right-radius: 66px;
   padding: 3.25rem;
   min-height: 1px;
+  height: 100%;
   background-color: #118ab2;
 }
 
-.register--label {
-  color: #073b4c;
-  width: 100%;
+.register--container--login {
+  background-color: #FFCA66;
 }
 
-.register--button {
+.register--label,
+.login--create-acount {
+  color: #073b4c;
+  width: 100%;
+  font-size: 16px;
+  margin-bottom: 5px;
+}
+
+.register--button,
+.login--buton {
   background-color: #073b4c;
   color: #FFF;
   text-transform: uppercase;
   width: 100%;
+  margin-top: 30px;
+  margin-bottom: 30px;
+}
+
+.login--buton {
+  background-color: #118ab2;
+}
+
+.register-input {
+  margin-bottom: 20px;
+}
+
+.title--main--login {
+  font-size: 24px;
+  margin-bottom: 16px;
+}
+
+.login--create-acount {
+  font-weight: 600;
 }
 

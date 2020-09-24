@@ -124,59 +124,58 @@ class LoginForm extends React.Component {
         const { email, password, loading, error, register_link, redirect_uri } = this.state;
 
         return (
-             <section className="card-container">
-                    <div className="card">
-                        <div className="logo-container mt-3">
-							<img src="/images/logo_transparent_background.svg" className="img-fluid"></img>
-						</div>
-                        <h1 className="text-center" id="login-title">Login</h1>
-                        <div className="card-body">
+            <section className="row justify-content-center">
+                <div className="card-container">
+                    <div className="register">
+                        <div className="mt-3 mb-3 text-center">
+                            <img src="/svg/charades-logo.svg" className="logo-top"></img>
+                        </div>
+                        <h1 className="text-center title--main--login">Welcome back!</h1>
+                        <div className="register--container--login">
                             {error &&
                                 <div className={'alert alert-danger'}>{error}</div>
                             }
                             <form onSubmit={this.loginUser}>
                                 <div className="input-group form-group">
-                                    <div className="input-group-prepend">
-                                        <span className="input-group-text"><i className="fas fa-user"></i></span>
-                                    </div>
-                                    <input type="text" name="email" className="form-control" placeholder="email" value={email}
-                                        onChange={this.handleChange}/>
+                                    <label className="register--label">Email</label>
+
+                                    <input type="text" name="email" className="form-control register-input" placeholder="email" value={email} onChange={this.handleChange} />
                                 </div>
                                 <div className="input-group form-group">
-                                    <div className="input-group-prepend">
-                                        <span className="input-group-text"><i className="fas fa-key"></i></span>
-                                    </div>
-                                    <input type="password" name="password" value={password}
-                                        onChange={this.handleChange}  className="form-control" placeholder="password" />
-                                </div>
-                            <button disabled={loading} className="btn btn-red full-width mb-4"> Login</button>
-                            <Link to='/forgot-password'>Forgot password?</Link>
-                            <hr></hr>
-                            <p className="text-center">
-                                Need an account?
-                            </p>
-                                <Link to={register_link}>
-                                <button disabled={loading} className="btn btn-light full-width"> Create Account</button></Link>
+                                    <label className="register--label">Password</label>
 
-                            {loading &&
+                                    <input type="password" name="password" value={password} onChange={this.handleChange} className="form-control register-input" placeholder="password" />
+                                </div>
+                                <Link to='/forgot-password' className="register--label">Forgot password?</Link>
+
+                                <button disabled={loading} className="btn login--buton"> Login</button>
+                                <hr></hr>
+                                <p className="text-center ">
+                                    Need an account? 
+                                    <Link to={register_link} className="login--create-acount text-center d-block">Create an Account</Link>
+
+                                     </p>
+
+                                {loading &&
                                     <img src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
-                            }
-                              <div className="text-center mt-4">
-                                <FacebookLogin
-                                    appId="314974593065150"
-                                    autoLoad={false}
-                                    fields="name,email,picture"
-                                    size="medium"
-                                    textButton="Facebook Login"
-                                    disableMobileRedirect={true}
-                                    isMobile={true}
-                                    redirectUri={redirect_uri}
-                                    callback={this.loginUserOnFacebook} />
-                              </div>
+                                }
+                                <div className="text-center mt-4">
+                                    <FacebookLogin
+                                        appId="314974593065150"
+                                        autoLoad={false}
+                                        fields="name,email,picture"
+                                        size="medium"
+                                        textButton="Facebook Login"
+                                        disableMobileRedirect={true}
+                                        isMobile={true}
+                                        redirectUri={redirect_uri}
+                                        callback={this.loginUserOnFacebook} />
+                                </div>
                             </form>
                         </div>
                     </div>
-                </section>
+                </div>
+            </section>
         );
     }
 }

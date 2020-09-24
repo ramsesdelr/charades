@@ -94,7 +94,7 @@ class RegisterForm extends React.Component {
                                 <div className="input-group form-group">
                                     <label className="register--label">Email</label>
                                     <input
-                                        className="form-control"
+                                        className="form-control register-input"
                                         type="text"
                                         name="email"
                                         placeholder="sample@email.com"
@@ -106,7 +106,7 @@ class RegisterForm extends React.Component {
                                 <div className="input-group form-group">
                                     <label className="register--label">Full Name</label>
                                     <input
-                                        className="form-control"
+                                        className="form-control register-input"
                                         type="text"
                                         name="name"
                                         placeholder="John Doe"
@@ -118,7 +118,7 @@ class RegisterForm extends React.Component {
                                 <div className="input-group form-group">
                                     <label className="register--label">Phone Number</label>
                                     <input
-                                        className="form-control"
+                                        className="form-control register-input"
                                         type="phone"
                                         name="phone"
                                         placeholder="305-000-0000"
@@ -129,7 +129,7 @@ class RegisterForm extends React.Component {
                                 <div className="input-group form-group">
                                     <label className="register--label">Password</label>
                                     <input
-                                        className="form-control"
+                                        className="form-control register-input"
                                         type="password"
                                         name="password"
                                         placeholder="Type password"
@@ -140,7 +140,7 @@ class RegisterForm extends React.Component {
                                 <div className="input-group form-group">
                                     <label className="register--label">Confirm Password</label>
                                     <input
-                                        className="form-control"
+                                        className="form-control register-input"
                                         type="password"
                                         name="password_v"
                                         placeholder="Confirm password"

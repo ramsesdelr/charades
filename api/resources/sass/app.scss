@@ -389,10 +389,11 @@ body {
 	font-weight: 600;
 	font-style: normal;
 	color:$dark-blue;
+	font-size: 25px;
 }
 .title--sub {
 	color: $blue;
-	font-size: 16px;
+	font-size: 14px;
     margin-bottom: 26px;
 }
 
@@ -406,15 +407,45 @@ body {
 	border-top-right-radius: 66px;
 	padding:3.25rem;
 	min-height: 1px;
-	background-color: $blue;	
+	height:100%;
+	background-color: $blue;
+}
+.register--container--login {
+	@extend .register--container;
+	background-color: $yellow;	
 }
 .register--label {
 	color:$dark-blue;
 	width: 100%;
+	font-size: 16px;
+	margin-bottom: 5px;
 }
 .register--button {
 	background-color: $dark-blue;
 	color:#FFF;
 	text-transform: uppercase;
 	width: 100%;
+	margin-top: 30px;
+    margin-bottom: 30px;
+}
+
+.login--buton {
+	@extend .register--button;
+	background-color: $blue;
+}
+
+.register-input {
+	margin-bottom: 20px;	
+}
+
+
+.title--main--login {
+	@extend .title--main;
+	font-size: 24px;
+	margin-bottom: 16px;;
+}
+
+.login--create-acount {
+	@extend .register--label;
+	font-weight: 600;
 }
