@@ -6,7 +6,11 @@ import { Tabs, Tab, Table } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import NewWord from './layouts/dashboard/NewWord';
 import UpdateSettings from './layouts/dashboard/UpdateSettings';
-
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { fab } from '@fortawesome/free-brands-svg-icons'
+import {  faChartPie } from '@fortawesome/free-solid-svg-icons'
+library.add(fab,  faChartPie);
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 class Home extends React.Component {
 	constructor(props) {
 		super(props);
@@ -30,43 +34,40 @@ class Home extends React.Component {
         const { recent_matches, user } = this.state;
 
 		return (
-			<section>
+			<main className="container">
+				<p className="title--sub-dashboard mb-2">Welcome to the fun</p>
 				 <div className="text-center">
-					<Link to="/match/new" className="btn btn-new-match">Match Start</Link>
+					<Link to="/match/new" className="btn btn-new-match">Start a Match</Link>
 				 </div>
-				<Tabs defaultActiveKey="matches" id="uncontrolled-tab-example">
-				<Tab eventKey="matches" title="Matches">
-					<Table striped bordered hover>
-						<thead>
-							<tr>
-								<th>Last Match</th>
-								<th>Winner</th>
-								<th>Match Score</th>
-								<th>VS Player</th>
-							</tr>
-						</thead>
-						<tbody>
-							{recent_matches &&
-								recent_matches.map((match, index) => {
-									return <tr key={index}>
-										<td>{match.name}</td>
-										<td>{match.winner}</td>
-										<td>{match.score}</td>
-										<td>{match.vs_player}</td>
-									</tr>
-								})
-							}
-						</tbody>
-					</Table>
-				</Tab>
-				<Tab eventKey="settings" title="Settings">
-					<UpdateSettings user_data={user} />
-				</Tab>
-				<Tab eventKey="words" title="Words">
-					<NewWord/>
-				</Tab>
-				</Tabs>
-			</section>
+				 <div className="row mt-4">
+					 <div className="col-6">
+						<p className="title--sub-dashboard mb-2">About last match</p>
+					 </div>
+					 <div className="col-6 text-right">
+						<Link  to="/">See all stats <FontAwesomeIcon icon="chart-pie"  /></Link>
+					 </div>
+				 </div>
+				 <section className="d-flex">
+					<div className="col-3 home--recent-match-block bg-green">
+						<div className="home--stats-number">22</div>
+						<div className="home--stats-description">Wins</div>
+					</div>
+					<div className="col-3 home--recent-match-block bg-blue">
+						<div className="home--stats-number">13</div>
+						<div className="home--stats-description">Losts</div>
+					</div>
+					<div className="col-3 home--recent-match-block bg-yellow">
+						<div className="home--stats-number">100</div>
+						<div className="home--stats-description">Score</div>
+					</div>
+					<div className="col-3 home--recent-match-block bg-dark-blue">
+						<div className="home--stats-number">Anthy</div>
+						<div className="home--stats-description">Foe</div>
+					</div>
+				 </section>
+				
+
+			</main>
 		);
 	}
 }

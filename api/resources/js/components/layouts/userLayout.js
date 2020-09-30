@@ -21,21 +21,52 @@ class UserLayout extends React.Component {
 	}
 	render() {
 		const { user } = this.props;
-		const username = user.name.split(" ");
+		const username =  user ?  user.name.split(" ") : null;
 		return (
 			<div className="container">
-				 {user && 
-					<header className="row mt-5">
+				 {username && 
+					<header className="row user-profile-container">
 							<div className="col-6">
 								<div className="d-flex align-items-center">
-									<img src="images/profile.jpg" className="profile-container--image"></img><span className="title--main">{username[0]} </span>
+									<img src="/images/profile.jpg" className="profile-container--image"></img><span className="title--main">{username[0]} </span>
 								</div>
 							</div>
 							<div className="col-6 d-flex justify-content-end align-items-center">
 								<div>
-									<FontAwesomeIcon icon="bars" size="lg" />
+									<a data-toggle="collapse"  data-target="#menu-content" aria-controls="menu-content" aria-expanded="false">
+										<FontAwesomeIcon icon="bars" size="lg" />
+									</a>
 								</div>
-							</div>	
+							</div>
+							<nav className="collapse" id="menu-content">
+								<div>
+									<ul className="navbar-nav">
+										<li className="nav-links active text-center">
+											<a className="title--main" href="/home">Home</a>
+										</li>
+										<li className="nav-links text-center">
+											<a className="title--main" href="/register">Register</a>
+										</li>
+										<li className="nav-links text-center">
+											<a className="title--main" href="#">About</a>
+										</li>
+										<li className="nav-links text-center">
+											<a className="title--main" href="#">Tutorial</a>
+										</li>
+										{user != null  ? (
+											
+											<li className="nav-links--last active text-center">
+												<a className="title--main" href="/login" onClick={this.userLogOut}>Logout</a>
+											</li>
+										
+										) : (
+											<li className="nav-links active text-center">
+											<a className="title--main" href="/login">Login</a>
+										</li>
+										)}
+									</ul>
+								</div>
+							</nav>	
 					</header>
 				 }
 				
@@ -50,5 +81,4 @@ const mapStateToProps = state => (
 	}
 );
 
-  
 export default connect(mapStateToProps, UserActions)(UserLayout);
