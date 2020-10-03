@@ -153,12 +153,13 @@ class MatchesRepository
         $finished_matches = Matches::whereNotNull('winner_id')->where('users_id', $user_id)->orderBy('id', 'DESC')->take(10)->get();
         $matches = [];
         foreach($finished_matches as $match) {
-            $oponent = UsersMatch::where('matches_id', $match->id)->where('users_id','!=', $user_id)->first();
+            $opponent = UsersMatch::where('matches_id', $match->id)->where('users_id','!=', $user_id)->first();
             $matches[] = [
                 'name' => $match->name,
                 'winner' => $match->user->name,
-                'score'=> $this->matchScores($match->id),
-                'vs_player' => $oponent->user[0]->name ?? 'Unknown'
+                'score'=> $this->matchScores($match->id, $user_id),
+                'vs_player' => $opponent->user[0]->name ?? 'Unknown',
+                'category' => $match->category->title
             ];
         }
         return response()->json([
@@ -172,12 +173,11 @@ class MatchesRepository
      * @param int $match_id
      * @return string
      */
-    public function matchScores($match_id) {
-        $match_score = UsersMatch::select('score')->where('matches_id', $match_id)->orderBy('score','desc')->get();
-        $match_result = '';
-        if(count($match_score) > 1 ) {
-            $match_result = $match_score[0]->score . ' / ' . $match_score[1]->score;
-        }
+    public function matchScores($match_id, $user_id) {
+        $user_score = UsersMatch::select('score')->where('matches_id', $match_id)->where('users_id', $user_id)->first();
+        $oponent_score = UsersMatch::select('score')->where('matches_id', $match_id)->where('users_id','!=', $user_id)->first();
+        $match_result = [];
+        $match_result =  ['you' => $user_score->score, 'opponent'=> $oponent_score->score];
         return $match_result;     
     }
 
@@ -194,6 +194,25 @@ class MatchesRepository
             return true;
         }
         return false;
+    }
+
+    /**
+     * Get the most recent match from an user
+     * @param int $user_id
+     * @param string
+     */
+    public function getLastMatchByUserId($user_id) {
+        
+        $last_match = Matches::whereNotNull('winner_id')->where('users_id', $user_id)->orderBy('id', 'DESC')->first();
+        $opponent = UsersMatch::where('matches_id', $last_match->id)->where('users_id','!=', $user_id)->first();
+
+        return response()->json([
+            'name' => $last_match->name,
+            'winner' => $last_match->user->name,
+            'score'=> $this->matchScores($last_match->id, $user_id),
+            'vs_player' => $opponent->user[0]->name ?? 'Unknown',
+            'category' => $last_match->category->title
+        ]);
     }
     
 }

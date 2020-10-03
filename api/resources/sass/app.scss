@@ -517,3 +517,9 @@ a {
 .bg-dark-blue {
 	background-color: $dark-blue;
 }
+
+.recent-matches-container {
+    border: 2px solid #073b4c;
+    border-radius: 7px;
+    overflow-x: auto;
+}

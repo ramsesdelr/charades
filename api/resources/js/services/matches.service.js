@@ -13,7 +13,8 @@ export const matchesService = {
     addMatchWinner,
     getRecentMatchesByUser,
     getplayerIndex,
-    notifyPlayerMatchEnded
+    notifyPlayerMatchEnded,
+    getLastMatchByUser
 };
 
 /**
@@ -226,6 +227,19 @@ function addMatchWinner(match_id) {
 function getRecentMatchesByUser(user_id) {
    
     return axios.get(`/matches/recent/${user_id}`).then( (response) => {
+        return response.data;
+    }).catch((error) => {
+        return error;
+    });
+}
+
+/**
+ * Retrieve the latest matches played by a user
+ * @param int user_id
+ * @return string
+ */
+function getLastMatchByUser(user_id) {
+    return axios.get(`/matches/last/${user_id}`).then( (response) => {
         return response.data;
     }).catch((error) => {
         return error;
