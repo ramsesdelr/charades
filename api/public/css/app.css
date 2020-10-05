@@ -11485,3 +11485,27 @@ a {
   overflow-x: auto;
 }
 
+.invite-friend-container {
+  border: 1px solid #073b4c;
+  border-radius: 7px;
+  color: #073b4c;
+  min-height: 160px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: 600;
+}
+
+.footer-container {
+  background-image: url(/images/logo-bg.svg?af664c3…);
+  min-height: 184px;
+  display: flex;
+  background-size: contain;
+  justify-content: center;
+  margin-top: 2em;
+}
+
+.logo-bottom {
+  max-width: 186px;
+}
+

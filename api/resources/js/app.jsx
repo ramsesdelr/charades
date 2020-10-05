@@ -7,6 +7,7 @@ import  RegisterForm from './components/RegisterForm';
 import  NewMatch from './components/matches/NewMatch';
 import  Match from './components/matches/Match';
 import ResetPassword from './components/ResetPassword';
+import RecentMatches from './components/matches/RecentMatches';
 import { usersService } from './services/users.service';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -33,6 +34,7 @@ class App extends React.Component {
 						<Router>
 							<PrivateRoute exact path="/" component={Home} />
 							<PrivateRoute  path="/home" component={Home} />
+							<PrivateRoute  path="/matches/recent" component={RecentMatches} />
 							<PrivateRoute exact path="/match/new" component={NewMatch} />
 							<PrivateRoute exact path="/current_match/:match_id" component={Match} />
 							<Route path="/logout" component={LoginForm} />

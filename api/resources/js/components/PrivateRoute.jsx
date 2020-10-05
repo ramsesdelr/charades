@@ -71,6 +71,9 @@ class AuthenticateToken extends React.Component {
             <div>
                 <UserLayout {...props}/>
                 <Component {...props} />
+                <footer className="footer-container text-center">
+					<img src="/svg/charades-logo.svg" className="logo-bottom"></img>
+				</footer>
             </div>
         )
         
