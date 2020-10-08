@@ -8,6 +8,8 @@ import  NewMatch from './components/matches/NewMatch';
 import  Match from './components/matches/Match';
 import ResetPassword from './components/ResetPassword';
 import RecentMatches from './components/matches/RecentMatches';
+import UpdateSettings from './components/users/UpdateSettings';
+import NewWord from './components/users/NewWord';
 import { usersService } from './services/users.service';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -35,6 +37,8 @@ class App extends React.Component {
 							<PrivateRoute exact path="/" component={Home} />
 							<PrivateRoute  path="/home" component={Home} />
 							<PrivateRoute  path="/matches/recent" component={RecentMatches} />
+							<PrivateRoute  path="/user/settings" component={UpdateSettings} />
+							<PrivateRoute  path="/user/new_word" component={NewWord} />
 							<PrivateRoute exact path="/match/new" component={NewMatch} />
 							<PrivateRoute exact path="/current_match/:match_id" component={Match} />
 							<Route path="/logout" component={LoginForm} />

@@ -1,5 +1,5 @@
 import React from 'react';
-import { usersService } from '../../../services/users.service'
+import { usersService } from '../../services/users.service'
 import { connect } from 'react-redux';
 import { Alert } from 'react-bootstrap';
 
@@ -65,14 +65,28 @@ class UpdateSettings extends React.Component {
     render() {
         const {loading, update_success, name, email, phone, update_error } = this.state;
         return (
-            <section className="match-box col-12 mt-4">
-                <div className="card">
-                    <h1 className="text-center mt-4" id="login-title">Update Settings</h1>
+            <div>
+                <p className="title--sub-dashboard mb-2 col-12">Looking for some change? Go Ahead!</p>
+                	
+            <section className="col-12 mt-4 d-flex flex-column align-items-center">
+               
+                <div className="user-settings-container">
+                    <h1 className="title--main text-center mt-4">Update Settings</h1>
                     {loading && 
                         <div>Updating...</div>
                     }
                     <form onSubmit={this.updateUser}>
                         <div className="card-body">
+                            {update_success != null &&
+                                <Alert variant="success"  onClose={() => this.disableNewWordAlert()}  dismissible>
+                                    {update_success}
+                                </Alert> 
+                                }
+                                {update_error != null &&
+                                <Alert variant="warning" onClose={() => this.disableNewWordAlert()}  dismissible>
+                                    {update_error}
+                                </Alert> 
+                                }
                             <div className="input-group form-group">
                                 <input type="text" name="name" value={name} onChange={this.handleChange} className="form-control text-center" placeholder="Full name" />
                             </div>
@@ -89,23 +103,15 @@ class UpdateSettings extends React.Component {
                                 <input type="password" name="password_validate" onChange={this.handleChange} className="form-control text-center" placeholder="Repeat your Password" />
                             </div>
                            
-                            <div className="button-container">
-                                <button className="btn btn-new-match" type="submit">Update</button>
+                            <div>
+                                <button className="btn login--buton" type="submit">Update</button>
                             </div> 
-                            {update_success != null &&
-                            <Alert variant="success"  onClose={() => this.disableNewWordAlert()}  dismissible>
-                                {update_success}
-                            </Alert> 
-                            }
-                            {update_error != null &&
-                            <Alert variant="warning" onClose={() => this.disableNewWordAlert()}  dismissible>
-                                {update_error}
-                            </Alert> 
-                            }
+                           
                         </div>
                     </form>
                 </div>
             </section>
+            </div>
 
         );
     }

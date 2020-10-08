@@ -11509,3 +11509,11 @@ a {
   max-width: 186px;
 }
 
+.user-settings-container {
+  margin-top: auto;
+  margin-bottom: auto;
+  width: 100%;
+  background-color: #FFCA66;
+  border-radius: 10px;
+}
+

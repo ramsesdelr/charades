@@ -1,5 +1,5 @@
 import React from 'react';
-import { usersService } from '../../../services/users.service'
+import { usersService } from '../../services/users.service'
 import { connect } from 'react-redux';
 import { Alert } from 'react-bootstrap';
 
