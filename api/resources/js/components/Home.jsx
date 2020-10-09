@@ -5,8 +5,8 @@ import { matchesService } from '../services/matches.service';
 import { connect } from 'react-redux';
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { fab } from '@fortawesome/free-brands-svg-icons'
-import { faUserFriends, faBook } from '@fortawesome/free-solid-svg-icons'
-library.add(fab, faUserFriends, faBook);
+import { faUsersCog, faBook } from '@fortawesome/free-solid-svg-icons'
+library.add(fab, faUsersCog, faBook);
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import LastMatch from './matches/LastMatch';
 
@@ -40,19 +40,23 @@ class Home extends React.Component {
 						<Link to="/match/new" className="btn btn-new-match">Start a Match</Link>
 					</div>
 						<LastMatch/>
-					<p className="title--sub-dashboard mb-2">Expand your game</p>
+					<p className="title--sub-dashboard mb-2 mt-5">Expand your game</p>
 					<div className="d-flex">
 				
 						<div className="col-6 text-center invite-friend-container  mr-2">
 							<div className="text-center">
-								<FontAwesomeIcon icon="user-friends" size="5x" />
-								<div className="mt-1">Invite a Friend</div>
+								<Link to="/user/settings">
+									<FontAwesomeIcon className="color-dark-blue" icon="users-cog" size="5x" />
+										<div className="mt-1 color-dark-blue">Settings</div>
+								</Link>
 							</div>
 						</div>
 						<div className="col-6 text-center invite-friend-container">
 							<div className="text-center">
-								<FontAwesomeIcon icon="book" size="5x" />
-								<div className="mt-1">Add Words</div>
+								<Link to="/user/new_word">
+									<FontAwesomeIcon className="color-dark-blue"  icon="book" size="5x" />
+									<div className="mt-1 color-dark-blue">Add Words</div>
+								</Link>
 							</div>
 						</div>
 					</div>

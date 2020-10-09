@@ -64,46 +64,48 @@ class NewWord extends React.Component {
     render() {
         const {loading, word_added, title, word_error, categories } = this.state;
         return (
-            <section className="match-box col-12 mt-4">
-                <div className="card">
-                    <h1 className="text-center" id="login-title">New Word</h1>
-                    {loading && 
-                        <div>Creating...</div>
-                    }
-                    <form onSubmit={this.createWord}>
-                        <div className="card-body">
-                            {word_error === true &&
-                                <Alert variant="warning" onClose={() => this.disableNewWordAlert()}  dismissible>
-                                    This word already exist
-                                </Alert> 
-                            }
-                             {word_added === true &&
-                                <Alert variant="success"  onClose={() => this.disableNewWordAlert()}  dismissible>
-                                    Word added succesfully!
-                                </Alert> 
-                            }
-                            <div className="input-group form-group">
-                                <input type="text" name="title" value={title} onChange={this.handleChange} className="form-control text-center" placeholder="Word Title" />
+            <div className="new-word-container">
+                <p className="title--sub-dashboard mb-2 col-12">Adding some words? The more the merrier!</p>
+                <section className="col-12 mt-4 d-flex flex-column align-items-center">
+                    <div className="user-settings-container">
+                        <h1 className="title--main text-center mt-4">New Word</h1>
+                        {loading && 
+                            <div>Creating...</div>
+                        }
+                        <form onSubmit={this.createWord}>
+                            <div className="card-body">
+                                {word_error === true &&
+                                    <Alert variant="warning" onClose={() => this.disableNewWordAlert()}  dismissible>
+                                        This word already exist
+                                    </Alert> 
+                                }
+                                {word_added === true &&
+                                    <Alert variant="success"  onClose={() => this.disableNewWordAlert()}  dismissible>
+                                        Word added succesfully!
+                                    </Alert> 
+                                }
+                                <div className="input-group form-group">
+                                    <input type="text" name="title" value={title} onChange={this.handleChange} className="form-control text-center" placeholder="Word Title" />
+                                </div>
+
+                                <select className="form-control mb-4" name="categories_id" onChange={this.handleChange}>
+                                {categories.length > 0 &&
+                                        categories.map((category, index) => {
+                                            return <option key={index} value={category.id}>{category.title}</option>
+                                        })
+                                }
+                                </select>
+                                <div>
+                                    <button className="btn login--buton" type="submit">Add Word</button>
+                                </div> 
+                            
+                            
                             </div>
+                        </form>
+                    </div>
 
-                            <select className="form-control mb-4" name="categories_id" onChange={this.handleChange}>
-                            {categories.length > 0 &&
-                                	categories.map((category, index) => {
-                                        return <option key={index} value={category.id}>{category.title}</option>
-                                    })
-
-                            }
-                            </select>
-                            <div className="button-container">
-                                <button className="btn btn-new-match" type="submit">Add</button>
-                            </div> 
-                           
-                           
-                        </div>
-                    </form>
-                </div>
-
-            </section>
+                </section>
+            </div>
 
         );
     }

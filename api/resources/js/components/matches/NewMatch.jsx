@@ -3,23 +3,36 @@ import { matchesService } from '../../services/matches.service'
 import { connect } from 'react-redux';
 import { usersService } from '../../services/users.service';
 import { Modal, Button , Alert} from 'react-bootstrap';
-
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { fab } from '@fortawesome/free-brands-svg-icons'
+import { faFilm, faHatWizard, faPersonBooth, faSmile, faTv } from '@fortawesome/free-solid-svg-icons'
+library.add(fab, faFilm, faHatWizard, faPersonBooth, faSmile, faTv);
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 class NewMatch extends React.Component {
     constructor(props) {
         super(props);
-        let COLOR_LIST =  ['aqua', 'black', 'brown', 'cyan', 'magenta', 'cadetblue','blueviolet','burlywood', 'tistle', 'tomato', 'slategray', 'slateblue', 'skyblue', 'sienna', 'seagreen'];
         this.state = {
             match_name: '',
             categories_id: '',
             error: '',
             loading: false,
             user:{},
-            bg_color: COLOR_LIST,
             categories:[],
             modal_show: false,
+            category_icon: {
+                0: 'film',
+                1: 'film',
+                2: 'hat-wizard',
+                3: 'person-booth',
+                4: 'smile',
+                5: 'tv',
+            }
         };
 
+        //@TODO: Capture title and bg color for confirmation modal
+
+    
         this.handleChange = this.handleChange.bind(this);
         this.createMatch = this.createMatch.bind(this);
         this.selectCategory = this.selectCategory.bind(this);
@@ -72,7 +85,7 @@ class NewMatch extends React.Component {
     }
 
     modalHandleClose() {
-        this.setState({modal_show: false, categories_id: null});
+        this.setState({modal_show: false, categories_id: 0});
     }
 
     selectCategory(category_id) {
@@ -80,30 +93,102 @@ class NewMatch extends React.Component {
     }
 
     render() {
-        const {loading, bg_color, categories, modal_show } = this.state;
+        const {loading, category_icon, categories_id , modal_show } = this.state;
 
         return (
-            <section>
-                <div className="row">
-                    {categories.length > 0 &&
-                        categories.map((category, index)  =>  {
-                            return <div key={index} className="col-lg-6 col-md-6 col-sm-6 col-xs-12 category-name" style={{backgroundColor: bg_color[Math.floor(Math.random() * bg_color.length)]}}>
-                            <a className="category-link" onClick={() => { this.selectCategory(category.id) }}>{category.title}</a>
+            <div>
+				<p className="title--sub-dashboard mb-2">Select the genre to continue</p>
+				<section className="container">
+                    <div className="row">
+						<div className="col-6 text-center category-container bg-red">
+                            <a onClick={() => { this.selectCategory(1) }}>
+                                <div className="text-center">
+                                    <FontAwesomeIcon className="color-white" icon="film" size="3x" />
+                                    <div className="mt-1 category-title">Movies</div>		
+                                </div>
+                            </a>
+						</div>
+						<div className="col-6 text-center category-container bg-yellow">
+                            <a onClick={() => { this.selectCategory(2) }}>
+                                <div className="text-center">
+                                    <FontAwesomeIcon className="color-white" icon="hat-wizard" size="3x" />
+                                    <div className="mt-1 category-title">Random</div>
+                                </div>
+                            </a>
+						</div>
                         </div>
-                        })
-                    }
-                </div>
+                        <div className="row">
+                            <div className="col-6 text-center category-container bg-blue">
+                                <a onClick={() => { this.selectCategory(3) }}>
+                                    <div className="text-center">
+                                        <FontAwesomeIcon className="color-white" icon="person-booth" size="3x" />
+                                        <div className="mt-1 category-title">Act it Out</div>		
+                                    </div>
+                                </a>
+                            </div>
+                            <div className="col-6 text-center category-container bg-green">
+                                <a onClick={() => { this.selectCategory(4) }}>
+                                    <div className="text-center">
+                                        <FontAwesomeIcon className="color-white" icon="smile" size="3x" />
+                                        <div className="mt-1 category-title">People</div>		
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                        <div className="row">
+                            <div className="col-6 text-center category-container bg-dark-blue">
+                                <a onClick={() => { this.selectCategory(5) }}>
+                                    <div className="text-center">
+                                        <FontAwesomeIcon className="color-white" icon="tv" size="3x" />
+                                        <div className="mt-1 category-title">TV Shows</div>		
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+				
+                 </section>
                 <Modal show={modal_show} onHide={this.modalHandleClose}>
                     <Modal.Header closeButton>
                         <Modal.Title>New Match</Modal.Title>
+
                     </Modal.Header>
-                    <Modal.Body>Start a Match with this category?</Modal.Body>
+                    
+                    <Modal.Body>
+                        <div className="col-6 text-center category-container bg-red">
+                            <div className="text-center">
+                                <FontAwesomeIcon className="color-white"icon={category_icon[categories_id]} size="3x" />
+                                <div className="mt-1 category-title">People</div>		
+                            </div>
+                        </div>
+                         Start a Match with this category?
+                         </Modal.Body>
                     <Modal.Footer>
                         <a className="btn btn-primary btn-red" onClick={this.modalHandleClose}>Cancel</a>
                         <a className="btn btn-primary btn-red" onClick={this.createMatch}>Start</a>
                     </Modal.Footer>
                 </Modal>
-        </section>
+            </div>
+        //     <section>
+        //         <div className="row">
+        //             {categories.length > 0 &&
+        //                 categories.map((category, index)  =>  {
+        //                     return <div key={index} className="col-lg-6 col-md-6 col-sm-6 col-xs-12 category-name" style={{backgroundColor: bg_color[Math.floor(Math.random() * bg_color.length)]}}>
+        //                     <a className="category-link" onClick={() => { this.selectCategory(category.id) }}>{category.title}</a>
+        //                 </div>
+        //                 })
+        //             }
+        //         </div>
+        //         <Modal show={modal_show} onHide={this.modalHandleClose}>
+        //             <Modal.Header closeButton>
+        //                 <Modal.Title>New Match</Modal.Title>
+        //             </Modal.Header>
+        //             <Modal.Body>Start a Match with this category?</Modal.Body>
+        //             <Modal.Footer>
+        //                 <a className="btn btn-primary btn-red" onClick={this.modalHandleClose}>Cancel</a>
+        //                 <a className="btn btn-primary btn-red" onClick={this.createMatch}>Start</a>
+        //             </Modal.Footer>
+        //         </Modal>
+        // </section>
         )
     }
 }

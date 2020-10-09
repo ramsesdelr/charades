@@ -11461,22 +11461,35 @@ a {
 
 .bg-blue {
   background-color: #118ab2;
+  border: 1px solid rgba(0, 43, 58, 0.65);
 }
 
 .bg-green {
   background-color: #06D69E;
+  border: 1px solid #0b775ab8;
 }
 
 .bg-red {
   background-color: #EF476F;
+  border: 1px solid rgba(142, 14, 44, 0.65);
 }
 
 .bg-yellow {
   background-color: #FFCA66;
+  border: 1px solid rgba(255, 167, 0, 0.65);
 }
 
 .bg-dark-blue {
   background-color: #073b4c;
+  border: 1px solid rgba(0, 17, 23, 0.65);
+}
+
+.color-dark-blue {
+  color: #073b4c;
+}
+
+.color-white {
+  color: #FFF;
 }
 
 .recent-matches-container {
@@ -11515,5 +11528,25 @@ a {
   width: 100%;
   background-color: #FFCA66;
   border-radius: 10px;
+}
+
+.new-word-container {
+  min-height: 470px;
+}
+
+.category-title {
+  font-family: blockhead-dark-side, sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 34px;
+  color: #FFF;
+}
+
+.category-container {
+  border-radius: 7px;
+  min-height: 160px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 

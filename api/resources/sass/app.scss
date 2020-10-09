@@ -500,22 +500,35 @@ a {
 
 .bg-blue {
 	background-color: $blue;
+	border: 1px solid rgb(0, 43, 58, 0.65);
 }
 
 .bg-green {
 	background-color: $green;
+	border: 1px solid #0b775ab8;
 }
 
 .bg-red {
 	background-color: $red;
+	border: 1px solid rgb(142, 14, 44, 0.65)
 }
 
 .bg-yellow {
 	background-color: $yellow;
+	border: 1px solid rgb(255, 167, 0, 0.65);
 }
 
 .bg-dark-blue {
 	background-color: $dark-blue;
+	border: 1px solid rgb(0, 17, 23, 0.65)
+}
+
+.color-dark-blue {
+  	color: $dark-blue;
+}
+
+.color-white {
+	color:#FFF;
 }
 
 .recent-matches-container {
@@ -554,4 +567,24 @@ a {
   width: 100%;
   background-color: $yellow;
   border-radius: 10px;
+}
+
+.new-word-container {
+	min-height: 470px;
+}
+
+.category-title {
+	font-family:  blockhead-dark-side, sans-serif;
+	font-weight: 400;
+	font-style: normal;
+	font-size: 34px;
+	color:#FFF;
+}
+
+.category-container {
+	border-radius: 7px;
+    min-height: 160px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
