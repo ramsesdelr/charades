@@ -11253,11 +11253,6 @@ input:focus {
   padding: 10px 30px;
 }
 
-.modal-body {
-  text-align: center;
-  font-size: 24px;
-}
-
 .modal-title {
   font-weight: bold;
   font-size: 28px;
@@ -11313,6 +11308,7 @@ a {
 /**Registration**/
 
 .title--main,
+.title--main--modal,
 .title--main--login {
   font-family: proxima-soft, sans-serif;
   font-weight: 600;
@@ -11534,12 +11530,26 @@ a {
   min-height: 470px;
 }
 
-.category-title {
+.category-title,
+.category-title--modal {
   font-family: blockhead-dark-side, sans-serif;
   font-weight: 400;
   font-style: normal;
   font-size: 34px;
   color: #FFF;
+}
+
+.modal-body {
+  text-align: center;
+  font-size: 24px;
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+  padding: 52px 0px 0px 0px;
+}
+
+.category-title--modal {
+  font-size: 26px;
 }
 
 .category-container {
@@ -11548,5 +11558,34 @@ a {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.modal-text {
+  padding: 20px 20px;
+  font-size: 20px;
+  line-height: 1.2;
+  color: #073b4c;
+}
+
+.title--main--modal {
+  font-size: 34px;
+}
+
+.modal-open {
+  background-color: #5fb0cb;
+}
+
+.modal-backdrop.show {
+  opacity: 0;
+}
+
+.modal.show .modal-dialog {
+  padding: 4px;
+}
+
+.modal-button--confirmation {
+  border: 1px solid;
+  border-radius: 5px;
+  padding: 7px 0px;
 }
 

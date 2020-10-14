@@ -5,6 +5,8 @@ import * as UserActions from './../../actions/users';
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { fab } from '@fortawesome/free-brands-svg-icons'
 import {  faBars } from '@fortawesome/free-solid-svg-icons'
+import { Link } from 'react-router-dom';
+
 library.add(fab,  faBars);
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
@@ -28,7 +30,8 @@ class UserLayout extends React.Component {
 					<header className="row user-profile-container">
 							<div className="col-6">
 								<div className="d-flex align-items-center">
-									<img src="/images/profile.jpg" className="profile-container--image"></img><span className="title--main">{username[0]} </span>
+									<img src="/images/profile.jpg" className="profile-container--image"></img> 
+									<Link to="/home"><span className="title--main">{username[0]} </span></Link>
 								</div>
 							</div>
 							<div className="col-6 d-flex justify-content-end align-items-center">

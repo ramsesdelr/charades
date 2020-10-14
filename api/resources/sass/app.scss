@@ -299,10 +299,7 @@ input:focus {
     }
 }
 
-.modal-body {
-  text-align: center;
-  font-size: 24px;
-}
+
 
 .modal-title {
   font-weight: bold;
@@ -562,11 +559,11 @@ a {
 }
 
 .user-settings-container {
-  margin-top: auto; 
-  margin-bottom: auto;
-  width: 100%;
-  background-color: $yellow;
-  border-radius: 10px;
+	margin-top: auto; 
+	margin-bottom: auto;
+	width: 100%;
+	background-color: $yellow;
+	border-radius: 10px;
 }
 
 .new-word-container {
@@ -581,10 +578,50 @@ a {
 	color:#FFF;
 }
 
+.modal-body {
+	text-align: center;
+  	font-size: 24px;
+	display: flex;
+	flex-flow: column;
+	align-items: center;
+	padding:52px 0px 0px 0px;
+}
+
+.category-title--modal {
+	@extend .category-title;
+	font-size: 26px;
+}
+
 .category-container {
 	border-radius: 7px;
     min-height: 160px;
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.modal-text {
+	padding: 20px 20px;
+    font-size: 20px;
+    line-height: 1.2;
+    color: $dark-blue;
+}
+.title--main--modal {
+	@extend .title--main;
+	font-size: 34px;
+}
+.modal-open {
+	background-color: #5fb0cb;
+}
+.modal-backdrop.show {
+	opacity: 0;
+}
+.modal.show .modal-dialog {
+	padding: 4px;
+}
+
+.modal-button--confirmation {
+	border: 1px solid;
+    border-radius: 5px;
+    padding: 7px 0px;
 }
