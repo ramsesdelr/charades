@@ -625,3 +625,19 @@ a {
     border-radius: 5px;
     padding: 7px 0px;
 }
+.rotate-phone {
+	-webkit-animation:rotate 1.2s infinite; // No more infinite
+    -moz-animation:rotate 1.2s infinite;
+    animation:rotate 1.2s infinite;
+}
+@-moz-keyframes rotate {
+    100% { -webkit-transform: rotate(90deg); transform:rotate(90deg); }
+}
+@-webkit-keyframes rotate {
+	0% { -webkit-transform: rotate(270deg); transform:rotate(270deg); }
+    100% { -webkit-transform: rotate(360deg); transform:rotate(360deg); }
+}
+@keyframes rotate { 
+	0% { -webkit-transform: rotate(270deg); transform:rotate(270deg); }
+    100% { -webkit-transform: rotate(360deg); transform:rotate(360deg); }
+}

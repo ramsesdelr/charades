@@ -171,13 +171,10 @@ class Match extends React.Component {
         }
     }
     async setMatchWinner() {
-        //assign the winner if the match has ended for the match owner
-        // if(this.state.match_info.users_id == this.state.player_id) {
-             let winner = await matchesService.addMatchWinner(this.props.match.params.match_id);
-             if(winner.status == 200) { 
-               matchesService.notifyPlayerMatchEnded(winner.winnder_id);
-             }
-        // }
+        let winner = await matchesService.addMatchWinner(this.props.match.params.match_id);
+        if(winner.status == 200) { 
+        matchesService.notifyPlayerMatchEnded(winner.winnder_id);
+        }
     }
 
     modalHandleClose() {
@@ -189,12 +186,10 @@ class Match extends React.Component {
     }
 
     validateLandScapeScreen() {
-        if(this.state.players.length > 1) {
-            if(window.innerHeight > window.innerWidth) {
-                this.setState({portrait:true});
-            } else {
-                this.setState({portrait:false});
-            }
+        if(window.innerHeight > window.innerWidth) {
+            this.setState({portrait:true});
+        } else {
+            this.setState({portrait:false});
         }
     }
 
@@ -281,16 +276,14 @@ class Match extends React.Component {
                 </div>
             
                 <Modal show={portrait}  backdrop="static" keyboard={false}>
-                    <Modal.Header>
-                        <Modal.Title>Landscape Mode</Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body>
-                        Please flip your phone into landscape mode
-                        <img src="/images/rotate-phone.gif"></img> 
+                        <Modal.Body>
+                            <img className="rotate-phone" src="/images/rotate-phone.svg"></img>
+                            <span className="title--main--modal m-4">Don't miss the fun, and flip that phone!</span>
+                            <p className="modal-text mt-0 pt-0 mb-4">The experience works better on landscape mode.</p>
                         </Modal.Body> 
                 </Modal>
-                <Modal show={modal_show} onHide={this.modalHandleClose}  backdrop="static"
-        keyboard={false}>
+
+                <Modal show={modal_show} onHide={this.modalHandleClose}  backdrop="static" keyboard={false}>
                     <Modal.Header closeButton>
                         <Modal.Title>Finished Match</Modal.Title>
                     </Modal.Header>
