@@ -11082,10 +11082,6 @@ input:focus {
   flex-direction: column;
 }
 
-.container-column:first-child {
-  border-right: 2px solid #CCC;
-}
-
 .current-score {
   width: auto;
   text-align: center;
@@ -11328,6 +11324,7 @@ a {
 }
 
 .register--container,
+.invite-friend--container,
 .register--container--login {
   border-top-left-radius: 66px;
   flex: 1 1 auto;
@@ -11612,5 +11609,31 @@ a {
   100% {
     transform: rotate(360deg);
   }
+}
+
+/**Match**/
+
+.invite-friend--container {
+  background-color: #FFCA66;
+  border-radius: 6px;
+  padding: 14px 3.2rem;
+}
+
+.invite-friend--text {
+  color: #073b4c;
+  padding: 0 40px;
+  font-size: 18px;
+}
+
+.invite-match--buton {
+  background-color: #118ab2;
+  font-size: 16px;
+  margin: 0px auto 10px auto;
+  width: 100%;
+  color: #FFF;
+  border-radius: 5px;
+  font-weight: 600;
+  border: 1px solid #118ab2;
+  padding: 6px 0px;
 }
 

@@ -88,7 +88,7 @@ class PlayerTurn extends React.Component {
             <aside className="container-fluid">
                 {this.props.players.length > 0  && match_started == false &&
                     <div>
-                        <div>It's {this.props.players[current_player].name} turn</div>
+                        {/* <div>It's {this.props.players[current_player].name} turn</div> */}
                     </div>
                 }
                 {renderStartMatchButton()}

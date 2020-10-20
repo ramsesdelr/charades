@@ -33,6 +33,7 @@ class Match extends React.Component {
             used_words : [],
             portrait:false,
             winner_name:'',
+            player_name: this.user.user_data.name
 
         };
 
@@ -194,7 +195,28 @@ class Match extends React.Component {
     }
 
     render() {
-        const { modal_show, match_info, players, current_word, display_word, oponent_playing, player_id, slide_class, show_invite_notification, portrait, winner_name } = this.state;
+        const { modal_show, match_info, players, current_word, display_word, oponent_playing, player_id, slide_class, show_invite_notification, portrait, winner_name, player_name } = this.state;
+        let left_side = <div className="col-6 container-column text-center">
+            <img src="/images/profile.jpg" className="profile-container--image mb-1"></img>
+             <div className="title--main">{player_name.split(" ")[0]}</div> 
+             <p className="invite-friend--text">This is not a solo game!</p>
+             <p className="invite-friend--text">Go ahead and invite some friends. We know you're not shy.</p>
+        </div>
+
+        if(display_word === false && players.length > 1) {
+            left_side = players.map((value, index) => {
+                return <div key={value.id} className="col-6 container-column">
+                            <div className="score-container">
+                                <div className="current-score">
+                                    {value.score}
+                                </div>
+                                <div className="player-title">
+                                    {value.name}
+                                </div>
+                            </div>
+                        </div>
+            });
+        }
         
         return (
             <section>
@@ -233,42 +255,33 @@ class Match extends React.Component {
                     }
                 <div className="row">
 
-                    {display_word === false &&
-                        players.map((value, index) => {
-                            return <div key={value.id} className="col-6 container-column">
-                                        <div className="score-container">
-                                            <div className="current-score">
-                                                {value.score}
-                                            </div>
-                                            <div className="player-title">
-                                                {value.name}
-                                            </div>
-                                        </div>
-                                    </div>
-                        })
-                    }
+                    {left_side}
 
                     {players.length == 1 &&
                     <div className="col-md-6 col-sm-12">
                         <form onSubmit={this.invitePlayer}>
-                            <div className="card-body">
-                                <h3 className="h3-title">Invite a friend to start!</h3>
+                            <div>
+                                <h3 className="title--main text-center">Get your friend over here!</h3>
                                {show_invite_notification === true &&               
                                     <Alert variant="success" onClose={() => this.disableInviteAlert()}  dismissible>
                                         <Alert.Heading>Invitation send</Alert.Heading>
                                        
                                     </Alert>
                                 }
-                                <div className="input-group form-group">
-                                    <input type="email" name="invited_player_email" onChange={this.handleChange} className="form-control text-center" placeholder="Player Email" />
-                                 
-                                </div>OR...
-                                <div className="input-group form-group">
-                                    <input type="phone" name="invited_phone_number" onChange={this.handleChange} className="form-control text-center" placeholder="Phone number" />
-                                </div>
-                                <div className="text-center">
-                                    <button className="btn btn-new-match" type="submit">Send Invite</button>
-                                </div>   
+                                <div className="invite-friend--container">
+                                    <div className="input-group form-group">
+                                        <label className="register--label">Player's Email</label>
+                                        <input type="email" name="invited_player_email" onChange={this.handleChange} className="form-control" placeholder="sample@email.com" /> 
+                                    </div>
+                                    <div className="text-center color-dark-blue">Or</div>
+                                    <div className="input-group form-group">
+                                        <label className="register--label">Player's Phone Number</label>
+                                        <input type="phone" name="invited_phone_number" onChange={this.handleChange} className="form-control" placeholder="222-000-0000" />
+                                    </div>
+                                    <div className="text-center">
+                                        <button className="invite-match--buton" type="submit">Send invite</button>
+                                    </div>  
+                                </div> 
                             </div>
                         </form>   
                     </div>                  
