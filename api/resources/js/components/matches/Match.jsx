@@ -8,7 +8,11 @@ import PlayerTurn from './PlayerTurn';
 import { Modal, Button , Alert} from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { ArrowLeftCircle, ArrowRightCircle  } from 'react-bootstrap-icons';
-import { matches } from 'lodash';
+import { fab } from '@fortawesome/free-brands-svg-icons'
+import { faPaperPlane } from '@fortawesome/free-solid-svg-icons'
+import { library } from '@fortawesome/fontawesome-svg-core'
+library.add(fab, faPaperPlane);
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 class Match extends React.Component {
 
     constructor(props) {
@@ -205,15 +209,28 @@ class Match extends React.Component {
 
         if(display_word === false && players.length > 1) {
             left_side = players.map((value, index) => {
-                return <div key={value.id} className="col-6 container-column">
+                return <div key={value.id} className="col-6 player-container">
+                            {index == 1 &&
+                                <div className="vs-right">S</div>
+                            }
+                            {index == 0 &&
+                                <div className="vs-spacing"></div>
+                            }
                             <div className="score-container">
                                 <div className="current-score">
-                                    {value.score}
+                                    <img src="/images/profile.jpg" className="profile-container--image mb-1"></img>
                                 </div>
-                                <div className="player-title">
-                                    {value.name}
+                                <div className="title--main">
+                                    {value.name.split(" ")[0]}
                                 </div>
+                                <div className="score">{value.score}</div>
                             </div>
+                            {index == 0 &&
+                                <div className="vs-left">V</div>
+                            }
+                            {index == 1 &&
+                                <div className="vs-spacing"></div>
+                            }
                         </div>
             });
         }
@@ -279,7 +296,7 @@ class Match extends React.Component {
                                         <input type="phone" name="invited_phone_number" onChange={this.handleChange} className="form-control" placeholder="222-000-0000" />
                                     </div>
                                     <div className="text-center">
-                                        <button className="invite-match--buton" type="submit">Send invite</button>
+                                        <button className="invite-match--buton" type="submit">Send invite <FontAwesomeIcon  icon="paper-plane" className="ml-1" /></button>
                                     </div>  
                                 </div> 
                             </div>

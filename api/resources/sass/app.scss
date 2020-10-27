@@ -662,3 +662,41 @@ a {
 	border: 1px solid $blue;
 	padding: 6px 0px;
 }
+
+.player-container {
+  background: $yellow;
+  border-radius: 6px;
+  min-height: 300px;
+  justify-content: center;
+  align-items: center;
+  display: flex; 
+  &:nth-child(2) {
+    background: $blue;
+  }
+  
+}
+
+.vs-left {
+  margin-left: 94px;
+  font-size: 94px;
+  font-family: blockhead-dark-side, sans-serif;
+}
+
+.vs-right {
+  margin-right: 94px;
+  font-size: 94px;
+  font-family: blockhead-dark-side, sans-serif;
+}
+
+.vs-spacing {
+  margin: 1px auto 1px 1px;
+}
+
+.score {
+  font-family: blockhead-dark-side, sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 6em;
+  color: $dark-blue;
+  line-height: 1;
+}

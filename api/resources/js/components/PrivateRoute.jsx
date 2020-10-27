@@ -24,16 +24,20 @@ class AuthenticateToken extends React.Component {
         this.setState({ loading: true});
         try {
             let result = await usersService.getUser(this.user.token);
-            this.setState( { user_exists: result.status == 200 });
-            this.props.loginUser(result.data);
-            return;
+            if(result && result.data) {
+                this.setState( { user_exists: result.status == 200 });
+                this.props.loginUser(result.data);
+            } else {
+                localStorage.removeItem('user');
+            }
         }
         catch {
             localStorage.removeItem('user');
+            console.log('ah');
             this.setState({ user_exists: false });
         }
         finally {
-
+            
             this.setState({ loading: false});      
         }
         
