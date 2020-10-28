@@ -14,7 +14,7 @@ class UserLayout extends React.Component {
 
 	constructor(props) {
 		super(props);
-		this.userLogOut = this.userLogOut.bind(this)
+		this.userLogOut = this.userLogOut.bind(this);		
 	}
 
 	userLogOut () {
@@ -22,8 +22,16 @@ class UserLayout extends React.Component {
 		this.props.history.push("/");
 	}
 	render() {
+
+		if(this.props.match && this.props.match.params.match_id) {
+			return  <div className="match--top text-center">
+						<Link to="/home"><img src="/svg/charades-logo.svg" className="match--top--logo"></img></Link>
+					</div>
+		}
+
 		const { user } = this.props;
 		const username =  user ?  user.name.split(" ") : null;
+		
 		return (
 			<div className="container">
 				 {username && 

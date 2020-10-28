@@ -664,39 +664,71 @@ a {
 }
 
 .player-container {
-  background: $yellow;
-  border-radius: 6px;
-  min-height: 300px;
-  justify-content: center;
-  align-items: center;
-  display: flex; 
+	background: $yellow;
+	border-radius: 6px;
+	justify-content: center;
+	align-items: center;
+	display: flex; 
+	min-height: 270px;
   &:nth-child(2) {
     background: $blue;
   }
-  
 }
 
 .vs-left {
-  margin-left: 94px;
-  font-size: 94px;
-  font-family: blockhead-dark-side, sans-serif;
+	font-size: 94px;
+	font-family: blockhead-dark-side, sans-serif;
+	position: absolute;
+	right:0;
 }
 
 .vs-right {
-  margin-right: 94px;
-  font-size: 94px;
-  font-family: blockhead-dark-side, sans-serif;
+	font-size: 94px;
+	font-family: blockhead-dark-side, sans-serif;
+	position: absolute;
+	left: 0;
 }
 
 .vs-spacing {
-  margin: 1px auto 1px 1px;
+  	margin: 1px auto 1px 1px;
 }
 
 .score {
-  font-family: blockhead-dark-side, sans-serif;
-  font-weight: 400;
-  font-style: normal;
-  font-size: 6em;
-  color: $dark-blue;
-  line-height: 1;
+	font-family: blockhead-dark-side, sans-serif;
+	font-weight: 400;
+	font-style: normal;
+	font-size: 6em;
+	color: $dark-blue;
+	line-height: 1;
+}
+
+.match--top {
+	background-image: url(/images/logo-bg.svg?af664c3…);
+	min-height: 90px;
+	display: flex;
+	background-size: cover;
+	justify-content: center;
+	margin-top: 1em;
+	background-position: revert;
+}
+.match--top--logo {
+  	max-width: 128px;
+}
+
+.match--profile-image {
+	width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    border: 2px solid #073b4c;
+}
+
+.match--profile-name {
+	@extend .title--main;
+	font-size: 22px;
+}
+
+.match--starting-text {
+	@extend .title--main;
+	font-size: 20px;
+	height: 20px;
 }

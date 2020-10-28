@@ -23,7 +23,6 @@ class Match extends React.Component {
             match_info: {},
             players: [],
             current_word: '',
-            current_player: null,
             invited_player_email: '',
             invited_phone_number:'',
             display_word: false,
@@ -37,9 +36,15 @@ class Match extends React.Component {
             used_words : [],
             portrait:false,
             winner_name:'',
-            player_name: this.user.user_data.name
+            player_name: this.user.user_data.name,
+            display_match_timer: false,
+            start_match_timer:5,
+            match_started: false,
+            time:80,
+            current_player: 0,
 
         };
+        const TURN_TIME = 80;
 
         this.success_audio = new Audio("/media/success.wav");
         this.fail_audio = new Audio("/media/fail.wav");
@@ -96,8 +101,10 @@ class Match extends React.Component {
     }
     
     componentDidMount() {
+
         this.getMatch(this.props.match.params.match_id);
         window.addEventListener("resize", this.validateLandScapeScreen);
+
         const pusher = new Pusher(process.env.MIX_PUSHER_APP_KEY, {
             cluster: process.env.MIX_PUSHER_APP_CLUSTER,
             forceTLS: true
@@ -143,9 +150,18 @@ class Match extends React.Component {
                 }
             } else {
                 this.modalHandleShow(data.match_status.player_id);
-                console.log('show!');
             }
         });
+
+        channel.bind('current-player', data => {
+            if(data && data.current_player) {
+                let player_index = matchesService.getplayerIndex(data.current_player, this.state.players);
+                this.setState({ current_player: player_index });
+                
+            } 
+        });
+        
+        this.setState({ current_player: matchesService.getplayerIndex(this.props.match.current_player, this.state.players) });
 
     }
 
@@ -198,8 +214,46 @@ class Match extends React.Component {
         }
     }
 
+    
+    prepareMatchStart(player_id) {
+        this.setState({display_match_timer:true});
+        let pre_match_timer = setInterval(() => {
+
+            this.setState({
+                start_match_timer: this.state.start_match_timer - 1
+            });
+            if (this.state.start_match_timer == 0) {
+                clearInterval(pre_match_timer);
+                this.startMatch(player_id)
+                 this.setState({
+                    start_match_timer: 5,
+                    display_match_timer: false
+                 });
+            }
+        }, 1000);
+    }
+
+    startMatch(player_id) {
+        this.setState({ match_started: true });
+
+        matchesService.notifyPlayerMatchStarted(player_id);
+
+        let timer = setInterval(() => {
+            this.setState({
+                time: this.state.time - 1
+            });
+            if (this.state.time == 0) {
+                clearInterval(timer);
+                this.setState({ match_started: false, time: this.TURN_TIME});
+                matchesService.notifyPlayerMatchStopped(player_id);
+            }
+        }, 1000);
+    }
+ 
+
     render() {
-        const { modal_show, match_info, players, current_word, display_word, oponent_playing, player_id, slide_class, show_invite_notification, portrait, winner_name, player_name } = this.state;
+        const { modal_show, match_info, players, current_word, display_word, oponent_playing, player_id, slide_class, show_invite_notification, portrait, winner_name, player_name, match_started, time, start_match_timer, display_match_timer, current_player  } = this.state;
+
         let left_side = <div className="col-6 container-column text-center">
             <img src="/images/profile.jpg" className="profile-container--image mb-1"></img>
              <div className="title--main">{player_name.split(" ")[0]}</div> 
@@ -207,47 +261,72 @@ class Match extends React.Component {
              <p className="invite-friend--text">Go ahead and invite some friends. We know you're not shy.</p>
         </div>
 
+        let match_starting_text;
+        if(display_match_timer) {
+            match_starting_text = <div className="match--starting-text">Your turn is starting in <span className="h3-title">{start_match_timer}</span></div> 
+        } else {
+            match_starting_text = <span></span>
+        }
+
+        const renderMatchStartingText = (player_id) => {
+            if(players[current_player].id != player_id) {
+                return <div className="match--starting-text">Stand by...</div>
+            }
+
+            if(display_match_timer) {
+                return <div className="match--starting-text">Your turn is starting in <span className="h3-title">{start_match_timer}...</span></div> 
+            } else {
+                return <div className="match--starting-text"></div>;
+            }
+        }
+        const renderStartMatchButton = () => {
+            if(!players.length) {
+                return;
+            }
+            if(match_started === false && player_id == players[current_player].id && players.length > 1) {
+                return <div className="d-flex flex-column align-items-center">
+                        <button className="btn btn-new-match" onClick={this.prepareMatchStart.bind(this, player_id)}>Start</button>
+                    </div>
+            }
+        };
+
         if(display_word === false && players.length > 1) {
             left_side = players.map((value, index) => {
-                return <div key={value.id} className="col-6 player-container">
+                return <div key={value.id} className="col-6 player-container pb-4">
                             {index == 1 &&
                                 <div className="vs-right">S</div>
                             }
-                            {index == 0 &&
-                                <div className="vs-spacing"></div>
-                            }
-                            <div className="score-container">
+                          
+                            <div className="score-container mt-1">
                                 <div className="current-score">
-                                    <img src="/images/profile.jpg" className="profile-container--image mb-1"></img>
+                                    <img src="/images/profile.jpg" className="match--profile-image mb-1"></img>
                                 </div>
-                                <div className="title--main">
+                                <div className="match--profile-name">
                                     {value.name.split(" ")[0]}
                                 </div>
                                 <div className="score">{value.score}</div>
+                                    {renderMatchStartingText(value.id)}
                             </div>
                             {index == 0 &&
                                 <div className="vs-left">V</div>
                             }
-                            {index == 1 &&
-                                <div className="vs-spacing"></div>
-                            }
+                           
                         </div>
             });
+        }
+
+        if(display_word  && players.length > 1) {
+            left_side = <div></div>;
         }
         
         return (
             <section>
-                <div className="col-12 mt-4">    
-                   
+                <div className="col-12">             
                     {oponent_playing &&
                         <div>Your opponent it's currently playing</div>
                     }
                 </div>
-                <div className="d-flex flex-column align-items-center">
-                    {players.length > 0 &&
-                        <PlayerTurn players={players} player_id={player_id} match={match_info} />
-                    }
-                </div>
+                {renderStartMatchButton()}
                 {display_word &&
                         <div className="row">
                             <div className="col-1 d-flex align-items-center">

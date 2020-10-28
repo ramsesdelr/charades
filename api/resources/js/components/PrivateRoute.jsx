@@ -16,7 +16,6 @@ class AuthenticateToken extends React.Component {
             loading: false,
             user_exists: null,
         };
-        
     }
 
     async validateToken() {
@@ -33,7 +32,6 @@ class AuthenticateToken extends React.Component {
         }
         catch {
             localStorage.removeItem('user');
-            console.log('ah');
             this.setState({ user_exists: false });
         }
         finally {
@@ -58,6 +56,14 @@ class AuthenticateToken extends React.Component {
         if (this.state.user_exists === false) {
             return <Redirect to={{ pathname: '/login', state: { from: props.location } }} />
         }
+        
+        let footer =  <footer className="footer-container text-center">
+            <img src="/svg/charades-logo.svg" className="logo-bottom"></img>
+        </footer>
+
+        if(props.match && props.match.params.match_id) {
+            footer = <div></div>
+        }
 
         if(this.state.user_exists === null ) {
             return null;
@@ -71,13 +77,12 @@ class AuthenticateToken extends React.Component {
             );
         }
 
+
         return (
             <div>
                 <UserLayout {...props}/>
                 <Component {...props} />
-                <footer className="footer-container text-center">
-					<img src="/svg/charades-logo.svg" className="logo-bottom"></img>
-				</footer>
+                {footer}
             </div>
         )
         
