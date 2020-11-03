@@ -5,13 +5,12 @@ import { connect } from 'react-redux';
 import Pusher from 'pusher-js';
 import { useSwipeable, Swipeable } from 'react-swipeable';
 import PlayerTurn from './PlayerTurn';
-import { Modal, Button , Alert} from 'react-bootstrap';
+import { Modal,  Alert} from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import { ArrowLeftCircle, ArrowRightCircle  } from 'react-bootstrap-icons';
 import { fab } from '@fortawesome/free-brands-svg-icons'
-import { faPaperPlane } from '@fortawesome/free-solid-svg-icons'
+import { faPaperPlane, faArrowAltCircleLeft, faArrowAltCircleRight, faClock } from '@fortawesome/free-solid-svg-icons'
 import { library } from '@fortawesome/fontawesome-svg-core'
-library.add(fab, faPaperPlane);
+library.add(fab, faPaperPlane, faArrowAltCircleLeft, faArrowAltCircleRight, faClock);
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 class Match extends React.Component {
 
@@ -331,7 +330,7 @@ class Match extends React.Component {
                         <div className="row">
                             <div className="col-1 d-flex align-items-center">
                                 <a className="arrow-link"  onClick={(eventData) => this.addPointToPlayer(eventData, player_id)}>
-                                    <ArrowLeftCircle size={48} color="#4caf50" />
+                                    <FontAwesomeIcon size="3x" className="color-dark-blue"  icon="arrow-alt-circle-left" />
                                 </a>
                             </div>
                             <div className="col-10">
@@ -343,8 +342,13 @@ class Match extends React.Component {
                             </div>
                             <div className="col-1 d-flex align-items-center">
                                 <a className="arrow-link right"  onClick={(eventData) => this.slideLeft(eventData, player_id)}>
-                                    <ArrowRightCircle color="#d05249" size={48}/>
+                                    <FontAwesomeIcon  size="3x" className="color-dark-blue" icon="arrow-alt-circle-right" />
                                 </a>
+                            </div>
+                            <div className="timer-container">
+                                <div className="timer--clock"><FontAwesomeIcon  className="color-dark-blue"  icon="clock" /> 02:40</div>
+                                <div className="timer-container--progress-bar">
+                                </div>
                             </div>
                         </div>
                         
@@ -360,8 +364,7 @@ class Match extends React.Component {
                                 <h3 className="title--main text-center">Get your friend over here!</h3>
                                {show_invite_notification === true &&               
                                     <Alert variant="success" onClose={() => this.disableInviteAlert()}  dismissible>
-                                        <Alert.Heading>Invitation send</Alert.Heading>
-                                       
+                                        <Alert.Heading>Invitation send</Alert.Heading>   
                                     </Alert>
                                 }
                                 <div className="invite-friend--container">

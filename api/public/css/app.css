@@ -11060,21 +11060,6 @@ input:focus {
   justify-content: center;
 }
 
-.word {
-  font-size: 4em;
-  text-transform: uppercase;
-  color: #d0021b;
-  font-family: "Shadows Into Light";
-}
-
-.word-container {
-  height: 100px;
-  position: relative;
-  overflow: hidden;
-  display: flex;
-  justify-content: center;
-}
-
 .score-container {
   display: flex;
   justify-content: center;
@@ -11686,7 +11671,8 @@ a {
   background-size: cover;
   justify-content: center;
   margin-top: 1em;
-  background-position: revert;
+  align-items: center;
+  background-position-y: 80px;
 }
 
 .match--top--logo {
@@ -11707,5 +11693,45 @@ a {
 .match--starting-text {
   font-size: 20px;
   height: 20px;
+}
+
+.word-container {
+  height: 160px;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  max-width: 600px;
+  align-items: center;
+}
+
+.word {
+  font-size: 4em;
+  color: #073b4c;
+  font-family: blockhead-dark-side, sans-serif;
+  text-align: center;
+}
+
+.timer-container {
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+  height: 50px;
+  display: flex;
+}
+
+.timer-container--progress-bar {
+  width: 100%;
+  background-color: #EF476F;
+  border-top-left-radius: 6px;
+  border-top-right-radius: 6px;
+}
+
+.timer--clock {
+  font-size: 28px;
+  color: #073b4c;
+  background-color: #f8fafc;
+  flex: 1;
+  width: 100%;
 }
 
