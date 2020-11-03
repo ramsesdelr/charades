@@ -12,6 +12,8 @@ import { faPaperPlane, faArrowAltCircleLeft, faArrowAltCircleRight, faClock } fr
 import { library } from '@fortawesome/fontawesome-svg-core'
 library.add(fab, faPaperPlane, faArrowAltCircleLeft, faArrowAltCircleRight, faClock);
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+const TURN_TIME = 80;
+
 class Match extends React.Component {
 
     constructor(props) {
@@ -41,9 +43,9 @@ class Match extends React.Component {
             match_started: false,
             time:80,
             current_player: 0,
-
+            remaining_time:'1:20',
+            progress_bar:0,
         };
-        const TURN_TIME = 80;
 
         this.success_audio = new Audio("/media/success.wav");
         this.fail_audio = new Audio("/media/fail.wav");
@@ -97,6 +99,18 @@ class Match extends React.Component {
         if(invite_confirmation.status == 200) {
             this.setState({invited_player_email:'', show_invite_notification:true, invited_player_email:''});
         }
+    }
+
+    getRemainingTime(time) {
+        this.updateProgressBar(time);
+        let minutes = Math.floor(time /60);
+        let seconds = time - minutes * 60; 
+        this.setState({remaining_time: `${minutes.toString().padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`});
+    }
+
+    updateProgressBar(time) {
+        let progress_bar = time / TURN_TIME * 100;
+        this.setState({progress_bar: 100 - progress_bar});
     }
     
     componentDidMount() {
@@ -241,9 +255,10 @@ class Match extends React.Component {
             this.setState({
                 time: this.state.time - 1
             });
+            this.getRemainingTime(this.state.time);
             if (this.state.time == 0) {
                 clearInterval(timer);
-                this.setState({ match_started: false, time: this.TURN_TIME});
+                this.setState({ match_started: false, time: TURN_TIME});
                 matchesService.notifyPlayerMatchStopped(player_id);
             }
         }, 1000);
@@ -251,7 +266,7 @@ class Match extends React.Component {
  
 
     render() {
-        const { modal_show, match_info, players, current_word, display_word, oponent_playing, player_id, slide_class, show_invite_notification, portrait, winner_name, player_name, match_started, time, start_match_timer, display_match_timer, current_player  } = this.state;
+        const { modal_show, match_info, players, current_word, display_word, oponent_playing, player_id, slide_class, show_invite_notification, portrait, winner_name, player_name, match_started, time, start_match_timer, display_match_timer, current_player, remaining_time, progress_bar  } = this.state;
 
         let left_side = <div className="col-6 container-column text-center">
             <img src="/images/profile.jpg" className="profile-container--image mb-1"></img>
@@ -346,8 +361,9 @@ class Match extends React.Component {
                                 </a>
                             </div>
                             <div className="timer-container">
-                                <div className="timer--clock"><FontAwesomeIcon  className="color-dark-blue"  icon="clock" /> 02:40</div>
+                                <div className="timer--clock"><FontAwesomeIcon  className="color-dark-blue" size="sm"  icon="clock" /> {remaining_time}</div>
                                 <div className="timer-container--progress-bar">
+                                    <div className="timer-container-progress-bar--remaining" style={{width: progress_bar + '%'}}></div>
                                 </div>
                             </div>
                         </div>

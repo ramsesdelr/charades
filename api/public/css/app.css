@@ -11717,21 +11717,29 @@ a {
   position: absolute;
   bottom: 0;
   height: 50px;
-  display: flex;
 }
 
 .timer-container--progress-bar {
-  width: 100%;
+  width: 82%;
   background-color: #EF476F;
   border-top-left-radius: 6px;
   border-top-right-radius: 6px;
+  float: left;
+  height: 50px;
 }
 
 .timer--clock {
   font-size: 28px;
   color: #073b4c;
   background-color: #f8fafc;
-  flex: 1;
-  width: 100%;
+  width: 18%;
+  float: left;
+  height: 50px;
+}
+
+.timer-container-progress-bar--remaining {
+  background-color: #f8fafc;
+  height: 50px;
+  width: 0%;
 }
 
