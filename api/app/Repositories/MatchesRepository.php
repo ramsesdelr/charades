@@ -204,11 +204,14 @@ class MatchesRepository
     public function getLastMatchByUserId($user_id) {
         
         $last_match = Matches::whereNotNull('winner_id')->where('users_id', $user_id)->orderBy('id', 'DESC')->first();
+        if(!$last_match) {
+            return;
+        }
         $opponent = UsersMatch::where('matches_id', $last_match->id)->where('users_id','!=', $user_id)->first();
 
         return response()->json([
-            'name' => $last_match->name,
-            'winner' => $last_match->user->name,
+            'name' => $last_match->name ,
+            'winner' => $last_match->user->name ?? '',
             'score'=> $this->matchScores($last_match->id, $user_id),
             'vs_player' => $opponent->user[0]->name ?? 'Unknown',
             'category' => $last_match->category->title
