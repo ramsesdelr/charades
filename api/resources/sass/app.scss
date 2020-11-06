@@ -766,3 +766,23 @@ a {
 	height: 50px;
 	width: 0%;
 }
+
+.match-arrow {
+	position: absolute;
+    z-index: 1;
+    height: 93px;
+}
+
+.match-arrow--right {
+	@extend .match-arrow;
+	right:0;
+}
+
+.match-arrow--left {
+	@extend .match-arrow;
+	left:0;
+}
+
+.match--turn-container {
+	height: 38px;
+}

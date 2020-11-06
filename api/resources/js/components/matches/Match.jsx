@@ -27,7 +27,6 @@ class Match extends React.Component {
             invited_player_email: '',
             invited_phone_number:'',
             display_word: false,
-            oponent_playing: false,
             player_id: this.user.user_data.id,
             slide_class:'word',
             match_turns_limit: 3,
@@ -41,7 +40,7 @@ class Match extends React.Component {
             display_match_timer: false,
             start_match_timer:5,
             match_started: false,
-            time:80,
+            time:10,
             current_player: 0,
             remaining_time:'1:20',
             progress_bar:0,
@@ -141,9 +140,9 @@ class Match extends React.Component {
             if (data.match_status.status == 'started') {
 
                 if (data.match_status.player_id == this.user.user_data.id) {
-                    this.setState({ display_word: true, oponent_playing: false });
+                    this.setState({ display_word: true });
                 } else {
-                    this.setState({ display_word: false, oponent_playing: true });
+                    this.setState({ display_word: false });
                 }
                 //check if current is the match owner so we can update the turns
                 if (data.match_status.player_id == this.state.match_info.users_id ) {
@@ -154,7 +153,7 @@ class Match extends React.Component {
                 if (data.match_status.player_id == this.user.user_data.id) {
                     this.setState({ display_word: false });
                 } else {
-                    this.setState({ oponent_playing: false });
+             
                     matchesService.updatePlayerTurn(this.user.user_data.id, this.state.match_info.id);
                 }
                 //check if turn ended and guest player was the last one to play
@@ -167,6 +166,7 @@ class Match extends React.Component {
         });
 
         channel.bind('current-player', data => {
+            console.log(data);
             if(data && data.current_player) {
                 let player_index = matchesService.getplayerIndex(data.current_player, this.state.players);
                 this.setState({ current_player: player_index });
@@ -266,7 +266,7 @@ class Match extends React.Component {
  
 
     render() {
-        const { modal_show, match_info, players, current_word, display_word, oponent_playing, player_id, slide_class, show_invite_notification, portrait, winner_name, player_name, match_started, time, start_match_timer, display_match_timer, current_player, remaining_time, progress_bar  } = this.state;
+        const { modal_show, match_info, players, current_word, display_word,  player_id, slide_class, show_invite_notification, portrait, winner_name, player_name, match_started, time, start_match_timer, display_match_timer, current_player, remaining_time, progress_bar  } = this.state;
 
         let left_side = <div className="col-6 container-column text-center">
             <img src="/images/profile.jpg" className="profile-container--image mb-1"></img>
@@ -304,13 +304,29 @@ class Match extends React.Component {
             }
         };
 
+        const renderPlayerTurns = () => {
+            if(!players.length || match_started === true) {
+                return;
+            }
+            if(players && players.length < 2) {
+                return;
+            }
+
+            let player_turn = <div className="col-12"><img className="match-arrow--left" src="/images/hand-pointer-right.png"></img></div>;
+            if(current_player == 1) {
+                player_turn = <div className="col-12 text-right"><img className="match-arrow--right" src="/images/hand-pointer-left.png"></img></div>
+            }
+             return <div className="d-flex match--turn-container">
+                            {player_turn}
+                    </div>
+
+        };
         if(display_word === false && players.length > 1) {
             left_side = players.map((value, index) => {
                 return <div key={value.id} className="col-6 player-container pb-4">
                             {index == 1 &&
                                 <div className="vs-right">S</div>
                             }
-                          
                             <div className="score-container mt-1">
                                 <div className="current-score">
                                     <img src="/images/profile.jpg" className="match--profile-image mb-1"></img>
@@ -319,7 +335,7 @@ class Match extends React.Component {
                                     {value.name.split(" ")[0]}
                                 </div>
                                 <div className="score">{value.score}</div>
-                                    {renderMatchStartingText(value.id)}
+                                    {renderMatchStartingText(value.id)}   
                             </div>
                             {index == 0 &&
                                 <div className="vs-left">V</div>
@@ -336,9 +352,7 @@ class Match extends React.Component {
         return (
             <section>
                 <div className="col-12">             
-                    {oponent_playing &&
-                        <div>Your opponent it's currently playing</div>
-                    }
+                    
                 </div>
                 {renderStartMatchButton()}
                 {display_word &&
@@ -369,6 +383,8 @@ class Match extends React.Component {
                         </div>
                         
                     }
+
+                {renderPlayerTurns()}
                 <div className="row">
 
                     {left_side}

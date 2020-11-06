@@ -11743,3 +11743,23 @@ a {
   width: 0%;
 }
 
+.match-arrow,
+.match-arrow--left,
+.match-arrow--right {
+  position: absolute;
+  z-index: 1;
+  height: 93px;
+}
+
+.match-arrow--right {
+  right: 0;
+}
+
+.match-arrow--left {
+  left: 0;
+}
+
+.match--turn-container {
+  height: 38px;
+}
+
