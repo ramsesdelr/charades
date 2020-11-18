@@ -29,6 +29,7 @@ class InviteUserToMatch extends Mailable
     public function build() {
 
         return $this->view('emails.matches.invite')
+                    ->text('emails.matches.invite-plain')
                     ->with([
                         'match' => $this->match,
                     ]);

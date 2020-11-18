@@ -59,10 +59,10 @@ class UserLayout extends React.Component {
 											<a className="title--main" href="/register">Register</a>
 										</li>
 										<li className="nav-links text-center">
-											<a className="title--main" href="#">About</a>
+											<a className="title--main" target="_blank" href="https://github.com/ramsesdelr/charades/">About</a>
 										</li>
 										<li className="nav-links text-center">
-											<a className="title--main" href="#">Tutorial</a>
+											<a className="title--main" href="/privacy">Privacy Policy</a>
 										</li>
 										{user != null  ? (
 											

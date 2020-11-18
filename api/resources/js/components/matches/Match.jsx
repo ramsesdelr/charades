@@ -8,9 +8,9 @@ import PlayerTurn from './PlayerTurn';
 import { Modal,  Alert} from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { fab } from '@fortawesome/free-brands-svg-icons'
-import { faPaperPlane, faArrowAltCircleLeft, faArrowAltCircleRight, faClock } from '@fortawesome/free-solid-svg-icons'
+import { faPaperPlane, faArrowAltCircleLeft, faArrowAltCircleRight, faClock, faStopwatch } from '@fortawesome/free-solid-svg-icons'
 import { library } from '@fortawesome/fontawesome-svg-core'
-library.add(fab, faPaperPlane, faArrowAltCircleLeft, faArrowAltCircleRight, faClock);
+library.add(fab, faPaperPlane, faArrowAltCircleLeft, faArrowAltCircleRight, faClock, faStopwatch);
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 const TURN_TIME = 80;
 
@@ -40,7 +40,7 @@ class Match extends React.Component {
             display_match_timer: false,
             start_match_timer:5,
             match_started: false,
-            time:10,
+            time:80,
             current_player: 0,
             remaining_time:'1:20',
             progress_bar:0,
@@ -390,7 +390,7 @@ class Match extends React.Component {
                     {left_side}
 
                     {players.length == 1 &&
-                    <div className="col-md-6 col-sm-12">
+                    <div className="col-6">
                         <form onSubmit={this.invitePlayer}>
                             <div>
                                 <h3 className="title--main text-center">Get your friend over here!</h3>
@@ -428,18 +428,20 @@ class Match extends React.Component {
                 </Modal>
 
                 <Modal show={modal_show} onHide={this.modalHandleClose}  backdrop="static" keyboard={false}>
-                    <Modal.Header closeButton>
-                        <Modal.Title>Finished Match</Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body>Your match just ended and the winner is: <strong>{winner_name}</strong>! <br></br> 
-                    Thank you for playing!
+                    <Modal.Body> 
+                        <FontAwesomeIcon size="3x" className="color-dark-blue"  icon="stopwatch" />
+                        <span className="title--main--modal mt-3">Game Over!</span>
+                        <p className="modal-text pb-0">The match just ended and the winner is <h3><strong>{winner_name}</strong>!</h3></p>
+                        <p className="modal-text pt-0">Wanna play again?</p>
+                        <div className="d-flex w-100">
+                            <div className="col-6">
+                                <Link to="/">Nah, go back</Link>
+                            </div>
+                            <div className="col-6 modal-button--confirmation">
+                                <Link to="/match/new">Bring it!</Link>
+                            </div>
+                        </div>
                     </Modal.Body>
-                    <Modal.Footer>
-                    <div className="row w-100">
-                        <div className="col-6"><Link className="btn btn-red" to="/">Back</Link></div>
-                        <div className="col-6 text-right"><Link className="btn btn-red" to="/match/new">Start a new match</Link></div>
-                    </div>
-                    </Modal.Footer>
                 </Modal>
             </section>
         );

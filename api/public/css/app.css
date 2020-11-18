@@ -11275,6 +11275,11 @@ a {
   color: #118ab2;
 }
 
+b,
+strong {
+  color: #073b4c;
+}
+
 .logo-top {
   max-width: 80%;
 }

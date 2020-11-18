@@ -322,6 +322,9 @@ body {
 a {
   color:$blue;
 }
+b, strong {
+	color: $dark-blue;
+}
 .logo-top {
 	max-width: 80%;
 }
