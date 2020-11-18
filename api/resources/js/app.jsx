@@ -10,6 +10,7 @@ import ResetPassword from './components/ResetPassword';
 import RecentMatches from './components/matches/RecentMatches';
 import UpdateSettings from './components/users/UpdateSettings';
 import NewWord from './components/users/NewWord';
+import PrivacyPolicy from './components/PrivacyPolicy';
 import { usersService } from './services/users.service';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -45,6 +46,7 @@ class App extends React.Component {
 							<Route path="/register/:match_id?" component={RegisterForm} />
 							<Route path="/login/:match_id?" component={LoginForm} />
 							<Route path="/forgot-password" component={ResetPassword} />
+							<Route path="/privacy" component={PrivacyPolicy} />
 						</Router>
 						
 				</div>
