@@ -76,6 +76,7 @@ class PlayerTurn extends React.Component {
 
         const { current_player, player_id, match_started, time, start_match_timer, display_match_timer } = this.state;
         const renderStartMatchButton = () => {
+           
             if(match_started === false && player_id == this.props.players[current_player].id && this.props.players.length > 1) {
                 return <div className="d-flex flex-column align-items-center">
                         <button className="btn btn-new-match" onClick={this.prepareMatchStart.bind(this, player_id)}>Start</button>
@@ -88,7 +89,7 @@ class PlayerTurn extends React.Component {
             <aside className="container-fluid">
                 {this.props.players.length > 0  && match_started == false &&
                     <div>
-                        <div>It's {this.props.players[current_player].name} turn</div>
+                        {/* <div>It's {this.props.players[current_player].name} turn</div> */}
                     </div>
                 }
                 {renderStartMatchButton()}

@@ -12,6 +12,8 @@
 	</main>
 	<script src="/js/index.js"></script>
 	<link rel="stylesheet" href="/css/app.css">
+	<link rel="stylesheet" href="https://use.typekit.net/syw4lkl.css">
+
 </body>
 
 </html>

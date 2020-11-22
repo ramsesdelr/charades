@@ -7,6 +7,10 @@ import  RegisterForm from './components/RegisterForm';
 import  NewMatch from './components/matches/NewMatch';
 import  Match from './components/matches/Match';
 import ResetPassword from './components/ResetPassword';
+import RecentMatches from './components/matches/RecentMatches';
+import UpdateSettings from './components/users/UpdateSettings';
+import NewWord from './components/users/NewWord';
+import PrivacyPolicy from './components/PrivacyPolicy';
 import { usersService } from './services/users.service';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -29,56 +33,22 @@ class App extends React.Component {
 		const {user} = this.state
 		return (
 			<header>
-				<div className="navbar sticky-top navbar-red">
-					<button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#menu-content" aria-controls="menu-content" aria-expanded="false" aria-label="Toggle navigation">
-					<span className="navbar-toggler-icon"></span>
-					</button>
-					<a className="navbar-brand text-center" href="/home">Charades Online</a>
-				</div>
-				<nav className="collapse" id="menu-content">
-					<div className="bg-red p-4">
-						<ul className="navbar-nav">
-							<li className="nav-item active">
-								<a className="nav-link" href="/home">Home</a>
-							</li>
-							<li className="nav-item">
-								<a className="nav-link" href="/register">Register</a>
-							</li>
-							<li className="nav-item">
-								<a className="nav-link" href="#">About</a>
-							</li>
-							<li className="nav-item">
-								<a className="nav-link disabled" href="#">Tutorial</a>
-							</li>
-							{user != null  ? (
-								
-								<li className="nav-item active">
-									<a className="nav-link" href="/login" onClick={this.userLogOut}>Logout</a>
-								</li>
-							
-							 ) : (
-								<li className="nav-item active">
-								<a className="nav-link" href="/login">Login</a>
-							</li>
-							)}
-						</ul>
-					</div>
-				</nav>
-				
 				<div className="container-fluid">
 						<Router>
 							<PrivateRoute exact path="/" component={Home} />
 							<PrivateRoute  path="/home" component={Home} />
+							<PrivateRoute  path="/matches/recent" component={RecentMatches} />
+							<PrivateRoute  path="/user/settings" component={UpdateSettings} />
+							<PrivateRoute  path="/user/new_word" component={NewWord} />
 							<PrivateRoute exact path="/match/new" component={NewMatch} />
 							<PrivateRoute exact path="/current_match/:match_id" component={Match} />
 							<Route path="/logout" component={LoginForm} />
 							<Route path="/register/:match_id?" component={RegisterForm} />
 							<Route path="/login/:match_id?" component={LoginForm} />
 							<Route path="/forgot-password" component={ResetPassword} />
+							<Route path="/privacy" component={PrivacyPolicy} />
 						</Router>
-						<div className="logo-container mt-5 mb-2">
-							<img src="/images/logo_transparent_background.svg" className="img-fluid"></img>
-						</div>
+						
 				</div>
 			</header>
 		);

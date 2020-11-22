@@ -78,80 +78,88 @@ class RegisterForm extends React.Component {
     render() {
         const { email, password, loading, error, phone, name, password_v } = this.state;
         return (
-                <section className="card-container">
-                    <div className="card">
-                        <div className="logo-container mt-3">
-							<img src="/images/logo_transparent_background.svg" className="img-fluid"></img>
-						</div>
-                        <h1 className="text-center" id="login-title">Create New Account</h1>
-                            <div className="card-body">
-                        {error &&
-                            <div>{error}</div>
-                        }
-                        <form onSubmit={this.registerUser}>
-                            <div className="input-group form-group">
-                                <input
-                                    className="form-control"
-                                    type="text"
-                                    name="email"
-                                    placeholder="email"
-                                    value={email}
-                                    onChange={this.handleChange}
-                                />
+                <section className="row justify-content-center">
+                    <div className="card-container">
+                        <div className="register">
+                            <div className="mt-3 mb-3 text-center">
+                                <img src="/svg/charades-logo.svg" className="logo-top"></img>
                             </div>
-                        
-                            <div className="input-group form-group">
-                                <input
-                                    placeholder="full name"
-                                    className="form-control"
-                                    type="text"
-                                    name="name"
-                                    value={name}
-                                    onChange={this.handleChange}
-                                />
-                            </div>
-                            <div className="input-group form-group">
-                                <input
-                                    className="form-control"
-                                    type="phone"
-                                    name="phone"
-                                    placeholder="phone"
-                                    value={phone}
-                                    onChange={this.handleChange}
-                                />
-                            </div>
-                            <div className="input-group form-group">
-                                <input
-                                    className="form-control"
-                                    type="password"
-                                    name="password"
-                                    placeholder="password"
-                                    value={password}
-                                    onChange={this.handleChange}
-                                />
-                            </div>
-                            <div className="input-group form-group">
-                                <input
-                                    className="form-control"
-                                    type="password"
-                                    name="password_v"
-                                    placeholder="password"
-                                    value={password_v}
-                                    onChange={this.handleChange}
-                                />
-                            </div>
-                            <button disabled={loading} className="btn btn-red full-width"> Register</button>
-                            <hr></hr>
-                            <p className="text-center">
-                                Already have an account?
-                            </p>
-                            <Link to="/">
-                                <button disabled={loading} className="btn btn-light full-width">Log in</button></Link>
+                            <h1 className="text-center title--main">Create Account</h1>
+                                <h4 className="text-center title--sub">All fields are required</h4>
+                                <div className="register--container">
+                                    {error &&
+                                        <div>{error}</div>
+                                    }
+                            <form onSubmit={this.registerUser}>
+                                <div className="input-group form-group">
+                                    <label className="register--label">Email</label>
+                                    <input
+                                        className="form-control register-input"
+                                        type="text"
+                                        name="email"
+                                        placeholder="sample@email.com"
+                                        value={email}
+                                        onChange={this.handleChange}
+                                    />
+                                </div>
 
-                            {loading &&
-                                <img src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
-                            }
-                        </form>
+                                <div className="input-group form-group">
+                                    <label className="register--label">Full Name</label>
+                                    <input
+                                        className="form-control register-input"
+                                        type="text"
+                                        name="name"
+                                        placeholder="John Doe"
+                                        value={name}
+                                        onChange={this.handleChange}
+                                    />
+                                </div>
+                        
+                                <div className="input-group form-group">
+                                    <label className="register--label">Phone Number</label>
+                                    <input
+                                        className="form-control register-input"
+                                        type="phone"
+                                        name="phone"
+                                        placeholder="305-000-0000"
+                                        value={phone}
+                                        onChange={this.handleChange}
+                                    />
+                                </div>
+                                <div className="input-group form-group">
+                                    <label className="register--label">Password</label>
+                                    <input
+                                        className="form-control register-input"
+                                        type="password"
+                                        name="password"
+                                        placeholder="Type password"
+                                        value={password}
+                                        onChange={this.handleChange}
+                                    />
+                                </div>
+                                <div className="input-group form-group">
+                                    <label className="register--label">Confirm Password</label>
+                                    <input
+                                        className="form-control register-input"
+                                        type="password"
+                                        name="password_v"
+                                        placeholder="Confirm password"
+                                        value={password_v}
+                                        onChange={this.handleChange}
+                                    />
+                                </div>
+                                <button disabled={loading} className="btn register--button"> Register</button>
+                                <hr></hr>
+                                <div className="text-center">
+                                    Already have an account?
+                                    <Link to="/" className="white-label">Go to Login</Link>
+                                </div>
+
+                                {loading &&
+                                    <img src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+                                }
+                            </form>
+                        </div>
                     </div>
                 </div>
             </section>

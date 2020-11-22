@@ -120,13 +120,29 @@ class MatchesController extends Controller
           }
     }
     /**
-     * Return last 5 previous matches from an user
+     * Return last 10 previous matches from an user
      * @param int $user_id
      * @return string
      */
     public function getRecentMatchesByuser($user_id, MatchesRepository $matchesRepo) {
         try {
             return $matchesRepo->getMatchesByUserId($user_id);
+          } catch (\Exception $e) {
+              return [
+                  'status'=> 400, 
+                  'message'=> $e->getMessage()
+              ];
+          }
+    }
+
+    /**
+     * Get last match from an user
+     * @param int $user_id
+     * @return string
+     */
+    public function getLastMatchByUser($user_id, MatchesRepository $matchesRepo) {
+        try {
+            return $matchesRepo->getLastMatchByUserId($user_id);
           } catch (\Exception $e) {
               return [
                   'status'=> 400, 

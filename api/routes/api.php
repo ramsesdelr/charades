@@ -58,6 +58,7 @@ Route::group(['prefix'=> 'matches', 'middleware'=>'auth:api'],function () {
 		event(new NotifyPlayerMatchStarted($matchStatus));
 	});
 	Route::get('/recent/{user_id}', 'MatchesController@getRecentMatchesByuser')->name('matches.recent');
+	Route::get('/last/{user_id}','MatchesController@getLastMatchByUser');
 
 });
 
