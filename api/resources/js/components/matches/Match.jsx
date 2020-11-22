@@ -96,7 +96,7 @@ class Match extends React.Component {
         };
         let invite_confirmation = await matchesService.invitePlayer(invite_info, this.props.match.params.match_id);
         if(invite_confirmation.status == 200) {
-            this.setState({invited_player_email:'', show_invite_notification:true, invited_player_email:''});
+            this.setState({invited_player_email:'', show_invite_notification:true, invited_player_email:'', invited_phone_number:''});
         }
     }
 
@@ -212,7 +212,7 @@ class Match extends React.Component {
     }
 
     modalHandleClose() {
-        this.setState({modal_show: false});
+        this.setState({modal_show: false, show_invite_notification: false});
     }
 
     disableInviteAlert() {
@@ -266,7 +266,7 @@ class Match extends React.Component {
  
 
     render() {
-        const { modal_show, match_info, players, current_word, display_word,  player_id, slide_class, show_invite_notification, portrait, winner_name, player_name, match_started, time, start_match_timer, display_match_timer, current_player, remaining_time, progress_bar  } = this.state;
+        const { modal_show,  players, current_word, display_word,  player_id, slide_class, show_invite_notification, portrait, winner_name, player_name, match_started, start_match_timer, display_match_timer, current_player, remaining_time, progress_bar, invited_player_email, invited_phone_number  } = this.state;
 
         let left_side = <div className="col-6 container-column text-center">
             <img src="/images/profile.jpg" className="profile-container--image mb-1"></img>
@@ -340,7 +340,6 @@ class Match extends React.Component {
                             {index == 0 &&
                                 <div className="vs-left">V</div>
                             }
-                           
                         </div>
             });
         }
@@ -394,20 +393,15 @@ class Match extends React.Component {
                         <form onSubmit={this.invitePlayer}>
                             <div>
                                 <h3 className="title--main text-center">Get your friend over here!</h3>
-                               {show_invite_notification === true &&               
-                                    <Alert variant="success" onClose={() => this.disableInviteAlert()}  dismissible>
-                                        <Alert.Heading>Invitation send</Alert.Heading>   
-                                    </Alert>
-                                }
                                 <div className="invite-friend--container">
                                     <div className="input-group form-group">
                                         <label className="register--label">Player's Email</label>
-                                        <input type="email" name="invited_player_email" onChange={this.handleChange} className="form-control" placeholder="sample@email.com" /> 
+                                        <input type="email" name="invited_player_email" value={invited_player_email} onChange={this.handleChange} className="form-control" placeholder="sample@email.com" /> 
                                     </div>
                                     <div className="text-center color-dark-blue">Or</div>
                                     <div className="input-group form-group">
                                         <label className="register--label">Player's Phone Number</label>
-                                        <input type="phone" name="invited_phone_number" onChange={this.handleChange} className="form-control" placeholder="222-000-0000" />
+                                        <input type="phone" name="invited_phone_number" value={invited_phone_number} onChange={this.handleChange} className="form-control" placeholder="222-000-0000" />
                                     </div>
                                     <div className="text-center">
                                         <button className="invite-match--buton" type="submit">Send invite <FontAwesomeIcon  icon="paper-plane" className="ml-1" /></button>
@@ -418,6 +412,14 @@ class Match extends React.Component {
                     </div>                  
                     }
                 </div>
+
+                <Modal show={show_invite_notification} onHide={this.modalHandleClose} backdrop="static" >
+                        <Modal.Body>
+                            <span className="title--main--modal m-4">Invitation sent!</span>
+                            <p className="modal-text mt-0 pt-0 mb-4">Wait for your pal to join the match.</p>
+                                <a className="invite-sent--button" onClick={this.modalHandleClose}> Got It!</a>
+                        </Modal.Body> 
+                </Modal>
             
                 <Modal show={portrait}  backdrop="static" keyboard={false}>
                         <Modal.Body>

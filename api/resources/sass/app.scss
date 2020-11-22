@@ -789,3 +789,12 @@ b, strong {
 .match--turn-container {
 	height: 38px;
 }
+
+.invite-sent--button {
+	background: $yellow;
+    padding: 4px 28px;
+    margin-bottom: 24px;
+    border-radius: 6px;
+    font-weight: 600;
+    color: $dark-blue;
+}

@@ -11768,3 +11768,12 @@ strong {
   height: 38px;
 }
 
+.invite-sent--button {
+  background: #FFCA66;
+  padding: 4px 28px;
+  margin-bottom: 24px;
+  border-radius: 6px;
+  font-weight: 600;
+  color: #073b4c;
+}
+
