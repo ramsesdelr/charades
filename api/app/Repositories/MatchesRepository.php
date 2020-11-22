@@ -165,7 +165,7 @@ class MatchesRepository
         return response()->json([
             'status' => 200,
             'data' => $matches
-        ]);
+        ],200);
     }
 
     /**
@@ -176,8 +176,11 @@ class MatchesRepository
     public function matchScores($match_id, $user_id) {
         $user_score = UsersMatch::select('score')->where('matches_id', $match_id)->where('users_id', $user_id)->first();
         $oponent_score = UsersMatch::select('score')->where('matches_id', $match_id)->where('users_id','!=', $user_id)->first();
-        $match_result = [];
-        $match_result =  ['you' => $user_score->score, 'opponent'=> $oponent_score->score];
+
+        $match_result = ['you'=>'', 'opponent'=>''];
+        if($oponent_score) {
+            $match_result =  ['you' => $user_score->score, 'opponent'=> $oponent_score->score];    
+        }
         return $match_result;     
     }
 

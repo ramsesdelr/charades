@@ -29,7 +29,7 @@ class Match extends React.Component {
             display_word: false,
             player_id: this.user.user_data.id,
             slide_class:'word',
-            match_turns_limit: 3,
+            match_turns_limit: 1,
             current_turn: 0,
             modal_show: false,
             show_invite_notification: false,
