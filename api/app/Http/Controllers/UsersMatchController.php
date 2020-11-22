@@ -46,9 +46,9 @@ class UsersMatchController extends Controller
             $token = env('TWILIO_AUTH_TOKEN');
             $client = new Client($sid, $token);
             $invite_url = env('APP_URL') . '/login/' . base64_encode($match->id);
-            
-            if ($request->get('phone')) {
-
+            $field_exists = false;
+            if ($request->get('phone') != '') {
+                $field_exists = true;
                 $client->messages->create(
                     // the number you'd like to send the message to
                     '+1' . $request->get('phone'),
@@ -61,20 +61,19 @@ class UsersMatchController extends Controller
                 );
             }
 
-            if ($request->get('email')) {
+            if ($request->get('email') != '') {
+                $field_exists = true;
                 Mail::to($request->get('email'))->send(new InviteUserToMatch($match));
             }
 
-            return [
-                'status'=> 200, 
-                'message'=> 'User invited'
-            ];
+            if($field_exists === true) {
+                return response()->json(['message'=> 'User invited'], 200);
+            } else {
+                return response()->json(['message'=> 'Please insert an e-mail or phone number'], 400);
+            }
 
         } catch (\Exception $e) {
-            return [
-                'status'=> 400, 
-                'message'=> $e->getMessage()
-            ];
+            return response()->json(['message'=> $e->getMessage()], 400);
         }
     }
 

@@ -16,7 +16,6 @@ class AuthenticateToken extends React.Component {
             loading: false,
             user_exists: null,
         };
-        
     }
 
     async validateToken() {
@@ -24,16 +23,19 @@ class AuthenticateToken extends React.Component {
         this.setState({ loading: true});
         try {
             let result = await usersService.getUser(this.user.token);
-            this.setState( { user_exists: result.status == 200 });
-            this.props.loginUser(result.data);
-            return;
+            if(result && result.data) {
+                this.setState( { user_exists: result.status == 200 });
+                this.props.loginUser(result.data);
+            } else {
+                localStorage.removeItem('user');
+            }
         }
         catch {
             localStorage.removeItem('user');
             this.setState({ user_exists: false });
         }
         finally {
-
+            
             this.setState({ loading: false});      
         }
         
@@ -54,6 +56,14 @@ class AuthenticateToken extends React.Component {
         if (this.state.user_exists === false) {
             return <Redirect to={{ pathname: '/login', state: { from: props.location } }} />
         }
+        
+        let footer =  <footer className="footer-container text-center">
+            <img src="/svg/charades-logo.svg" className="logo-bottom"></img>
+        </footer>
+
+        if(props.match && props.match.params.match_id) {
+            footer = <div></div>
+        }
 
         if(this.state.user_exists === null ) {
             return null;
@@ -67,10 +77,12 @@ class AuthenticateToken extends React.Component {
             );
         }
 
+
         return (
             <div>
                 <UserLayout {...props}/>
                 <Component {...props} />
+                {footer}
             </div>
         )
         

@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="2764.532" height="1276.523" viewBox="0 0 2764.532 1276.523">
+  <g id="Group_150" data-name="Group 150" transform="translate(0 0)">
+    <ellipse id="Ellipse_2" data-name="Ellipse 2" cx="22.5" cy="21.5" rx="22.5" ry="21.5" transform="translate(277.532 234.638)" fill="#ef476f"/>
+    <circle id="Ellipse_9" data-name="Ellipse 9" cx="22.5" cy="22.5" r="22.5" transform="translate(1150.532 858.638)" fill="#ef476f"/>
+    <ellipse id="Ellipse_3" data-name="Ellipse 3" cx="44" cy="45" rx="44" ry="45" transform="translate(2537.532 1033.637)" fill="#ffca66"/>
+    <circle id="Ellipse_6" data-name="Ellipse 6" cx="43.5" cy="43.5" r="43.5" transform="translate(1349.532 256.638)" fill="#ffca66"/>
+    <circle id="Ellipse_7" data-name="Ellipse 7" cx="44" cy="44" r="44" transform="translate(189.532 770.638)" fill="#ffca66"/>
+    <ellipse id="Ellipse_4" data-name="Ellipse 4" cx="36.69" cy="36.69" rx="36.69" ry="36.69" transform="translate(1613.9 1051.867) rotate(104)" fill="#06d69e"/>
+    <ellipse id="Ellipse_8" data-name="Ellipse 8" cx="36.69" cy="36.69" rx="36.69" ry="36.69" transform="translate(586.592 508.862) rotate(104)" fill="#06d69e"/>
+    <ellipse id="Ellipse_5" data-name="Ellipse 5" cx="44.027" cy="44.027" rx="44.027" ry="44.027" transform="matrix(0.391, -0.921, 0.921, 0.391, 2649.072, 456.18)" fill="#118ab2"/>
+    <ellipse id="Ellipse_10" data-name="Ellipse 10" cx="44.027" cy="44.027" rx="44.027" ry="44.027" transform="matrix(0.391, -0.921, 0.921, 0.391, 616.469, 1116.591)" fill="#118ab2"/>
+    <path id="Polygon_1" data-name="Polygon 1" d="M51.365,0l51.365,80.717H0Z" transform="translate(0 1209.606) rotate(-34)" fill="#ffca66"/>
+    <path id="Polygon_2" data-name="Polygon 2" d="M29.352,0,58.7,51.365H0Z" transform="translate(737.781 243.732) rotate(56)" fill="#ef476f"/>
+    <path id="Polygon_5" data-name="Polygon 5" d="M73.379,0l73.379,124.744H0Z" transform="translate(2049.726 1081.941) rotate(56)" fill="#ef476f"/>
+    <path id="Polygon_3" data-name="Polygon 3" d="M36.69,0l36.69,51.365H0Z" transform="matrix(0.883, 0.469, -0.469, 0.883, 2297.554, 411.298)" fill="#06d69e"/>
+    <path id="Polygon_6" data-name="Polygon 6" d="M36.69,0l36.69,51.365H0Z" transform="matrix(0.883, 0.469, -0.469, 0.883, 2040.727, 323.243)" fill="#06d69e"/>
+    <path id="Polygon_4" data-name="Polygon 4" d="M44.027,0,88.055,66.041H0Z" transform="translate(2036.82 67.454) rotate(-50)" fill="#118ab2"/>
+  </g>
+</svg>

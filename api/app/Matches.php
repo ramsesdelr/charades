@@ -33,9 +33,16 @@ class Matches extends Model
     }
 
     /**
-     * Get Match woner
+     * Get Match owner
      */
     public function user() {
         return $this->belongsTo('App\Users','users_id','id');
+    }
+
+    /**
+     * Get Match category
+     */
+    public function category() {
+        return $this->belongsTo('App\Categories','categories_id','id');
     }
 }

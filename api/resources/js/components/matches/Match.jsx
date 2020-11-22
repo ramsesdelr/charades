@@ -5,10 +5,15 @@ import { connect } from 'react-redux';
 import Pusher from 'pusher-js';
 import { useSwipeable, Swipeable } from 'react-swipeable';
 import PlayerTurn from './PlayerTurn';
-import { Modal, Button , Alert} from 'react-bootstrap';
+import { Modal,  Alert} from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import { ArrowLeftCircle, ArrowRightCircle  } from 'react-bootstrap-icons';
-import { matches } from 'lodash';
+import { fab } from '@fortawesome/free-brands-svg-icons'
+import { faPaperPlane, faArrowAltCircleLeft, faArrowAltCircleRight, faClock, faStopwatch } from '@fortawesome/free-solid-svg-icons'
+import { library } from '@fortawesome/fontawesome-svg-core'
+library.add(fab, faPaperPlane, faArrowAltCircleLeft, faArrowAltCircleRight, faClock, faStopwatch);
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+const TURN_TIME = 80;
+
 class Match extends React.Component {
 
     constructor(props) {
@@ -19,11 +24,9 @@ class Match extends React.Component {
             match_info: {},
             players: [],
             current_word: '',
-            current_player: null,
             invited_player_email: '',
             invited_phone_number:'',
             display_word: false,
-            oponent_playing: false,
             player_id: this.user.user_data.id,
             slide_class:'word',
             match_turns_limit: 3,
@@ -33,7 +36,14 @@ class Match extends React.Component {
             used_words : [],
             portrait:false,
             winner_name:'',
-
+            player_name: this.user.user_data.name,
+            display_match_timer: false,
+            start_match_timer:5,
+            match_started: false,
+            time:80,
+            current_player: 0,
+            remaining_time:'1:20',
+            progress_bar:0,
         };
 
         this.success_audio = new Audio("/media/success.wav");
@@ -86,13 +96,27 @@ class Match extends React.Component {
         };
         let invite_confirmation = await matchesService.invitePlayer(invite_info, this.props.match.params.match_id);
         if(invite_confirmation.status == 200) {
-            this.setState({invited_player_email:'', show_invite_notification:true, invited_player_email:''});
+            this.setState({invited_player_email:'', show_invite_notification:true, invited_player_email:'', invited_phone_number:''});
         }
+    }
+
+    getRemainingTime(time) {
+        this.updateProgressBar(time);
+        let minutes = Math.floor(time /60);
+        let seconds = time - minutes * 60; 
+        this.setState({remaining_time: `${minutes.toString().padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`});
+    }
+
+    updateProgressBar(time) {
+        let progress_bar = time / TURN_TIME * 100;
+        this.setState({progress_bar: 100 - progress_bar});
     }
     
     componentDidMount() {
+
         this.getMatch(this.props.match.params.match_id);
         window.addEventListener("resize", this.validateLandScapeScreen);
+
         const pusher = new Pusher(process.env.MIX_PUSHER_APP_KEY, {
             cluster: process.env.MIX_PUSHER_APP_CLUSTER,
             forceTLS: true
@@ -116,9 +140,9 @@ class Match extends React.Component {
             if (data.match_status.status == 'started') {
 
                 if (data.match_status.player_id == this.user.user_data.id) {
-                    this.setState({ display_word: true, oponent_playing: false });
+                    this.setState({ display_word: true });
                 } else {
-                    this.setState({ display_word: false, oponent_playing: true });
+                    this.setState({ display_word: false });
                 }
                 //check if current is the match owner so we can update the turns
                 if (data.match_status.player_id == this.state.match_info.users_id ) {
@@ -129,7 +153,7 @@ class Match extends React.Component {
                 if (data.match_status.player_id == this.user.user_data.id) {
                     this.setState({ display_word: false });
                 } else {
-                    this.setState({ oponent_playing: false });
+             
                     matchesService.updatePlayerTurn(this.user.user_data.id, this.state.match_info.id);
                 }
                 //check if turn ended and guest player was the last one to play
@@ -138,9 +162,19 @@ class Match extends React.Component {
                 }
             } else {
                 this.modalHandleShow(data.match_status.player_id);
-                console.log('show!');
             }
         });
+
+        channel.bind('current-player', data => {
+            console.log(data);
+            if(data && data.current_player) {
+                let player_index = matchesService.getplayerIndex(data.current_player, this.state.players);
+                this.setState({ current_player: player_index });
+                
+            } 
+        });
+        
+        this.setState({ current_player: matchesService.getplayerIndex(this.props.match.current_player, this.state.players) });
 
     }
 
@@ -171,17 +205,14 @@ class Match extends React.Component {
         }
     }
     async setMatchWinner() {
-        //assign the winner if the match has ended for the match owner
-        // if(this.state.match_info.users_id == this.state.player_id) {
-             let winner = await matchesService.addMatchWinner(this.props.match.params.match_id);
-             if(winner.status == 200) { 
-               matchesService.notifyPlayerMatchEnded(winner.winnder_id);
-             }
-        // }
+        let winner = await matchesService.addMatchWinner(this.props.match.params.match_id);
+        if(winner.status == 200) { 
+        matchesService.notifyPlayerMatchEnded(winner.winnder_id);
+        }
     }
 
     modalHandleClose() {
-        this.setState({modal_show: false});
+        this.setState({modal_show: false, show_invite_notification: false});
     }
 
     disableInviteAlert() {
@@ -189,36 +220,145 @@ class Match extends React.Component {
     }
 
     validateLandScapeScreen() {
-        if(this.state.players.length > 1) {
-            if(window.innerHeight > window.innerWidth) {
-                this.setState({portrait:true});
-            } else {
-                this.setState({portrait:false});
-            }
+        if(window.innerHeight > window.innerWidth) {
+            this.setState({portrait:true});
+        } else {
+            this.setState({portrait:false});
         }
     }
 
+    
+    prepareMatchStart(player_id) {
+        this.setState({display_match_timer:true});
+        let pre_match_timer = setInterval(() => {
+
+            this.setState({
+                start_match_timer: this.state.start_match_timer - 1
+            });
+            if (this.state.start_match_timer == 0) {
+                clearInterval(pre_match_timer);
+                this.startMatch(player_id)
+                 this.setState({
+                    start_match_timer: 5,
+                    display_match_timer: false
+                 });
+            }
+        }, 1000);
+    }
+
+    startMatch(player_id) {
+        this.setState({ match_started: true });
+
+        matchesService.notifyPlayerMatchStarted(player_id);
+
+        let timer = setInterval(() => {
+            this.setState({
+                time: this.state.time - 1
+            });
+            this.getRemainingTime(this.state.time);
+            if (this.state.time == 0) {
+                clearInterval(timer);
+                this.setState({ match_started: false, time: TURN_TIME});
+                matchesService.notifyPlayerMatchStopped(player_id);
+            }
+        }, 1000);
+    }
+ 
+
     render() {
-        const { modal_show, match_info, players, current_word, display_word, oponent_playing, player_id, slide_class, show_invite_notification, portrait, winner_name } = this.state;
+        const { modal_show,  players, current_word, display_word,  player_id, slide_class, show_invite_notification, portrait, winner_name, player_name, match_started, start_match_timer, display_match_timer, current_player, remaining_time, progress_bar, invited_player_email, invited_phone_number  } = this.state;
+
+        let left_side = <div className="col-6 container-column text-center">
+            <img src="/images/profile.jpg" className="profile-container--image mb-1"></img>
+             <div className="title--main">{player_name.split(" ")[0]}</div> 
+             <p className="invite-friend--text">This is not a solo game!</p>
+             <p className="invite-friend--text">Go ahead and invite some friends. We know you're not shy.</p>
+        </div>
+
+        let match_starting_text;
+        if(display_match_timer) {
+            match_starting_text = <div className="match--starting-text">Your turn is starting in <span className="h3-title">{start_match_timer}</span></div> 
+        } else {
+            match_starting_text = <span></span>
+        }
+
+        const renderMatchStartingText = (player_id) => {
+            if(players[current_player].id != player_id) {
+                return <div className="match--starting-text">Stand by...</div>
+            }
+
+            if(display_match_timer) {
+                return <div className="match--starting-text">Your turn is starting in <span className="h3-title">{start_match_timer}...</span></div> 
+            } else {
+                return <div className="match--starting-text"></div>;
+            }
+        }
+        const renderStartMatchButton = () => {
+            if(!players.length) {
+                return;
+            }
+            if(match_started === false && player_id == players[current_player].id && players.length > 1) {
+                return <div className="d-flex flex-column align-items-center">
+                        <button className="btn btn-new-match" onClick={this.prepareMatchStart.bind(this, player_id)}>Start</button>
+                    </div>
+            }
+        };
+
+        const renderPlayerTurns = () => {
+            if(!players.length || match_started === true) {
+                return;
+            }
+            if(players && players.length < 2) {
+                return;
+            }
+
+            let player_turn = <div className="col-12"><img className="match-arrow--left" src="/images/hand-pointer-right.png"></img></div>;
+            if(current_player == 1) {
+                player_turn = <div className="col-12 text-right"><img className="match-arrow--right" src="/images/hand-pointer-left.png"></img></div>
+            }
+             return <div className="d-flex match--turn-container">
+                            {player_turn}
+                    </div>
+
+        };
+        if(display_word === false && players.length > 1) {
+            left_side = players.map((value, index) => {
+                return <div key={value.id} className="col-6 player-container pb-4">
+                            {index == 1 &&
+                                <div className="vs-right">S</div>
+                            }
+                            <div className="score-container mt-1">
+                                <div className="current-score">
+                                    <img src="/images/profile.jpg" className="match--profile-image mb-1"></img>
+                                </div>
+                                <div className="match--profile-name">
+                                    {value.name.split(" ")[0]}
+                                </div>
+                                <div className="score">{value.score}</div>
+                                    {renderMatchStartingText(value.id)}   
+                            </div>
+                            {index == 0 &&
+                                <div className="vs-left">V</div>
+                            }
+                        </div>
+            });
+        }
+
+        if(display_word  && players.length > 1) {
+            left_side = <div></div>;
+        }
         
         return (
             <section>
-                <div className="col-12 mt-4">    
-                   
-                    {oponent_playing &&
-                        <div>Your opponent it's currently playing</div>
-                    }
+                <div className="col-12">             
+                    
                 </div>
-                <div className="d-flex flex-column align-items-center">
-                    {players.length > 0 &&
-                        <PlayerTurn players={players} player_id={player_id} match={match_info} />
-                    }
-                </div>
+                {renderStartMatchButton()}
                 {display_word &&
                         <div className="row">
                             <div className="col-1 d-flex align-items-center">
                                 <a className="arrow-link"  onClick={(eventData) => this.addPointToPlayer(eventData, player_id)}>
-                                    <ArrowLeftCircle size={48} color="#4caf50" />
+                                    <FontAwesomeIcon size="3x" className="color-dark-blue"  icon="arrow-alt-circle-left" />
                                 </a>
                             </div>
                             <div className="col-10">
@@ -230,79 +370,80 @@ class Match extends React.Component {
                             </div>
                             <div className="col-1 d-flex align-items-center">
                                 <a className="arrow-link right"  onClick={(eventData) => this.slideLeft(eventData, player_id)}>
-                                    <ArrowRightCircle color="#d05249" size={48}/>
+                                    <FontAwesomeIcon  size="3x" className="color-dark-blue" icon="arrow-alt-circle-right" />
                                 </a>
+                            </div>
+                            <div className="timer-container">
+                                <div className="timer--clock"><FontAwesomeIcon  className="color-dark-blue" size="sm"  icon="clock" /> {remaining_time}</div>
+                                <div className="timer-container--progress-bar">
+                                    <div className="timer-container-progress-bar--remaining" style={{width: progress_bar + '%'}}></div>
+                                </div>
                             </div>
                         </div>
                         
                     }
+
+                {renderPlayerTurns()}
                 <div className="row">
 
-                    {display_word === false &&
-                        players.map((value, index) => {
-                            return <div key={value.id} className="col-6 container-column">
-                                        <div className="score-container">
-                                            <div className="current-score">
-                                                {value.score}
-                                            </div>
-                                            <div className="player-title">
-                                                {value.name}
-                                            </div>
-                                        </div>
-                                    </div>
-                        })
-                    }
+                    {left_side}
 
                     {players.length == 1 &&
-                    <div className="col-md-6 col-sm-12">
+                    <div className="col-6">
                         <form onSubmit={this.invitePlayer}>
-                            <div className="card-body">
-                                <h3 className="h3-title">Invite a friend to start!</h3>
-                               {show_invite_notification === true &&               
-                                    <Alert variant="success" onClose={() => this.disableInviteAlert()}  dismissible>
-                                        <Alert.Heading>Invitation send</Alert.Heading>
-                                       
-                                    </Alert>
-                                }
-                                <div className="input-group form-group">
-                                    <input type="email" name="invited_player_email" onChange={this.handleChange} className="form-control text-center" placeholder="Player Email" />
-                                 
-                                </div>OR...
-                                <div className="input-group form-group">
-                                    <input type="phone" name="invited_phone_number" onChange={this.handleChange} className="form-control text-center" placeholder="Phone number" />
-                                </div>
-                                <div className="text-center">
-                                    <button className="btn btn-new-match" type="submit">Send Invite</button>
-                                </div>   
+                            <div>
+                                <h3 className="title--main text-center">Get your friend over here!</h3>
+                                <div className="invite-friend--container">
+                                    <div className="input-group form-group">
+                                        <label className="register--label">Player's Email</label>
+                                        <input type="email" name="invited_player_email" value={invited_player_email} onChange={this.handleChange} className="form-control" placeholder="sample@email.com" /> 
+                                    </div>
+                                    <div className="text-center color-dark-blue">Or</div>
+                                    <div className="input-group form-group">
+                                        <label className="register--label">Player's Phone Number</label>
+                                        <input type="phone" name="invited_phone_number" value={invited_phone_number} onChange={this.handleChange} className="form-control" placeholder="222-000-0000" />
+                                    </div>
+                                    <div className="text-center">
+                                        <button className="invite-match--buton" type="submit">Send invite <FontAwesomeIcon  icon="paper-plane" className="ml-1" /></button>
+                                    </div>  
+                                </div> 
                             </div>
                         </form>   
                     </div>                  
                     }
                 </div>
-            
-                <Modal show={portrait}  backdrop="static" keyboard={false}>
-                    <Modal.Header>
-                        <Modal.Title>Landscape Mode</Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body>
-                        Please flip your phone into landscape mode
-                        <img src="/images/rotate-phone.gif"></img> 
+
+                <Modal show={show_invite_notification} onHide={this.modalHandleClose} backdrop="static" >
+                        <Modal.Body>
+                            <span className="title--main--modal m-4">Invitation sent!</span>
+                            <p className="modal-text mt-0 pt-0 mb-4">Wait for your pal to join the match.</p>
+                                <a className="invite-sent--button" onClick={this.modalHandleClose}> Got It!</a>
                         </Modal.Body> 
                 </Modal>
-                <Modal show={modal_show} onHide={this.modalHandleClose}  backdrop="static"
-        keyboard={false}>
-                    <Modal.Header closeButton>
-                        <Modal.Title>Finished Match</Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body>Your match just ended and the winner is: <strong>{winner_name}</strong>! <br></br> 
-                    Thank you for playing!
+            
+                <Modal show={portrait}  backdrop="static" keyboard={false}>
+                        <Modal.Body>
+                            <img className="rotate-phone" src="/images/rotate-phone.svg"></img>
+                            <span className="title--main--modal m-4">Don't miss the fun, and flip that phone!</span>
+                            <p className="modal-text mt-0 pt-0 mb-4">The experience works better on landscape mode.</p>
+                        </Modal.Body> 
+                </Modal>
+
+                <Modal show={modal_show} onHide={this.modalHandleClose}  backdrop="static" keyboard={false}>
+                    <Modal.Body> 
+                        <FontAwesomeIcon size="3x" className="color-dark-blue"  icon="stopwatch" />
+                        <span className="title--main--modal mt-3">Game Over!</span>
+                        <p className="modal-text pb-0">The match just ended and the winner is <h3><strong>{winner_name}</strong>!</h3></p>
+                        <p className="modal-text pt-0">Wanna play again?</p>
+                        <div className="d-flex w-100">
+                            <div className="col-6">
+                                <Link to="/">Nah, go back</Link>
+                            </div>
+                            <div className="col-6 modal-button--confirmation">
+                                <Link to="/match/new">Bring it!</Link>
+                            </div>
+                        </div>
                     </Modal.Body>
-                    <Modal.Footer>
-                    <div className="row w-100">
-                        <div className="col-6"><Link className="btn btn-red" to="/">Back</Link></div>
-                        <div className="col-6 text-right"><Link className="btn btn-red" to="/match/new">Start a new match</Link></div>
-                    </div>
-                    </Modal.Footer>
                 </Modal>
             </section>
         );
