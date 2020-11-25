@@ -18,5 +18,6 @@ Homestead.json
 api/public/js/*
 # Rocketeer PHP task runner and deployment package. https://github.com/rocketeers/rocketeer
 .rocketeer/
-public/profile_images/*
-!public/profile_images/.gitkeep
+api/public/profile_images/
+!api/public/profile_images/.gitkeep
+
