@@ -49,25 +49,34 @@ class UsersRepository
 
         if(array_key_exists('password', $request)) {
             if($request['password'] != $request['password_validate']) {
-                return response()->json(['response' => [
+                return response()->json([
                     'status' => 400,
                     'message' => 'Passwords do not match',
-                ]]);
+                ]);
             }
         }
 
         if(self::phoneExist($request['phone'], $request['users_id'])) {
-            return response()->json(['response' => [
+            return response()->json([
                 'status' => 400,
                 'message' => 'This phone is currently in use' ,
-            ]]); 
+            ],400); 
+        }
+
+        if(isset($request['profile_img']) && $request['profile_img'] != '') {
+            $image = $request['profile_img'];
+            $name = time().'.' . explode('/', explode(':', substr($image, 0, strpos($image, ';')))[1])[1];
+            \Image::make($request['profile_img'])->save(public_path('profile_images/').$name);
+            $request['profile_img'] = $name;
+        } else {
+            unset($request['profile_img']);
         }
     	
         if(Users::find($id)->update($request)){
-        	return response()->json(['response' => [
+        	return response()->json([
 	            'status' => 200,
 	            'message' => 'User was successfully updated!',
-        	]]);
+        	],200);
         }
     }
 
