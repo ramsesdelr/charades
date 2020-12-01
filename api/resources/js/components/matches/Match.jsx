@@ -269,7 +269,7 @@ class Match extends React.Component {
         const { modal_show,  players, current_word, display_word,  player_id, slide_class, show_invite_notification, portrait, winner_name, player_name, match_started, start_match_timer, display_match_timer, current_player, remaining_time, progress_bar, invited_player_email, invited_phone_number  } = this.state;
 
         let left_side = <div className="col-6 container-column text-center">
-            <img src="/images/profile.jpg" className="profile-container--image mb-1"></img>
+            <img src="/images/profile.png" className="profile-container--image mb-1"></img>
              <div className="title--main">{player_name.split(" ")[0]}</div> 
              <p className="invite-friend--text">This is not a solo game!</p>
              <p className="invite-friend--text">Go ahead and invite some friends. We know you're not shy.</p>
@@ -329,7 +329,7 @@ class Match extends React.Component {
                             }
                             <div className="score-container mt-1">
                                 <div className="current-score">
-                                    <img src="/images/profile.jpg" className="match--profile-image mb-1"></img>
+                                    <img src={`/profile_images/${value.profile_img}`} className="match--profile-image mb-1"></img>
                                 </div>
                                 <div className="match--profile-name">
                                     {value.name.split(" ")[0]}

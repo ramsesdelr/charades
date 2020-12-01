@@ -54,10 +54,19 @@ class Users extends Authenticatable implements JWTSubject
         return [];
     }
       
-    public function setPasswordAttribute($password)
-    {
+    public function setPasswordAttribute($password) {
         if ( !empty($password) ) {
             $this->attributes['password'] = bcrypt($password);
         }
+    }
+
+    /**
+     * Get the default profile image if it wasn't uploaded
+     *
+     * @param  string  $value
+     * @return string
+     */
+    public function getProfileImgAttribute($image) {
+        return  $image ?? 'profile.jpg';
     }
 }

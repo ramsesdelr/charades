@@ -25,5 +25,7 @@ class UsersMatch extends Model
         return $this->belongsTo('App\Matches', 'id', 'matches_id');
     }
 
+
+
     protected $table = 'users_match';
 }
