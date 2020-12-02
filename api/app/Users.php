@@ -67,6 +67,12 @@ class Users extends Authenticatable implements JWTSubject
      * @return string
      */
     public function getProfileImgAttribute($image) {
-        return  $image ?? 'profile.jpg';
+
+        if(filter_var($image, FILTER_VALIDATE_URL) === false) {
+            $profile_img = $image ?? 'profile.jpg';
+            return '/profile_images/' . $profile_img;
+        }
+        return $image;
     }
+    
 }

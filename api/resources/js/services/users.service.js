@@ -1,3 +1,4 @@
+
 const axios = require('axios');
 
 export const usersService = {
@@ -41,7 +42,8 @@ function loginFacebook(login_data) {
     return axios.post('/users/facebook_login', {
             email: login_data.email,
             name: login_data.name,
-            userID: login_data.userID
+            userID: login_data.userID,
+            accessToken: login_data.accessToken
         }).then( (response) => {
             localStorage.setItem('user', JSON.stringify(response.data));
             return response; 

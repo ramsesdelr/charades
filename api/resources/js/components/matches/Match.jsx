@@ -329,7 +329,7 @@ class Match extends React.Component {
                             }
                             <div className="score-container mt-1">
                                 <div className="current-score">
-                                    <img src={`/profile_images/${value.profile_img}`} className="match--profile-image mb-1"></img>
+                                    <img src={`${value.profile_img}`} className="match--profile-image mb-1"></img>
                                 </div>
                                 <div className="match--profile-name">
                                     {value.name.split(" ")[0]}
