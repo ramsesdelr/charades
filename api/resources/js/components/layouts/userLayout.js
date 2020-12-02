@@ -31,14 +31,13 @@ class UserLayout extends React.Component {
 
 		const { user } = this.props;
 		const username =  user ?  user.name.split(" ") : null;
-		
 		return (
 			<div className="container">
 				 {username && 
 					<header className="row user-profile-container">
 							<div className="col-6">
 								<div className="d-flex align-items-center">
-									<img src="/images/profile.jpg" className="profile-container--image"></img> 
+									<img src={`${user.profile_img}`} className="profile-container--image"></img> 
 									<Link to="/home"><span className="title--main">{username[0]} </span></Link>
 								</div>
 							</div>

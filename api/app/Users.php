@@ -17,7 +17,7 @@ class Users extends Authenticatable implements JWTSubject
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'phone', 'created_at', 'updated_at',
+        'name', 'email', 'password', 'phone', 'created_at', 'updated_at','profile_img',
     ];
 
      /**
@@ -54,10 +54,25 @@ class Users extends Authenticatable implements JWTSubject
         return [];
     }
       
-    public function setPasswordAttribute($password)
-    {
+    public function setPasswordAttribute($password) {
         if ( !empty($password) ) {
             $this->attributes['password'] = bcrypt($password);
         }
     }
+
+    /**
+     * Get the default profile image if it wasn't uploaded
+     *
+     * @param  string  $value
+     * @return string
+     */
+    public function getProfileImgAttribute($image) {
+
+        if(filter_var($image, FILTER_VALIDATE_URL) === false) {
+            $profile_img = $image ?? 'profile.jpg';
+            return '/profile_images/' . $profile_img;
+        }
+        return $image;
+    }
+    
 }
