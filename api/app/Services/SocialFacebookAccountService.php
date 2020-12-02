@@ -12,8 +12,10 @@ class SocialFacebookAccountService
         $account = SocialFacebookAccount::whereProvider('facebook')
             ->whereProviderUserId($providerUser['userID'])
             ->first();
-
         if ($account) {
+            if($account->user->profile_img === null) {
+                $this->updateUserImage($providerUser['accessToken'], $account->user);
+            }
             return $account->user;
         } else {
 
@@ -23,7 +25,8 @@ class SocialFacebookAccountService
             ]);
 
             $user = Users::whereEmail($providerUser['email'])->first();
-
+            $this->updateUserImage($providerUser['accessToken'], $user);
+            
             if (!$user) {
 
                 $user = Users::create([
@@ -37,5 +40,30 @@ class SocialFacebookAccountService
 
             return $user;
         }
+    }
+
+    public function updateUserImage($accessToken, Users $user) {
+        $fb = new \Facebook\Facebook([
+            'app_id' => env('FACEBOOK_APP_ID'),
+            'app_secret' => env('FACEBOOK_APP_SECRET'),
+            'default_graph_version' => env('FACEBOOK_DEFAULT_GRAPH_VERSION'),
+            'default_access_token' =>  $accessToken, // optional
+          ]);
+
+          try {
+            $requestPicture = $fb->get('/me/picture?redirect=false&height=150'); //getting user picture
+            $picture = $requestPicture->getGraphUser();
+          } catch(\Facebook\Exceptions\FacebookResponseException $e) {
+            // When Graph returns an error
+            echo 'Graph returned an error: ' . $e->getMessage();
+            exit;
+          } catch(\Facebook\Exceptions\FacebookSDKException $e) {
+            // When validation fails or other local issues
+            echo 'Facebook SDK returned an error: ' . $e->getMessage();
+            exit;
+          }
+
+          $user->update(['profile_img' => $picture['url']]);
+
     }
 }

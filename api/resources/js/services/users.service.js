@@ -1,3 +1,4 @@
+
 const axios = require('axios');
 
 export const usersService = {
@@ -41,7 +42,8 @@ function loginFacebook(login_data) {
     return axios.post('/users/facebook_login', {
             email: login_data.email,
             name: login_data.name,
-            userID: login_data.userID
+            userID: login_data.userID,
+            accessToken: login_data.accessToken
         }).then( (response) => {
             localStorage.setItem('user', JSON.stringify(response.data));
             return response; 
@@ -137,9 +139,11 @@ function updateUser(user_data) {
         phone: user_data.phone,
         password: user_data.password,
         password_validate: user_data.password_validate,
+        profile_img: user_data.profile_img,
         users_id: user_data.users_id
     }).then((response) => {
-        return response.data.response;
+        console.log(response);
+        return response.data;
     });
 }
 
