@@ -166,7 +166,6 @@ class Match extends React.Component {
         });
 
         channel.bind('current-player', data => {
-            console.log(data);
             if(data && data.current_player) {
                 let player_index = matchesService.getplayerIndex(data.current_player, this.state.players);
                 this.setState({ current_player: player_index });

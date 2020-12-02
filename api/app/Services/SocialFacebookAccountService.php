@@ -13,7 +13,7 @@ class SocialFacebookAccountService
             ->whereProviderUserId($providerUser['userID'])
             ->first();
         if ($account) {
-            if($account->user->profile_img === null) {
+            if($account->user->profile_img == '/profile_images/profile.jpg') {
                 $this->updateUserImage($providerUser['accessToken'], $account->user);
             }
             return $account->user;

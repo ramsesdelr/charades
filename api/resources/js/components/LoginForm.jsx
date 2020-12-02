@@ -92,8 +92,7 @@ class LoginForm extends React.Component {
         if(facebook_data === undefined) {
             return;
         }
-        console.log(facebook_data.picture.data.url);
-        console.log(facebook_data);
+ 
         usersService.loginFacebook(facebook_data).then(
             response => {
                 this.setState({ loading: false });
