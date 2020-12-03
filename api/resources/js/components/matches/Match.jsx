@@ -37,6 +37,7 @@ class Match extends React.Component {
             portrait:false,
             winner_name:'',
             player_name: this.user.user_data.name,
+            profile_img: this.user.user_data.profile_img,
             display_match_timer: false,
             start_match_timer:5,
             match_started: false,
@@ -265,10 +266,10 @@ class Match extends React.Component {
  
 
     render() {
-        const { modal_show,  players, current_word, display_word,  player_id, slide_class, show_invite_notification, portrait, winner_name, player_name, match_started, start_match_timer, display_match_timer, current_player, remaining_time, progress_bar, invited_player_email, invited_phone_number  } = this.state;
+        const { modal_show,  players, current_word, display_word,  player_id, slide_class, show_invite_notification, portrait, winner_name, player_name, profile_img, match_started, start_match_timer, display_match_timer, current_player, remaining_time, progress_bar, invited_player_email, invited_phone_number  } = this.state;
 
         let left_side = <div className="col-6 container-column text-center">
-            <img src="/images/profile.png" className="profile-container--image mb-1"></img>
+            <img src={profile_img} className="profile-container--image mb-1"></img>
              <div className="title--main">{player_name.split(" ")[0]}</div> 
              <p className="invite-friend--text">This is not a solo game!</p>
              <p className="invite-friend--text">Go ahead and invite some friends. We know you're not shy.</p>
