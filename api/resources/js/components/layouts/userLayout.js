@@ -37,7 +37,7 @@ class UserLayout extends React.Component {
 					<header className="row user-profile-container">
 							<div className="col-6">
 								<div className="d-flex align-items-center">
-									<img src={`${user.profile_img}`} className="profile-container--image"></img> 
+									<img src={`${user.profile_img}`} className="profile-container--image mr-3"></img> 
 									<Link to="/home"><span className="title--main">{username[0]} </span></Link>
 								</div>
 							</div>
