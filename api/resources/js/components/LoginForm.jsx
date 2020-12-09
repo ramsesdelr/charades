@@ -92,6 +92,7 @@ class LoginForm extends React.Component {
         if(facebook_data === undefined) {
             return;
         }
+
  
         usersService.loginFacebook(facebook_data).then(
             response => {
@@ -164,9 +165,8 @@ class LoginForm extends React.Component {
                                     <FacebookLogin
                                         appId="314974593065150"
                                         autoLoad={false}
-                                        fields="name,email,picture"
+                                        fields="name, email ,picture"
                                         size="medium"
-                                        scope="public_profile"
                                         textButton="Facebook Login"
                                         disableMobileRedirect={true}
                                         isMobile={true}
