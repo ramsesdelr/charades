@@ -410,7 +410,6 @@ b, strong {
 	width: 66px;
 	height: 66px;
 	border-radius: 50%;
-	margin-right: 20px;
 }
 
 #menu-content {
@@ -580,10 +579,11 @@ b, strong {
 
 .category-container {
 	border-radius: 7px;
-    min-height: 160px;
     display: flex;
     justify-content: center;
-    align-items: center;
+	align-items: center;
+	padding-top:20px;
+	padding-bottom:20px;
 }
 
 .modal-text {
@@ -596,11 +596,11 @@ b, strong {
 	@extend .title--main;
 	font-size: 34px;
 }
-.modal-open {
-	background-color: #5fb0cb;
-}
-.modal-backdrop.show {
-	opacity: 0;
+
+.modal-backdrop {
+	background:rgba(95,176,203,0.5);
+	opacity: 1 !important;
+	backdrop-filter: blur(2px);
 }
 .modal.show .modal-dialog {
 	padding: 4px;

@@ -99,55 +99,52 @@ class NewMatch extends React.Component {
 
         return (
             <div>
-				<p className="title--sub-dashboard mb-2">Select the genre to continue</p>
 				<section className="container">
-                    <div className="row">
-						<div className="col-6 text-center category-container bg-red">
-                            <a onClick={() => { this.selectCategory(1, 'Movies', 'bg-red') }}>
+				    <p className="title--sub-dashboard mb-2">Select the genre to continue</p>
+
+                    <div className="row no-gutters">
+						<div className="col-6">
+                            <a className="text-center category-container bg-red" onClick={() => { this.selectCategory(1, 'Movies', 'bg-red') }}>
                                 <div className="text-center">
                                     <FontAwesomeIcon className="color-white" icon="film" size="3x" />
                                     <div className="mt-1 category-title">Movies</div>		
                                 </div>
                             </a>
 						</div>
-						<div className="col-6 text-center category-container bg-yellow">
-                            <a onClick={() => { this.selectCategory(2, 'Random', 'bg-yellow') }}>
+						<div className="col-6">
+                            <a className="text-center category-container bg-yellow" onClick={() => { this.selectCategory(2, 'Random', 'bg-yellow') }}>
                                 <div className="text-center">
                                     <FontAwesomeIcon className="color-white" icon="hat-wizard" size="3x" />
                                     <div className="mt-1 category-title">Random</div>
                                 </div>
                             </a>
 						</div>
+                        
+                        <div className="col-6">
+                            <a className="text-center category-container bg-blue" onClick={() => { this.selectCategory(3, 'Act it Out', 'bg-blue') }}>
+                                <div className="text-center">
+                                    <FontAwesomeIcon className="color-white" icon="person-booth" size="3x" />
+                                    <div className="mt-1 category-title">Act it Out</div>		
+                                </div>
+                            </a>
                         </div>
-                        <div className="row">
-                            <div className="col-6 text-center category-container bg-blue">
-                                <a onClick={() => { this.selectCategory(3, 'Act it Out', 'bg-blue') }}>
-                                    <div className="text-center">
-                                        <FontAwesomeIcon className="color-white" icon="person-booth" size="3x" />
-                                        <div className="mt-1 category-title">Act it Out</div>		
-                                    </div>
-                                </a>
-                            </div>
-                            <div className="col-6 text-center category-container bg-green">
-                                <a onClick={() => { this.selectCategory(4, 'People', 'bg-green') }}>
-                                    <div className="text-center">
-                                        <FontAwesomeIcon className="color-white" icon="smile" size="3x" />
-                                        <div className="mt-1 category-title">People</div>		
-                                    </div>
-                                </a>
-                            </div>
+                        <div className="col-6">
+                            <a className="text-center category-container bg-green" onClick={() => { this.selectCategory(4, 'People', 'bg-green') }}>
+                                <div className="text-center">
+                                    <FontAwesomeIcon className="color-white" icon="smile" size="3x" />
+                                    <div className="mt-1 category-title">People</div>		
+                                </div>
+                            </a>
                         </div>
-                        <div className="row">
-                            <div className="col-6 text-center category-container bg-dark-blue">
-                                <a onClick={() => { this.selectCategory(5, 'TV Shows', 'bg-dark-blue') }}>
-                                    <div className="text-center">
-                                        <FontAwesomeIcon className="color-white" icon="tv" size="3x" />
-                                        <div className="mt-1 category-title">TV Shows</div>		
-                                    </div>
-                                </a>
-                            </div>
+                        <div className="col-6">
+                            <a className="text-center category-container bg-dark-blue" onClick={() => { this.selectCategory(5, 'TV Shows', 'bg-dark-blue') }}>
+                                <div className="text-center">
+                                    <FontAwesomeIcon className="color-white" icon="tv" size="3x" />
+                                    <div className="mt-1 category-title">TV Shows</div>		
+                                </div>
+                            </a>
                         </div>
-				
+                    </div>
                  </section>
                 <Modal show={modal_show} onHide={this.modalHandleClose}>
                     <Modal.Body>
