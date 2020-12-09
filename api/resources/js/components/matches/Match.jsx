@@ -370,7 +370,7 @@ class Match extends React.Component {
                             </div>
                             <div className="col-1 d-flex align-items-center">
                                 <a className="arrow-link right"  onClick={(eventData) => this.slideLeft(eventData, player_id)}>
-                                    <FontAwesomeIcon  size="3x" className="color-dark-blue" icon="arrow-alt-circle-right" />
+                                    <FontAwesomeIcon  size="3x" className="color-red" icon="arrow-alt-circle-right" />
                                 </a>
                             </div>
                             <div className="timer-container">

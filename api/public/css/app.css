@@ -11473,6 +11473,10 @@ strong {
   color: #073b4c;
 }
 
+.color-red {
+  color: #EF476F;
+}
+
 .color-white {
   color: #FFF;
 }
@@ -11524,7 +11528,7 @@ strong {
   font-family: blockhead-dark-side, sans-serif;
   font-weight: 400;
   font-style: normal;
-  font-size: 34px;
+  font-size: 30px;
   color: #FFF;
 }
 
