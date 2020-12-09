@@ -25,7 +25,6 @@ class SocialFacebookAccountService
             ]);
 
             $user = Users::whereEmail($providerUser['email'])->first();
-            $this->updateUserImage($providerUser['accessToken'], $user);
             
             if (!$user) {
 
@@ -37,12 +36,14 @@ class SocialFacebookAccountService
             }
             $account->user()->associate($user);
             $account->save();
+            $this->updateUserImage($providerUser['accessToken'], $user);
+
 
             return $user;
         }
     }
 
-    public function updateUserImage($accessToken, Users $user) {
+    public function updateUserImage(string $accessToken, Object $user) {
         $fb = new \Facebook\Facebook([
             'app_id' => env('FACEBOOK_APP_ID'),
             'app_secret' => env('FACEBOOK_APP_SECRET'),
@@ -62,8 +63,7 @@ class SocialFacebookAccountService
             echo 'Facebook SDK returned an error: ' . $e->getMessage();
             exit;
           }
-
-          $user->update(['profile_img' => $picture['url']]);
+          Users::where(['id'=>$user->id])->update(['profile_img' => $picture['url']]);
 
     }
 }
