@@ -18,6 +18,7 @@ class RegisterForm extends React.Component {
         };
         this.handleChange = this.handleChange.bind(this);
         this.registerUser = this.registerUser.bind(this);
+        this.handlePhoneChange = this.handlePhoneChange.bind(this);
     }
 
     componentDidMount() {
@@ -75,6 +76,13 @@ class RegisterForm extends React.Component {
             }
         );
     }
+
+    handlePhoneChange(e) {
+        const { name, value } = e.target;
+        let formatted_phone = usersService.formatPhoneNumber(value);
+        this.setState({ [name]: formatted_phone });
+    }
+    
     render() {
         const { email, password, loading, error, phone, name, password_v } = this.state;
         return (
@@ -95,11 +103,12 @@ class RegisterForm extends React.Component {
                                     <label className="register--label">Email</label>
                                     <input
                                         className="form-control register-input"
-                                        type="text"
+                                        type="email"
                                         name="email"
                                         placeholder="sample@email.com"
                                         value={email}
                                         onChange={this.handleChange}
+                                        required={true}
                                     />
                                 </div>
 
@@ -112,6 +121,7 @@ class RegisterForm extends React.Component {
                                         placeholder="John Doe"
                                         value={name}
                                         onChange={this.handleChange}
+                                        required={true}
                                     />
                                 </div>
                         
@@ -123,7 +133,8 @@ class RegisterForm extends React.Component {
                                         name="phone"
                                         placeholder="305-000-0000"
                                         value={phone}
-                                        onChange={this.handleChange}
+                                        onChange={this.handlePhoneChange}
+                                        required={true}
                                     />
                                 </div>
                                 <div className="input-group form-group">
@@ -135,6 +146,7 @@ class RegisterForm extends React.Component {
                                         placeholder="Type password"
                                         value={password}
                                         onChange={this.handleChange}
+                                        required={true}
                                     />
                                 </div>
                                 <div className="input-group form-group">
@@ -146,6 +158,7 @@ class RegisterForm extends React.Component {
                                         placeholder="Confirm password"
                                         value={password_v}
                                         onChange={this.handleChange}
+                                        required={true}
                                     />
                                 </div>
                                 <button disabled={loading} className="btn register--button"> Register</button>

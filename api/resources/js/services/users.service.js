@@ -13,7 +13,8 @@ export const usersService = {
     getCategories,
     resetPassword,
     addUserToMatch,
-    loginFacebook
+    loginFacebook,
+    formatPhoneNumber
 };
 
 /**
@@ -181,4 +182,19 @@ function addUserToMatch(email, match_id) {
     }).then((response) => {
         return response;
     });
+}
+
+/**
+ * Formats the phone number
+ * @param string phoneNumberString 
+ * @return mixed string|null
+ * Source: https://stackoverflow.com/questions/8358084/regular-expression-to-reformat-a-us-phone-number-in-javascript
+ */
+function  formatPhoneNumber(phoneNumberString) {
+    let cleaned = ('' + phoneNumberString).replace(/\D/g, '')
+    let match = cleaned.match(/^(\d{3})(\d{3})(\d{4})$/)
+    if (match) {
+      return match[1] + '-' + match[2] + '-' + match[3]
+    }
+    return phoneNumberString
 }

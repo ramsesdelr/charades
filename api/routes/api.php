@@ -24,7 +24,7 @@ Route::get('/user', function(Request $request) {
 Route::prefix('users')->group(function () { 
 	
 	Route::middleware('auth:api')->get('/', function() {
-		return Users::select('id','name','email','phone')->get();
+		return Users::select('id','name','email','phone', 'profile_img')->get();
 	});
 	Route::middleware('auth:api')->put('/{id}', 'UsersController@update');
 	Route::middleware('auth:api')->get('/{id}', 'UsersController@show');

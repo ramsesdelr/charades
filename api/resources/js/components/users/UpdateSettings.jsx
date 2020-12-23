@@ -126,7 +126,7 @@ class UpdateSettings extends React.Component {
                             </div>
                             <div className="form-group">
                                 <label htmlFor="exampleFormControlFile1">Profile Image</label>
-                                <input type="file" onChange={this.onChange} />
+                                <input type="file" accept='image/jpeg, image/png, image/gif' onChange={this.onChange} />
                             </div>
                                                     
                             <div>
