@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Mail;
 use App\Repositories\UsersMatchRepository;
 use Illuminate\Http\Request;
 use Twilio\Rest\Client;
+use Validator;
 
 class UsersMatchController extends Controller
 {
@@ -47,6 +48,16 @@ class UsersMatchController extends Controller
             $client = new Client($sid, $token);
             $invite_url = env('APP_URL') . '/login/' . base64_encode($match->id);
             $field_exists = false;
+
+            $validator = Validator::make($request->all(), [
+                'email' => 'email|max:255|nullable',
+                'phone'=> 'min:8|nullable',
+            ]);
+
+            if ($validator->fails()) {
+                return response()->json(['errors' => $validator->errors()], 400);
+            }
+         
             if ($request->get('phone') != '') {
                 $field_exists = true;
                 $client->messages->create(
@@ -56,7 +67,7 @@ class UsersMatchController extends Controller
                         // A Twilio phone number you purchased at twilio.com/console
                         'from' => '+15092603550',
                         // the body of the text message you'd like to send
-                        'body' => 'Someone wants to play charades with you, join here: ' . $invite_url
+                        'body' => 'Someone wants to play charades with you, you can join here: ' . $invite_url
                     ]
                 );
             }
@@ -69,7 +80,7 @@ class UsersMatchController extends Controller
             if($field_exists === true) {
                 return response()->json(['message'=> 'User invited'], 200);
             } else {
-                return response()->json(['message'=> 'Please insert an e-mail or phone number'], 400);
+                return response()->json(['errors'=> ['Please insert an e-mail or phone number']], 400);
             }
 
         } catch (\Exception $e) {

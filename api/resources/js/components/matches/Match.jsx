@@ -1,5 +1,6 @@
 import React from 'react';
 import { matchesService } from '../../services/matches.service'
+import { usersService } from '../../services/users.service';
 import * as MatchActions from '../../actions/matches';
 import { connect } from 'react-redux';
 import Pusher from 'pusher-js';
@@ -45,6 +46,7 @@ class Match extends React.Component {
             current_player: 0,
             remaining_time:'1:20',
             progress_bar:0,
+            errors:null,
         };
 
         this.success_audio = new Audio("/media/success.wav");
@@ -53,6 +55,7 @@ class Match extends React.Component {
         this.invitePlayer = this.invitePlayer.bind(this);
         this.modalHandleClose = this.modalHandleClose.bind(this);
         this.validateLandScapeScreen  = this.validateLandScapeScreen.bind(this);
+        this.handlePhoneChange  = this.handlePhoneChange.bind(this);
 
     }
 
@@ -98,6 +101,15 @@ class Match extends React.Component {
         let invite_confirmation = await matchesService.invitePlayer(invite_info, this.props.match.params.match_id);
         if(invite_confirmation.status == 200) {
             this.setState({invited_player_email:'', show_invite_notification:true, invited_player_email:'', invited_phone_number:''});
+         }else {
+            let all_errors = [];
+            for (const key in invite_confirmation.errors) {
+                all_errors.push(<div className={'alert alert-danger'} key={key}>{invite_confirmation.errors[key]}</div>);
+            }
+            if(all_errors.length < 1) {
+                all_errors.push(<div key={0} className={'alert alert-danger'}>Your message was not send, please check your phone number</div>);
+            }
+            this.setState({ errors: all_errors });
         }
     }
 
@@ -263,14 +275,20 @@ class Match extends React.Component {
             }
         }, 1000);
     }
+
+    handlePhoneChange(e) {
+        const { name, value } = e.target;
+        let formatted_phone = usersService.formatPhoneNumber(value);
+        this.setState({ [name]: formatted_phone });
+    }
  
 
     render() {
-        const { modal_show,  players, current_word, display_word,  player_id, slide_class, show_invite_notification, portrait, winner_name, player_name, profile_img, match_started, start_match_timer, display_match_timer, current_player, remaining_time, progress_bar, invited_player_email, invited_phone_number  } = this.state;
+        const { modal_show,  players, current_word, display_word,  player_id, slide_class, show_invite_notification, portrait, winner_name, player_name, profile_img, match_started, start_match_timer, display_match_timer, current_player, remaining_time, progress_bar, invited_player_email, invited_phone_number, errors  } = this.state;
 
         let left_side = <div className="col-6 container-column text-center">
-            <img src={profile_img} className="profile-container--image mb-1"></img>
-             <div className="title--main">{player_name.split(" ")[0]}</div> 
+            <Link to="/home"><img src={profile_img} className="profile-container--image mb-1"></img></Link>
+            <Link to="/home"> <div className="title--main">{player_name.split(" ")[0]}</div></Link>
              <p className="invite-friend--text">This is not a solo game!</p>
              <p className="invite-friend--text">Go ahead and invite some friends. We know you're not shy.</p>
         </div>
@@ -394,6 +412,9 @@ class Match extends React.Component {
                             <div>
                                 <h3 className="title--main text-center">Get your friend over here!</h3>
                                 <div className="invite-friend--container">
+                                    {errors &&
+                                        <div>{errors}</div>
+                                    }
                                     <div className="input-group form-group">
                                         <label className="register--label">Player's Email</label>
                                         <input type="email" name="invited_player_email" value={invited_player_email} onChange={this.handleChange} className="form-control" placeholder="sample@email.com" /> 
@@ -401,7 +422,7 @@ class Match extends React.Component {
                                     <div className="text-center color-dark-blue">Or</div>
                                     <div className="input-group form-group">
                                         <label className="register--label">Player's Phone Number</label>
-                                        <input type="phone" name="invited_phone_number" value={invited_phone_number} onChange={this.handleChange} className="form-control" placeholder="222-000-0000" />
+                                        <input type="phone" name="invited_phone_number" value={invited_phone_number} onChange={this.handlePhoneChange} className="form-control" placeholder="222-000-0000" />
                                     </div>
                                     <div className="text-center">
                                         <button className="invite-match--buton" type="submit">Send invite <FontAwesomeIcon  icon="paper-plane" className="ml-1" /></button>
