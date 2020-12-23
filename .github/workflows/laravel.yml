@@ -15,7 +15,7 @@ jobs:
       with:
         php_version: 7.4
         composer_version: 1
-        command: cd api/ && composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
+        command: install -d=api/ -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
     - name: Copy .env
       run: cd api && php -r "file_exists('.env') || copy('.env.example', '.env');"
     - name: Generate key
